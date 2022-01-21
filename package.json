@@ -1,5 +1,13 @@
 {
+	"scripts": {
+		"start-dev-server": "APP_NAME='Video Tutorials' NODE_ENV=development PORT=3000 nodemon src/bin/start-server.js --color"
+	},
 	"dependencies": {
-		"express": "^4.17.2"
+		"express": "^4.17.2",
+		"pug": "^3.0.2",
+		"uuid": "^8.3.2"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.15"
 	}
 }
