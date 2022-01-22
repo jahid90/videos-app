@@ -1,4 +1,4 @@
-const packageJson = require('../../package.json');
+const packageJson = require('../package.json');
 
 const requireFromEnv = (envVar) => {
     if (!process.env[envVar]) {
@@ -11,6 +11,7 @@ const requireFromEnv = (envVar) => {
 
 module.exports = {
     appName: requireFromEnv('APP_NAME'),
+    databaseUrl: requireFromEnv('DB_URL'),
     env: requireFromEnv('NODE_ENV'),
     port: parseInt(requireFromEnv('PORT'), 10),
     version: packageJson.version,

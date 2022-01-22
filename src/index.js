@@ -1,4 +1,4 @@
-const createExpressApp = require('./express');
+const createExpressApp = require('./app/express');
 const createConfig = require('./config');
 const env = require('./env');
 

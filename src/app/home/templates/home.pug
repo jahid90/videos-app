@@ -1,0 +1,22 @@
+html
+    head
+        title Video Tutorials
+
+    body
+        p Welcome to Video Tutorials
+        p You have watched 0 video(s).
+
+        button(onclick='recordViewing()') Record a viewing
+
+        script.
+            var recordViewing = function() {
+                var xhr = new XMLHttpRequest();
+                var videoId = '12345';
+                xhr.open('POST', '/record-viewing/' + videoId, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify({
+                    videoId: videoId
+                }));
+
+                console.log('video view recorded');
+            }

@@ -1,9 +1,13 @@
 {
 	"scripts": {
-		"start-dev-server": "APP_NAME='Video Tutorials' NODE_ENV=development PORT=3000 nodemon src/bin/start-server.js --color"
+		"start-dev-server": "APP_NAME='Video Tutorials' NODE_ENV=development PORT=3000 DB_URL=postgres://practical_microservices:password@jahiduls.io:5432/practical_microservices nodemon bin/start-server.js --color"
 	},
 	"dependencies": {
+		"bluebird": "^3.7.2",
+		"camelcase-keys": "^7.0.1",
 		"express": "^4.17.2",
+		"knex": "^1.0.1",
+		"pg": "^8.7.1",
 		"pug": "^3.0.2",
 		"uuid": "^8.3.2"
 	},
