@@ -1,8 +1,11 @@
 const createKnexClient = require('./knex-client');
 const createPostgresClient = require('./postgres-client');
 const createMessageStore = require('./message-store');
+
 const createHomeApp = require('./app/home');
 const createRecordViewingsApp = require('./app/record-viewings');
+
+const createHomePageAggregator = require('./aggregators/home-page');
 
 const createConfig = ({ env }) => {
 
@@ -13,11 +16,25 @@ const createConfig = ({ env }) => {
     const homeApp = createHomeApp({ db: knexClient });
     const recordViewingsApp = createRecordViewingsApp({ messageStore });
 
+    const homePageAggregator = createHomePageAggregator({
+        db: knexClient,
+        messageStore
+    });
+
+    const aggregators = [
+        homePageAggregator,
+    ];
+
+    const components = [];
+
     return {
         knexClient,
         messageStore,
         homeApp,
         recordViewingsApp,
+        homePageAggregator,
+        aggregators,
+        components,
     }
 }
 

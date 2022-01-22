@@ -6,7 +6,7 @@ const createHandlers = ({ queries }) => {
     const home = (req, res, next) => {
         return queries
             .loadHomePage()
-            .then(viewData => res.render('home/templates/home', viewData))
+            .then(viewData => res.render('home/templates/home', viewData.pageData))
             .catch(next);
     }
 
@@ -18,8 +18,10 @@ const createHandlers = ({ queries }) => {
 const createQueries = ({ db }) => {
 
     const loadHomePage = () => {
-        return db.then(client => client('videos')
-            .sum('view_count as videosWatched')
+        return db.then(client => client('pages')
+            .where({ page_name: 'home' })
+            .limit(1)
+            .then(camelCaseKeys)
             .then(rows => rows[0])
         );
     }
@@ -30,6 +32,7 @@ const createQueries = ({ db }) => {
 }
 
 const createHome = ({ db }) => {
+
     const queries = createQueries({ db });
     const handlers = createHandlers({ queries });
 
