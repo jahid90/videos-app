@@ -1,22 +1,9 @@
-html
-    head
-        title Video Tutorials
+extends ../../common-templates/layout
 
-    body
-        p Welcome to Video Tutorials
-        p You have watched 0 video(s).
+block content
+  h1 This is the home page
 
-        button(onclick='recordViewing()') Record a viewing
+  p Viewers have watched #{videosWatched || 0} video(s).
 
-        script.
-            var recordViewing = function() {
-                var xhr = new XMLHttpRequest();
-                var videoId = '12345';
-                xhr.open('POST', '/record-viewing/' + videoId, true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.send(JSON.stringify({
-                    videoId: videoId
-                }));
-
-                console.log('video view recorded');
-            }
+  form(action="/record-viewing/12345" method="POST")
+    button(type="submit") Record viewing video

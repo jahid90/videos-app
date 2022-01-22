@@ -1,7 +1,7 @@
 const Bluebird = require('bluebird');
 const knex = require('knex');
 
-module.exports = ({ connectionString, migrationsTableName }) => {
+const createKnexClient = ({ connectionString, migrationsTableName }) => {
 
     const client = knex(connectionString);
     const migrationOptions = {
@@ -12,3 +12,5 @@ module.exports = ({ connectionString, migrationsTableName }) => {
         .then(() => client);
 
 }
+
+module.exports = createKnexClient;

@@ -1,6 +1,6 @@
 {
 	"scripts": {
-		"start-dev-server": "APP_NAME='Video Tutorials' NODE_ENV=development PORT=3000 DB_URL=postgres://practical_microservices:password@jahiduls.io:5432/practical_microservices nodemon bin/start-server.js --color"
+		"start-dev-server": "APP_NAME='Video Tutorials App' NODE_ENV=development PORT=3000 DATABASE_CONNECTION_STRING=postgres://practical_microservices:password@postgres.jahiduls.io:5432/practical_microservices MESSAGE_STORE_CONNECTION_STRING=postgres://practical_microservices:password@messagedb.jahiduls.io:54320/message_store nodemon bin/start-server.js --color"
 	},
 	"dependencies": {
 		"bluebird": "^3.7.2",

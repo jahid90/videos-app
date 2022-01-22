@@ -1,10 +1,28 @@
+const { v4: uuid } = require('uuid');
 const express = require('express');
 
-const createActions = ({ db }) => {
+const createActions = ({ messageStore }) => {
 
-    const recordViewing = (traceId, videoId) => {
+    const recordViewing = (traceId, videoId, userId) => {
+
         console.log(`Recording video view for videoId: ${videoId} and traceId: ${traceId}`);
-        return Promise.resolve();
+
+        const viewedEvent = {
+            id: uuid(),
+            type: 'VideoViewed',
+            metadata: {
+                traceId,
+                userId,
+            },
+            data: {
+                userId,
+                videoId,
+            }
+        }
+
+        const streamName = `viewing-${videoId}`;
+
+        return messageStore.write(streamName, viewedEvent);
     }
 
     return {
@@ -25,9 +43,9 @@ const createHandlers = ({ actions }) => {
     }
 }
 
-const createRecordViewings = ({ db }) => {
+const createRecordViewings = ({ messageStore }) => {
 
-    const actions = createActions({ db });
+    const actions = createActions({ messageStore });
     const handlers = createHandlers({ actions });
 
     const router = express.Router();
