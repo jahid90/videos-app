@@ -8,6 +8,8 @@ const createRegisterUsersApp = require('./app/register-users');
 
 const createHomePageAggregator = require('./aggregators/home-page');
 
+const createIdentityComponent = require('./components/identity');
+
 const createConfig = ({ env }) => {
     const knexClient = createKnexClient({ connectionString: env.databaseUrl });
     const postgresClient = createPostgresClient({
@@ -29,7 +31,9 @@ const createConfig = ({ env }) => {
 
     const aggregators = [homePageAggregator];
 
-    const components = [];
+    const identityComponent = createIdentityComponent({ messageStore });
+
+    const components = [identityComponent];
 
     return {
         knexClient,
