@@ -1,9 +1,12 @@
 const Bluebird = require('bluebird');
 
 const AlreadyRegisteredError = require('./already-registered-error');
-const loadIdentity = require('./load-entity');
+const AlreadyLockedError = require('./already-locked-error');
+
+const loadIdentity = require('./load-identity');
 const ensureNotRegistered = require('./ensure-not-registered');
 const writeRegisteredEvent = require('./write-registered-event');
+const writeAccountLockedEvent = require('./write-account-locked-event');
 
 const createIdentityCommandHandlers = ({ messageStore }) => {
     return {
@@ -19,6 +22,18 @@ const createIdentityCommandHandlers = ({ messageStore }) => {
                 .then(ensureNotRegistered)
                 .then(writeRegisteredEvent)
                 .catch(AlreadyRegisteredError, () => {});
+        },
+        LockAccount: (command) => {
+            const context = {
+                messageStore,
+                command,
+                identityId: command.data.userId,
+            };
+
+            return Bluebird.resolve(context)
+                .then(loadIdentity)
+                .then(writeAccountLockedEvent)
+                .catch(AlreadyLockedError, () => {});
         },
     };
 };
