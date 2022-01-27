@@ -4,6 +4,8 @@ const identityProjection = {
             id: null,
             email: null,
             isRegistered: false,
+            isLocked: false,
+            lastLockedTime: null,
         };
     },
     Registered: (identity, registered) => {
@@ -12,6 +14,13 @@ const identityProjection = {
         identity.isRegistered = true;
 
         return identity;
+    },
+    AccountLocked: (identity, accountLocked) => {
+        identity.isLocked = true;
+        identity.lastLockedTime = accountLocked.data.lockedTime;
+    },
+    AccountUnlocked: (identity, accountUnlocked) => {
+        identity.isLocked = false;
     },
 };
 
