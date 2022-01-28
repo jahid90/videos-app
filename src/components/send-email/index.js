@@ -1,6 +1,9 @@
 const Bluebird = require('bluebird');
 const { contentType } = require('express/lib/response');
 
+const AlreadySentError = require('./already-sent-error');
+const SendError = require('./send-error');
+
 const createSend = require('./send');
 const loadEmail = require('./load-email');
 const ensureEmailHasNotBeenSent = require('./ensure-email-has-not-been-sent');

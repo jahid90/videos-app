@@ -9,6 +9,7 @@
         "camelcase-keys": "^7.0.1",
         "cookie-session": "^2.0.0",
         "dotenv": "^14.3.2",
+        "email-templates": "^8.0.8",
         "express": "^4.17.2",
         "knex": "^1.0.1",
         "nodemailer": "^6.7.2",

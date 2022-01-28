@@ -10,6 +10,7 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
         messagesPerTick = 100,
         subscriberId,
         positionUpdateInterval = 100,
+        originStreamName = null,
         tickIntervalMs = 100,
     }) => {
         const subscriberStreamName = `subscriberPosition-${subscriberId}`;
@@ -48,8 +49,24 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
             return write(subscriberStreamName, positionEvent);
         };
 
+        const filterOnOriginMatch = (messages) => {
+            if (!originStreamName) {
+                return messages;
+            }
+
+            return messages.filter((message) => {
+                const originCategory =
+                    message.metadata &&
+                    category(message.metadata.originStreamName);
+
+                return originStreamName === originCategory;
+            });
+        };
+
         const getNextBatchOfMessages = () => {
-            return read(streamName, currentPosition + 1, messagesPerTick);
+            return read(streamName, currentPosition + 1, messagesPerTick).then(
+                filterOnOriginMatch
+            );
         };
 
         const processBatch = (messages) => {

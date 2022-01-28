@@ -1,6 +1,6 @@
 const { v4: uuid } = require('uuid');
 
-const writeAccountLockedEvent = (context, err) => {
+const writeAccountLockedEvent = (context) => {
     const command = context.command;
 
     const accountLockedEvent = {

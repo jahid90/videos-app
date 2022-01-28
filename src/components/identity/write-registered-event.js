@@ -1,6 +1,6 @@
 const { v4: uuid } = require('uuid');
 
-const writeRegisteredEvent = (context, err) => {
+const writeRegisteredEvent = (context) => {
     const command = context.command;
 
     const registeredEvent = {

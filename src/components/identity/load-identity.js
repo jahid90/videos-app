@@ -5,11 +5,12 @@ const identityProjection = {
             email: null,
             isRegistered: false,
             isLocked: false,
-            lastLockedTime: null,
+            lockedTime: null,
+            registrationEmailSent: false,
         };
     },
     Registered: (identity, registered) => {
-        identity.id = registered.data.id;
+        identity.id = registered.data.userId;
         identity.email = registered.data.email;
         identity.isRegistered = true;
 
@@ -17,10 +18,20 @@ const identityProjection = {
     },
     AccountLocked: (identity, accountLocked) => {
         identity.isLocked = true;
-        identity.lastLockedTime = accountLocked.data.lockedTime;
+        identity.lockedTime = accountLocked.data.lockedTime;
+
+        return identity;
     },
-    AccountUnlocked: (identity, accountUnlocked) => {
+    AccountUnlocked: (identity) => {
         identity.isLocked = false;
+        identity.lockedTime = null;
+
+        return identity;
+    },
+    RegistrationEmailSent: (identity) => {
+        identity.registrationEmailSent = true;
+
+        return identity;
     },
 };
 
@@ -32,7 +43,6 @@ const loadIdentity = (context) => {
         .fetch(identityStreamName, identityProjection)
         .then((identity) => {
             context.identity = identity;
-
             return context;
         });
 };
