@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const packageJson = require('../package.json');
 
 const requireFromEnv = (key) => {
@@ -18,5 +20,7 @@ module.exports = {
     env: requireFromEnv('NODE_ENV'),
     port: parseInt(requireFromEnv('PORT'), 10),
     cookieSecret: requireFromEnv('COOKIE_SECRET'),
+    emailDirectory: requireFromEnv('EMAIL_DIRECTORY'),
+    systemSenderEmailAddress: requireFromEnv('SYSTEM_SENDER_EMAIL_ADDRESS'),
     version: packageJson.version,
 };

@@ -1,3 +1,5 @@
+const createPickupTransport = require('nodemailer-pickup-transport');
+
 const createKnexClient = require('./knex-client');
 const createPostgresClient = require('./postgres-client');
 const createMessageStore = require('./message-store');
@@ -11,6 +13,7 @@ const createHomePageAggregator = require('./aggregators/home-page');
 const createUserCredentialsAggregator = require('./aggregators/user-credentials');
 
 const createIdentityComponent = require('./components/identity');
+const createSendEmailComponent = require('./components/send-email');
 
 const createConfig = ({ env }) => {
     const knexClient = createKnexClient({ connectionString: env.databaseUrl });
@@ -18,6 +21,7 @@ const createConfig = ({ env }) => {
         connectionString: env.messageStoreConnectionString,
     });
     const messageStore = createMessageStore({ db: postgresClient });
+    const transport = createPickupTransport({ directory: env.emailDirectory });
 
     const homeApp = createHomeApp({ db: knexClient });
     const recordViewingsApp = createRecordViewingsApp({ messageStore });
@@ -42,8 +46,13 @@ const createConfig = ({ env }) => {
     const aggregators = [homePageAggregator, userCredentialsAggregator];
 
     const identityComponent = createIdentityComponent({ messageStore });
+    const sendEmailComponent = createSendEmailComponent({
+        messageStore,
+        systemSenderEmailAddress: env.systemSenderEmailAddress,
+        transport,
+    });
 
-    const components = [identityComponent];
+    const components = [identityComponent, sendEmailComponent];
 
     return {
         knexClient,
