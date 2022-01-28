@@ -1,14 +1,12 @@
 const createHandlers = ({ queries }) => {
-
     return {
-        VideoViewed: event => queries.incrementVideosWatched(event.globalPosition),
-    }
-}
+        VideoViewed: (event) =>
+            queries.incrementVideosWatched(event.globalPosition),
+    };
+};
 
 const createQueries = ({ db }) => {
-
     const incrementVideosWatched = (globalPosition) => {
-
         const queryString = `
             UPDATE
                 pages
@@ -27,16 +25,16 @@ const createQueries = ({ db }) => {
                 (page_data->>'lastViewProcessed')::int < :globalPosition
         `;
 
-        return db.then(client => client.raw(queryString, { globalPosition }));
-    }
+        return db.then((client) => client.raw(queryString, { globalPosition }));
+    };
 
     const ensureHomePage = () => {
         const initialData = {
             pageData: {
                 lastViewProcessed: 0,
                 videosWatched: 0,
-            }
-        }
+            },
+        };
 
         const queryString = `
             INSERT INTO
@@ -46,17 +44,16 @@ const createQueries = ({ db }) => {
             ON CONFLICT DO NOTHING
         `;
 
-        return db.then(client => client.raw(queryString, initialData));
-    }
+        return db.then((client) => client.raw(queryString, initialData));
+    };
 
     return {
         ensureHomePage,
         incrementVideosWatched,
-    }
-}
+    };
+};
 
 const build = ({ db, messageStore }) => {
-
     const queries = createQueries({ db });
     const handlers = createHandlers({ queries });
 
@@ -68,18 +65,18 @@ const build = ({ db, messageStore }) => {
 
     const init = () => {
         return queries.ensureHomePage();
-    }
+    };
 
     const start = () => {
         init().then(subscription.start);
-    }
+    };
 
     return {
         queries,
         handlers,
         init,
         start,
-    }
-}
+    };
+};
 
 module.exports = build;
