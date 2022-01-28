@@ -7,13 +7,16 @@ const requireFromEnv = (key) => {
     }
 
     return process.env[key];
-}
+};
 
 module.exports = {
     appName: requireFromEnv('APP_NAME'),
     databaseUrl: requireFromEnv('DATABASE_CONNECTION_STRING'),
-    messageStoreConnectionString: requireFromEnv('MESSAGE_STORE_CONNECTION_STRING'),
+    messageStoreConnectionString: requireFromEnv(
+        'MESSAGE_STORE_CONNECTION_STRING'
+    ),
     env: requireFromEnv('NODE_ENV'),
     port: parseInt(requireFromEnv('PORT'), 10),
+    cookieSecret: requireFromEnv('COOKIE_SECRET'),
     version: packageJson.version,
-}
+};

@@ -5,6 +5,7 @@ const createMessageStore = require('./message-store');
 const createHomeApp = require('./app/home');
 const createRecordViewingsApp = require('./app/record-viewings');
 const createRegisterUsersApp = require('./app/register-users');
+const createAuthenticationApp = require('./app/authenticate');
 
 const createHomePageAggregator = require('./aggregators/home-page');
 const createUserCredentialsAggregator = require('./aggregators/user-credentials');
@@ -21,6 +22,10 @@ const createConfig = ({ env }) => {
     const homeApp = createHomeApp({ db: knexClient });
     const recordViewingsApp = createRecordViewingsApp({ messageStore });
     const registerUsersApp = createRegisterUsersApp({
+        db: knexClient,
+        messageStore,
+    });
+    const authenticateApp = createAuthenticationApp({
         db: knexClient,
         messageStore,
     });
@@ -46,6 +51,7 @@ const createConfig = ({ env }) => {
         homeApp,
         recordViewingsApp,
         registerUsersApp,
+        authenticateApp,
         aggregators,
         components,
     };
