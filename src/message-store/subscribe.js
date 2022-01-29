@@ -26,14 +26,14 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
             );
         };
 
-        const updateReadPosition = (position) => {
+        const updateReadPosition = (position, messageId) => {
             currentPosition = position;
             messagesSinceLastPositionWrite += 1;
 
             if (messagesSinceLastPositionWrite === positionUpdateInterval) {
                 messagesSinceLastPositionWrite = 0;
 
-                return writePosition(position);
+                return writePosition(position, messageId);
             }
 
             return Bluebird.resolve(true);
