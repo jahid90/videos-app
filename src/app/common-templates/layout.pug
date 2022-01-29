@@ -17,6 +17,9 @@ body
           a.nav-link(href='/') Home
         li.nav-item
           a.nav-link(href='/creators-portal') Creator's Portal
+        if context.isAdmin
+          li.nav-item
+            a.nav-link(href='/admin') Admin Portal
 
       ul.navbar-nav
         if context.userId

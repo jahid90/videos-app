@@ -82,8 +82,6 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
 
         const handleMessage = (message) => {
             const handler = handlers[message.type] || handlers.$any;
-            // console.debug(handler);
-
             return handler ? handler(message) : Promise.resolve(true);
         };
 

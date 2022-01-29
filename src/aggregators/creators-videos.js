@@ -34,6 +34,11 @@ const createHandlers = ({ messageStore, queries }) => {
                 event.position,
                 event.data.description
             ),
+        VideoViewed: (event) =>
+            queries.updateVideoViews(
+                streamToEntityId(event.streamName),
+                event.position
+            ),
     };
 };
 
@@ -82,10 +87,26 @@ const createQueries = ({ db }) => {
         );
     };
 
+    const updateVideoViews = (id, position) => {
+        const rawQuery = `
+            UPDATE
+                creators_portal_videos
+            SET
+                views = creators_portal_videos.views + 1, position = :position
+            WHERE
+                id = :id
+            AND
+                position < :position
+        `;
+
+        return db.then((client) => client.raw(rawQuery, { id, position }));
+    };
+
     return {
         createVideo,
         updateVideoName,
         updateVideoDescription,
+        updateVideoViews,
     };
 };
 
@@ -97,9 +118,15 @@ const build = ({ db, messageStore }) => {
         handlers,
         subscriberId: 'aggregators:creators-videos',
     });
+    const videoViewingSubscription = messageStore.createSubscription({
+        streamName: 'viewing',
+        handlers,
+        subscriberId: 'aggregators:video-viewing',
+    });
 
     const start = () => {
         subscription.start();
+        videoViewingSubscription.start();
     };
 
     return {

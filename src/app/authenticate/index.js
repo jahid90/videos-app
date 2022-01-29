@@ -73,6 +73,7 @@ const createHandlers = ({ actions }) => {
             .authenticate(traceId, email, password)
             .then((context) => {
                 req.session.userId = context.userCredential.id;
+                req.session.role = context.userCredential.role;
                 res.redirect('/');
             })
             .catch(AuthenticationError, () =>
