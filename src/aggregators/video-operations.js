@@ -58,6 +58,30 @@ const createHandlers = ({ queries }) => {
                 failureReason
             );
         },
+        VideoDescribed: (event) => {
+            const videoId = streamToEntityId(event.streamName);
+            const wasSuccessful = true;
+            const failureReason = null;
+
+            return queries.writeResult(
+                event.metadata.traceId,
+                videoId,
+                wasSuccessful,
+                failureReason
+            );
+        },
+        VideoDescriptionRejected: (event) => {
+            const videoId = streamToEntityId(event.streamName);
+            const wasSuccessful = false;
+            const failureReason = event.data.reason;
+
+            return queries.writeResult(
+                event.metadata.traceId,
+                videoId,
+                wasSuccessful,
+                failureReason
+            );
+        },
     };
 };
 

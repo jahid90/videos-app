@@ -25,7 +25,7 @@ block content
           h2 Video Description
           form(method="POST", action=`/creators-portal/videos/${video.id}/describe`)
             .form-group
-              textarea.form-control(placeholder='No description', name='description', value=video.description, rows="10")
+              textarea.form-control(placeholder='No description', name='description', value=video.description, rows="10") #{video.description}
             button(type="submit") Describe video
 
     .col-sm-4

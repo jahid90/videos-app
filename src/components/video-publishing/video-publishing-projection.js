@@ -8,6 +8,7 @@ const videoPublishingProjection = {
             transcodedUri: null,
             sequence: 0,
             name: '',
+            description: '',
         };
     },
     VideoPublished: (video, videoPublished) => {
@@ -37,6 +38,17 @@ const videoPublishingProjection = {
     },
     VideoNameRejected: (video, videoNameRejected) => {
         video.sequence = videoNameRejected.globalPosition;
+
+        return video;
+    },
+    VideoDescribed: (video, videoDescribed) => {
+        video.description = videoDescribed.data.description;
+        video.sequence = videoDescribed.globalPosition;
+
+        return video;
+    },
+    VideoDescriptionRejected: (video, videoDescriptionRejected) => {
+        video.sequence = videoDescriptionRejected.globalPosition;
 
         return video;
     },

@@ -41,9 +41,28 @@ const createActions = ({ messageStore, queries }) => {
         return messageStore.write(streamName, nameVideoCommand);
     };
 
+    const describeVideo = (context, videoId, description) => {
+        const describeVideoCommand = {
+            id: uuid(),
+            type: 'DescribeVideo',
+            metadata: {
+                traceId: context.traceId,
+                userId: context.userId,
+            },
+            data: {
+                description,
+                videoId,
+            },
+        };
+        const streamName = `videoPublishing:command-${videoId}`;
+
+        return messageStore.write(streamName, describeVideoCommand);
+    };
+
     return {
         publishVideo,
         nameVideo,
+        describeVideo,
     };
 };
 
@@ -76,6 +95,20 @@ const createHandlers = ({ actions, queries }) => {
 
         actions
             .nameVideo(req.context, videoId, name)
+            .then(() =>
+                res.redirect(
+                    `/creators-portal/video-operations/${req.context.traceId}`
+                )
+            )
+            .catch(next);
+    };
+
+    const handleDescribeVideo = (req, res, next) => {
+        const videoId = req.params.id;
+        const description = req.body.description;
+
+        actions
+            .describeVideo(req.context, videoId, description)
             .then(() =>
                 res.redirect(
                     `/creators-portal/video-operations/${req.context.traceId}`
@@ -122,6 +155,7 @@ const createHandlers = ({ actions, queries }) => {
         handleDashboard,
         handleShowVideo,
         handleNameVideo,
+        handleDescribeVideo,
         handleShowVideoOperation,
     };
 };
@@ -173,6 +207,12 @@ const createCreatorsPortal = ({ db, messageStore }) => {
         .post(
             bodyParser.urlencoded({ extended: false }),
             handlers.handleNameVideo
+        );
+    router
+        .route('/videos/:id/describe')
+        .post(
+            bodyParser.urlencoded({ extended: false }),
+            handlers.handleDescribeVideo
         );
     router
         .route('/video-operations/:traceId')

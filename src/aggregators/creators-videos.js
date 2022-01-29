@@ -28,6 +28,12 @@ const createHandlers = ({ messageStore, queries }) => {
                 event.position,
                 videoStatuses.failed
             ),
+        VideoDescribed: (event) =>
+            queries.updateVideoDescription(
+                streamToEntityId(event.streamName),
+                event.position,
+                event.data.description
+            ),
     };
 };
 
@@ -67,9 +73,19 @@ const createQueries = ({ db }) => {
         );
     };
 
+    const updateVideoDescription = (id, position, description) => {
+        return db.then((client) =>
+            client('creators_portal_videos')
+                .update({ description, position })
+                .where({ id })
+                .where('position', '<', position)
+        );
+    };
+
     return {
         createVideo,
         updateVideoName,
+        updateVideoDescription,
     };
 };
 

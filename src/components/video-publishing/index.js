@@ -13,6 +13,9 @@ const ensureCommandHasNotBeenProcessed = require('./ensure-command-has-not-been-
 const ensureNameIsValid = require('./ensure-name-is-valid');
 const writeVideoNamedEvent = require('./write-video-named-event');
 const writeVideoNameRejectedEvent = require('./write-video-name-rejected-event');
+const ensureDescriptionIsValid = require('./ensure-description-is-valid');
+const writeVideoDescribedEvent = require('./write-video-described-event');
+const writeVideoDescriptionRejectedEvent = require('./write-video-description-rejected-event');
 
 const createHandlers = ({ messageStore }) => {
     return {
@@ -44,6 +47,22 @@ const createHandlers = ({ messageStore }) => {
                 .catch(CommandAlreadyProcessedError, () => {})
                 .catch(ValidationError, (err) =>
                     writeVideoNameRejectedEvent(context, err)
+                );
+        },
+        DescribeVideo: (command) => {
+            const context = {
+                command,
+                messageStore,
+            };
+
+            return Bluebird.resolve(context)
+                .then(loadVideo)
+                .then(ensureCommandHasNotBeenProcessed)
+                .then(ensureDescriptionIsValid)
+                .then(writeVideoDescribedEvent)
+                .catch(CommandAlreadyProcessedError, () => {})
+                .catch(ValidationError, (err) =>
+                    writeVideoDescriptionRejectedEvent(context, err)
                 );
         },
     };
