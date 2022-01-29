@@ -54,10 +54,11 @@ const createHandlers = ({ queries }) => {
     const handleUserMessagesIndex = (req, res) => {
         const userId = req.params.userId;
 
-        return res.send(
-            `<troll>This handler is left as an exercise for the reader.</troll>
-      If it weren't an excercise for the reader, you'd be looking at messages
-      for user ${userId}'`
+        return queries.userMessages(userId).then((messages) =>
+            res.render('admin/templates/messages-index', {
+                messages,
+                title: 'User Messages',
+            })
         );
     };
 
@@ -181,6 +182,15 @@ const createQueries = ({ db, messageStore }) => {
             .then(camelCaseKeys);
     };
 
+    const userMessages = (userId) => {
+        return messageStore
+            .query(`SELECT * from messages WHERE metadata->>'userId' = $1`, [
+                userId,
+            ])
+            .then((res) => res.rows)
+            .then(camelCaseKeys);
+    };
+
     const streamName = (streamName) => {
         return messageStore
             .query(
@@ -229,6 +239,7 @@ const createQueries = ({ db, messageStore }) => {
         userViewingEvents,
         messages,
         correlatedMessages,
+        userMessages,
         streamName,
         message,
         streams,
