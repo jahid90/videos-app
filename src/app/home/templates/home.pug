@@ -1,9 +1,27 @@
 extends ../../common-templates/layout
 
 block content
-  h1 This is the home page
+  h1 Videos
 
-  p Viewers have watched #{videosWatched || 0} video(s).
+  p Viewers have watched #{pageData.videosWatched || 0} video(s).
 
-  form(action="/record-viewing/12345" method="POST")
-    button(type="submit") Record viewing video
+  - var itemsPerRow = 3;
+  - var rows = (videos.length + itemsPerRow - 1) / itemsPerRow;
+  - var r = 0;
+  while r < rows
+    .card-deck
+      - var c = 0
+      while c < itemsPerRow && r * itemsPerRow + c < videos.length
+        - var video = videos[r * itemsPerRow + c]
+        .card.mb-3.text-center
+          .content-wrapper
+            .placeholder
+              .animated-background
+          .card-body.text-left
+            h5.card-title #{video.name}
+            p.card-text #{video.description}
+          .card-footer
+            form(action='/record-viewing/' + video.id method='POST')
+              button.btn.btn-primary(type="submit") View
+        - c++
+    - r++

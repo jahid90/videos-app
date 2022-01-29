@@ -5,8 +5,9 @@ const createHandlers = ({ queries }) => {
     const home = (req, res, next) => {
         return queries
             .loadHomePage()
+            .then(queries.loadVideos)
             .then((viewData) =>
-                res.render('home/templates/home', viewData.pageData)
+                res.render('home/templates/home', { ...viewData })
             )
             .catch(next);
     };
@@ -27,8 +28,30 @@ const createQueries = ({ db }) => {
         );
     };
 
+    const loadVideos = (prevViewData) => {
+        return db
+            .then((client) =>
+                client('creators_portal_videos').select([
+                    'id',
+                    'name',
+                    'description',
+                    'views',
+                ])
+            )
+            .then(camelCaseKeys)
+            .then((rows) => {
+                const newViewData = {
+                    ...prevViewData,
+                    videos: rows,
+                };
+
+                return newViewData;
+            });
+    };
+
     return {
         loadHomePage,
+        loadVideos,
     };
 };
 
