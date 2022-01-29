@@ -18,6 +18,8 @@ const getAllMessagesSql = `
         messages
     WHERE
         global_position > $1
+    ORDER BY
+        global_position
     LIMIT $2
 `;
 

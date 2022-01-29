@@ -9,12 +9,13 @@ const category = (streamName) => {
 
 const createHandlers = ({ queries }) => {
     return {
-        $any: (event) =>
-            queries.upsertCategory(
+        $any: (event) => {
+            return queries.upsertCategory(
                 category(event.streamName),
                 event.id,
                 event.globalPosition
-            ),
+            );
+        },
     };
 };
 

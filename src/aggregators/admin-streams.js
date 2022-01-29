@@ -1,11 +1,12 @@
 const createHandlers = ({ queries }) => {
     return {
-        $any: (event) =>
-            queries.upsertStream(
+        $any: (event) => {
+            return queries.upsertStream(
                 event.streamName,
                 event.id,
                 event.globalPosition
-            ),
+            );
+        },
     };
 };
 
