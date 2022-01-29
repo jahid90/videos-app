@@ -4,6 +4,22 @@ const getLastMessageSql = 'SELECT * FROM get_last_stream_message($1)';
 const getCategoryMessagesSql =
     'SELECT * FROM get_category_messages($1, $2, $3)';
 const getStreamMessagesSql = 'SELECT * FROM get_stream_messages($1, $2, $3)';
+const getAllMessagesSql = `
+    SELECT
+        id::varchar,
+        stream_name::varchar,
+        type::varchar,
+        position::bigint,
+        global_position::bigint,
+        data::varchar,
+        metadata::varchar,
+        time::timestamp
+    FROM
+        messages
+    WHERE
+        global_position > $1
+    LIMIT $2
+`;
 
 const project = (events, projection) => {
     return events.reduce((entity, event) => {
@@ -26,7 +42,10 @@ const createRead = ({ db }) => {
         let query = null;
         let values = [];
 
-        if (streamName.includes('-')) {
+        if (streamName === '$all') {
+            query = getAllMessagesSql;
+            values = [fromPosition, maxMessages];
+        } else if (streamName.includes('-')) {
             query = getStreamMessagesSql;
             values = [streamName, fromPosition, maxMessages];
         } else {
