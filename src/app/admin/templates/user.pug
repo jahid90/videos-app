@@ -7,7 +7,7 @@ block content
     h2 Viewing Activity
 
     if viewingEvents.length === 0
-      p.card-text No login activity
+      p.card-text No viewing activity
     else
       table.table
         tbody
@@ -15,7 +15,7 @@ block content
             tr
               td= viewingEvent.data.videoId
               td= viewingEvent.time
-  
+
   div
     h2 Login Activity
     if loginEvents.length === 0
