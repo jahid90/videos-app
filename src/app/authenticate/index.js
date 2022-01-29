@@ -61,7 +61,7 @@ const createHandlers = ({ actions }) => {
     };
 
     const handleLogOut = (req, res) => {
-        res.session = null;
+        req.session = null;
         res.redirect('/');
     };
 

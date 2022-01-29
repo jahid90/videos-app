@@ -8,7 +8,11 @@ const lastResortErrorHandler = require('./last-resort-error-handler');
 const primeRequestContext = require('./prime-request-context');
 
 const mountMiddleware = (app, env) => {
-    const cookieSessionMiddleware = cookieSession({ keys: env.cookieSecret });
+    const cookieSessionMiddleware = cookieSession({
+        name: 'session',
+        keys: [env.cookieSecret],
+        maxAge: 24 * 60 * 60 * 1000,
+    });
     app.use(cookieSessionMiddleware);
 
     app.use(lastResortErrorHandler);
