@@ -45,10 +45,15 @@ const createRead = ({ db }) => {
         );
     };
 
+    const query = (query, values) => {
+        return db.query(query, values);
+    };
+
     return {
         read,
         readLastMessage,
         fetch,
+        query,
     };
 };
 

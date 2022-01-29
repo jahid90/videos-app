@@ -18,6 +18,7 @@ const createMessageStore = ({ db }) => {
         read: read.read,
         readLastMessage: read.readLastMessage,
         fetch: read.fetch,
+        query: read.query,
     };
 };
 

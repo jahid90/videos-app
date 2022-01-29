@@ -9,6 +9,7 @@ const createRecordViewingsApp = require('./app/record-viewings');
 const createRegisterUsersApp = require('./app/register-users');
 const createAuthenticationApp = require('./app/authenticate');
 const createCreatorsPortalApp = require('./app/creators-portal');
+const createAdminApp = require('./app/admin');
 
 const createHomePageAggregator = require('./aggregators/home-page');
 const createUserCredentialsAggregator = require('./aggregators/user-credentials');
@@ -38,6 +39,10 @@ const createConfig = ({ env }) => {
         messageStore,
     });
     const creatorsPortalApp = createCreatorsPortalApp({
+        db: knexClient,
+        messageStore,
+    });
+    const adminApp = createAdminApp({
         db: knexClient,
         messageStore,
     });
@@ -90,6 +95,7 @@ const createConfig = ({ env }) => {
         registerUsersApp,
         authenticationApp,
         creatorsPortalApp,
+        adminApp,
         aggregators,
         components,
     };

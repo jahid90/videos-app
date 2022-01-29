@@ -1,6 +1,6 @@
 const mustBeLoggedIn = require('./must-be-logged-in');
 
-module.exports = (app, config) => {
+const mountRoutes = (app, config) => {
     app.use('/', config.homeApp.router);
     app.use('/record-viewing', config.recordViewingsApp.router);
     app.use('/register', config.registerUsersApp.router);
@@ -10,4 +10,7 @@ module.exports = (app, config) => {
         mustBeLoggedIn,
         config.creatorsPortalApp.router
     );
+    app.use('/admin', config.adminApp.router);
 };
+
+module.exports = mountRoutes;
