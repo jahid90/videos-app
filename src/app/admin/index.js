@@ -79,7 +79,17 @@ const createHandlers = ({ queries }) => {
         return queries
             .message(messageId)
             .then((message) =>
-                res.render('admin/templates/message', { message: message })
+                res.render('admin/templates/message', { message })
+            );
+    };
+
+    const handleShowVideo = (req, res) => {
+        const videoId = req.params.id;
+
+        return queries
+            .video(videoId)
+            .then((video) =>
+                res.render('admin/templates/video', { video, videoId })
             );
     };
 
@@ -107,6 +117,7 @@ const createHandlers = ({ queries }) => {
         handleUserMessagesIndex,
         handleShowStream,
         handleShowMessage,
+        handleShowVideo,
         handleStreamsIndex,
         handleSubscriberPositions,
     };
@@ -121,7 +132,7 @@ const createQueries = ({ db, messageStore }) => {
 
     const user = (id) => {
         return db
-            .then((client) => client('admin_users').where({ id: id }))
+            .then((client) => client('admin_users').where({ id }))
             .then(camelCaseKeys)
             .then((rows) => rows[0]);
     };
@@ -218,6 +229,13 @@ const createQueries = ({ db, messageStore }) => {
             .then((rows) => rows[0]);
     };
 
+    const video = (id) => {
+        return db
+            .then((client) => client('creators_portal_videos').where({ id }))
+            .then(camelCaseKeys)
+            .then((rows) => rows[0]);
+    };
+
     const streams = () => {
         return db
             .then((client) =>
@@ -242,6 +260,7 @@ const createQueries = ({ db, messageStore }) => {
         userMessages,
         streamName,
         message,
+        video,
         streams,
         subscriberPositions,
     };
@@ -274,6 +293,8 @@ const createAdminApplication = ({ db, messageStore }) => {
     router
         .route('/subscriber-positions')
         .get(handlers.handleSubscriberPositions);
+
+    router.route('/video/:id').get(handlers.handleShowVideo);
 
     return {
         handlers,

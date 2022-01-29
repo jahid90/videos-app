@@ -13,7 +13,8 @@ block content
         tbody
           for viewingEvent in viewingEvents
             tr
-              td= viewingEvent.data.videoId
+              td
+                a(href=`/admin/video/${viewingEvent.data.videoId}`)= viewingEvent.data.videoId
               td= viewingEvent.time
 
   div

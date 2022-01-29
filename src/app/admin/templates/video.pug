@@ -1,0 +1,26 @@
+extends ./admin-layout
+
+block content
+  if !video
+    p Video #{videoId} not found!
+  else
+    h1 #{ title ? title : `Video ${video.id}` }
+
+    table.table.table-hover
+      tbody
+        tr
+          th(scope="row") id
+          td= video.id
+        tr
+          th(scope="row") owner
+          td
+            a(href=`/admin/users/${video.ownerId}`)= video.ownerId
+        tr
+          th(scope="row") name
+          td= video.name
+        tr
+          th(scope="row") description
+          td= video.description
+        tr
+          th(scope="row") views
+          td= video.views
