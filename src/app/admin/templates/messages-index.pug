@@ -6,6 +6,23 @@ block content
   if messages.length === 0
     p There are no messages.
   else
+    - var p = 1
+    nav(aria-label='messages pagination')
+      ul.pagination
+        li.page-item(class=(currentPage === 1) ? 'disabled' : '')
+          a.page-link(href='?page=' + (currentPage - 1) aria-label='Previous')
+            span(aria-hidden='true') &laquo;
+            span.sr-only Previous
+        while p <= pages
+          li.page-item(class=currentPage === p ? 'active' : '')
+            a.page-link(href='?page='+(p))= p
+          - p++
+
+        li.page-item(class=(currentPage === pages) ? 'disabled' : '')
+          a.page-link(href='?page=' + (currentPage + 1) aria-label='Next')
+            span(aria-hidden='true') &raquo;
+            span.sr-only Next
+
     table.table.table-hover
       thead
         tr

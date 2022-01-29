@@ -33,11 +33,25 @@ const createHandlers = ({ queries }) => {
     };
 
     const handleMessagesIndex = (req, res) => {
-        return queries
-            .messages()
-            .then((messages) =>
-                res.render('admin/templates/messages-index', { messages })
-            );
+        const userId = req.params.userId;
+        const pageFromReq =
+            (req.query.page && parseInt(req.query.page, 10)) || 1;
+        const perPage = 10;
+
+        return queries.messages().then((messages) => {
+            const pages = Math.ceil(messages.length / perPage);
+            const currentPage =
+                pageFromReq < 1 ? 1 : pageFromReq > pages ? pages : pageFromReq;
+            const startIndex = (currentPage - 1) * perPage;
+            const filtered = messages.slice(startIndex, startIndex + perPage);
+
+            res.render('admin/templates/messages-index', {
+                messages: filtered,
+                currentPage,
+                perPage,
+                pages,
+            });
+        });
     };
 
     const handleCorrelatedMessagesIndex = (req, res) => {
@@ -53,13 +67,25 @@ const createHandlers = ({ queries }) => {
 
     const handleUserMessagesIndex = (req, res) => {
         const userId = req.params.userId;
+        const pageFromReq =
+            (req.query.page && parseInt(req.query.page, 10)) || 1;
+        const perPage = 10;
 
-        return queries.userMessages(userId).then((messages) =>
-            res.render('admin/templates/messages-index', {
-                messages,
+        return queries.userMessages(userId).then((messages) => {
+            const pages = Math.ceil(messages.length / perPage);
+            const currentPage =
+                pageFromReq < 1 ? 1 : pageFromReq > pages ? pages : pageFromReq;
+            const startIndex = (currentPage - 1) * perPage;
+            const filtered = messages.slice(startIndex, startIndex + perPage);
+
+            return res.render('admin/templates/messages-index', {
+                messages: filtered,
                 title: 'User Messages',
-            })
-        );
+                currentPage,
+                perPage,
+                pages,
+            });
+        });
     };
 
     const handleShowStream = (req, res) => {
