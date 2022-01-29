@@ -1,0 +1,22 @@
+extends ./admin-layout
+
+block content
+  h1 All Categories
+
+  if categories.length === 0
+    p There are no categories.
+  else
+    table.table.table-hover
+      thead
+        tr
+          th(scope="col") Category Name
+          th(scope="col") Message Count
+          th(scope="col") Last Message Global Position
+      tbody
+        each category in categories
+          tr
+            td
+              a(href=`/admin/categories/${category.categoryName}`)= category.categoryName
+            td= category.messageCount
+            td
+              a(href=`/admin/messages/${category.lastMessageId}`)= category.lastMessageGlobalPosition

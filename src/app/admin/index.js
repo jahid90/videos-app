@@ -109,6 +109,25 @@ const createHandlers = ({ queries }) => {
         );
     };
 
+    const handleCategoriesIndex = (req, res) => {
+        return queries
+            .categories()
+            .then((categories) =>
+                res.render('admin/templates/categories-index', { categories })
+            );
+    };
+
+    const handleShowCategory = (req, res) => {
+        const categoryName = req.params.categoryName;
+
+        return queries.categoryName(categoryName).then((messages) =>
+            res.render('admin/templates/messages-index', {
+                messages: messages,
+                title: `Category: ${categoryName}`,
+            })
+        );
+    };
+
     return {
         handleUsersIndex,
         handleShowUser,
@@ -120,6 +139,8 @@ const createHandlers = ({ queries }) => {
         handleShowVideo,
         handleStreamsIndex,
         handleSubscriberPositions,
+        handleCategoriesIndex,
+        handleShowCategory,
     };
 };
 
@@ -250,6 +271,33 @@ const createQueries = ({ db, messageStore }) => {
         );
     };
 
+    const categories = () => {
+        return db
+            .then((client) =>
+                client('admin_categories').orderBy('category_name', 'ASC')
+            )
+            .then(camelCaseKeys);
+    };
+
+    const categoryName = (categoryName) => {
+        return messageStore
+            .query(
+                `
+                SELECT
+                    *
+                FROM
+                    messages
+                WHERE
+                    stream_name LIKE $1
+                ORDER BY
+                    global_position ASC
+            `,
+                [categoryName + '-%']
+            )
+            .then((res) => res.rows)
+            .then(camelCaseKeys);
+    };
+
     return {
         usersIndex,
         user,
@@ -263,6 +311,8 @@ const createQueries = ({ db, messageStore }) => {
         video,
         streams,
         subscriberPositions,
+        categories,
+        categoryName,
     };
 };
 
@@ -287,14 +337,17 @@ const createAdminApplication = ({ db, messageStore }) => {
         .route('/user-messages/:userId')
         .get(handlers.handleUserMessagesIndex);
 
-    router.route('/streams/:streamName').get(handlers.handleShowStream);
     router.route('/streams').get(handlers.handleStreamsIndex);
+    router.route('/streams/:streamName').get(handlers.handleShowStream);
 
     router
         .route('/subscriber-positions')
         .get(handlers.handleSubscriberPositions);
 
     router.route('/video/:id').get(handlers.handleShowVideo);
+
+    router.route('/categories').get(handlers.handleCategoriesIndex);
+    router.route('/categories/:categoryName').get(handlers.handleShowCategory);
 
     return {
         handlers,

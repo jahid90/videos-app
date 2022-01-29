@@ -17,6 +17,7 @@ const createCreatorsVideosAggregator = require('./aggregators/creators-videos');
 const createVideoOperationsAggregator = require('./aggregators/video-operations');
 const createAdminUsersAggregator = require('./aggregators/admin-users');
 const createAdminStreamsAggregator = require('./aggregators/admin-streams');
+const createAdminCategoriesAggregator = require('./aggregators/admin-categories');
 const createAdminSubscriberPositionsAggregator = require('./aggregators/admin-subscriber-positions');
 
 const createIdentityComponent = require('./components/identity');
@@ -74,6 +75,10 @@ const createConfig = ({ env }) => {
         db: knexClient,
         messageStore,
     });
+    const adminCategoriesAggregator = createAdminCategoriesAggregator({
+        db: knexClient,
+        messageStore,
+    });
     const adminSubscriberPositionsAggregator =
         createAdminSubscriberPositionsAggregator({
             db: knexClient,
@@ -87,6 +92,7 @@ const createConfig = ({ env }) => {
         videoOperationsAggregator,
         adminUsersAggregator,
         adminStreamsAggregator,
+        adminCategoriesAggregator,
         adminSubscriberPositionsAggregator,
     ];
 
