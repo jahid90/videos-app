@@ -13,6 +13,7 @@ const createCreatorsPortalApp = require('./app/creators-portal');
 const createHomePageAggregator = require('./aggregators/home-page');
 const createUserCredentialsAggregator = require('./aggregators/user-credentials');
 const createCreatorsVideosAggregator = require('./aggregators/creators-videos');
+const createVideoOperationsAggregator = require('./aggregators/video-operations');
 
 const createIdentityComponent = require('./components/identity');
 const createSendEmailComponent = require('./components/send-email');
@@ -53,11 +54,16 @@ const createConfig = ({ env }) => {
         db: knexClient,
         messageStore,
     });
+    const videoOperationsAggregator = createVideoOperationsAggregator({
+        db: knexClient,
+        messageStore,
+    });
 
     const aggregators = [
         homePageAggregator,
         userCredentialsAggregator,
         creatorsVideosAggregator,
+        videoOperationsAggregator,
     ];
 
     const identityComponent = createIdentityComponent({ messageStore });
