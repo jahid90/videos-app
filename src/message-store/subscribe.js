@@ -39,11 +39,14 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
             return Bluebird.resolve(true);
         };
 
-        const writePosition = (position) => {
+        const writePosition = (position, messageId) => {
             const positionEvent = {
                 id: uuid(),
                 type: 'Read',
-                data: { position },
+                data: {
+                    position,
+                    lastMessageId: messageId,
+                },
             };
 
             return write(subscriberStreamName, positionEvent);
@@ -72,7 +75,9 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
         const processBatch = (messages) => {
             return Bluebird.each(messages, (message) => {
                 return handleMessage(message)
-                    .then(() => updateReadPosition(message.globalPosition))
+                    .then(() =>
+                        updateReadPosition(message.globalPosition, message.id)
+                    )
                     .catch((err) => {
                         logError(message, err);
                         throw err;

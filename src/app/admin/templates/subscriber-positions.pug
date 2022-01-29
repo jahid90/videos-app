@@ -15,4 +15,5 @@ block content
         each position in positions
           tr
             td= position.id
-            td= position.position
+            td
+              a(href=`/admin/messages/${position.lastMessageId}`)= position.position

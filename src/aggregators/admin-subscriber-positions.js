@@ -10,7 +10,8 @@ const createHandlers = ({ queries }) => {
             return queries.upsertPosition(
                 subscriberId,
                 event.data.position,
-                event.globalPosition
+                event.globalPosition,
+                event.data.lastMessageId
             );
         },
     };
@@ -20,21 +21,24 @@ const createQueries = ({ db }) => {
     const upsertPosition = (
         subscriberId,
         position,
-        lastMessageGlobalPosition
+        lastMessageGlobalPosition,
+        lastMessageId
     ) => {
         const rawQuery = `
             INSERT INTO
                 admin_subscriber_positions (
                     id,
                     position,
-                    last_message_global_position
+                    last_message_global_position,
+                    last_message_id
                 )
             VALUES
-                (:subscriberId, :position, :lastMessageGlobalPosition)
+                (:subscriberId, :position, :lastMessageGlobalPosition, :lastMessageId)
             ON CONFLICT (id) DO UPDATE
                 SET
                     position = :position,
-                    last_message_global_position = :lastMessageGlobalPosition
+                    last_message_global_position = :lastMessageGlobalPosition,
+                    last_message_id = :lastMessageId
                 WHERE
                     admin_subscriber_positions.last_message_global_position < :lastMessageGlobalPosition
         `;
@@ -44,6 +48,7 @@ const createQueries = ({ db }) => {
                 subscriberId,
                 position,
                 lastMessageGlobalPosition,
+                lastMessageId,
             })
         );
     };
