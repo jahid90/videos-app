@@ -1,6 +1,28 @@
 const camelCaseKeys = require('camelcase-keys');
 const express = require('express');
 
+const MESSSAGES_PER_PAGE = 10;
+
+const renderMessages = (req, res, messages, viewName, title) => {
+    const pageFromReq = (req.query.page && parseInt(req.query.page, 10)) || 1;
+    const pages = Math.ceil(messages.length / MESSSAGES_PER_PAGE);
+    const currentPage =
+        pageFromReq < 1 ? 1 : pageFromReq > pages ? pages : pageFromReq;
+    const startIndex = (currentPage - 1) * MESSSAGES_PER_PAGE;
+    const filtered = messages.slice(
+        startIndex,
+        startIndex + MESSSAGES_PER_PAGE
+    );
+
+    res.render(viewName, {
+        title,
+        messages: filtered,
+        currentPage,
+        perPage: MESSSAGES_PER_PAGE,
+        pages,
+    });
+};
+
 const createHandlers = ({ queries }) => {
     const handleUsersIndex = (req, res) => {
         return queries
@@ -34,35 +56,33 @@ const createHandlers = ({ queries }) => {
 
     const handleMessagesIndex = (req, res) => {
         const userId = req.params.userId;
-        const pageFromReq =
-            (req.query.page && parseInt(req.query.page, 10)) || 1;
-        const perPage = 10;
 
-        return queries.messages().then((messages) => {
-            const pages = Math.ceil(messages.length / perPage);
-            const currentPage =
-                pageFromReq < 1 ? 1 : pageFromReq > pages ? pages : pageFromReq;
-            const startIndex = (currentPage - 1) * perPage;
-            const filtered = messages.slice(startIndex, startIndex + perPage);
-
-            res.render('admin/templates/messages-index', {
-                messages: filtered,
-                currentPage,
-                perPage,
-                pages,
-            });
-        });
+        return queries
+            .messages()
+            .then((messages) =>
+                renderMessages(
+                    req,
+                    res,
+                    messages,
+                    'admin/templates/messages-index'
+                )
+            );
     };
 
     const handleCorrelatedMessagesIndex = (req, res) => {
         const traceId = req.params.traceId;
 
-        return queries.correlatedMessages(traceId).then((messages) =>
-            res.render('admin/templates/messages-index', {
-                messages,
-                title: 'Correlated Messages',
-            })
-        );
+        return queries
+            .correlatedMessages(traceId)
+            .then((messages) =>
+                renderMessages(
+                    req,
+                    res,
+                    messages,
+                    'admin/templates/messages-index',
+                    'Correlated Messages'
+                )
+            );
     };
 
     const handleUserMessagesIndex = (req, res) => {
@@ -71,32 +91,33 @@ const createHandlers = ({ queries }) => {
             (req.query.page && parseInt(req.query.page, 10)) || 1;
         const perPage = 10;
 
-        return queries.userMessages(userId).then((messages) => {
-            const pages = Math.ceil(messages.length / perPage);
-            const currentPage =
-                pageFromReq < 1 ? 1 : pageFromReq > pages ? pages : pageFromReq;
-            const startIndex = (currentPage - 1) * perPage;
-            const filtered = messages.slice(startIndex, startIndex + perPage);
-
-            return res.render('admin/templates/messages-index', {
-                messages: filtered,
-                title: 'User Messages',
-                currentPage,
-                perPage,
-                pages,
-            });
-        });
+        return queries
+            .userMessages(userId)
+            .then((messages) =>
+                renderMessages(
+                    req,
+                    res,
+                    messages,
+                    'admin/templates/messages-index',
+                    'User Messages'
+                )
+            );
     };
 
     const handleShowStream = (req, res) => {
         const streamName = req.params.streamName;
 
-        return queries.streamName(streamName).then((messages) =>
-            res.render('admin/templates/messages-index', {
-                messages: messages,
-                title: `Stream: ${streamName}`,
-            })
-        );
+        return queries
+            .streamName(streamName)
+            .then((messages) =>
+                renderMessages(
+                    req,
+                    res,
+                    messages,
+                    'admin/templates/messages-index',
+                    `Stream: ${streamName}`
+                )
+            );
     };
 
     const handleShowMessage = (req, res) => {
@@ -146,12 +167,17 @@ const createHandlers = ({ queries }) => {
     const handleShowCategory = (req, res) => {
         const categoryName = req.params.categoryName;
 
-        return queries.categoryName(categoryName).then((messages) =>
-            res.render('admin/templates/messages-index', {
-                messages: messages,
-                title: `Category: ${categoryName}`,
-            })
-        );
+        return queries
+            .categoryName(categoryName)
+            .then((messages) =>
+                renderMessages(
+                    req,
+                    res,
+                    messages,
+                    'admin/templates/messages-index',
+                    `Category: ${categoryName}`
+                )
+            );
     };
 
     return {
