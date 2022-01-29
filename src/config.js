@@ -16,6 +16,7 @@ const createCreatorsVideosAggregator = require('./aggregators/creators-videos');
 
 const createIdentityComponent = require('./components/identity');
 const createSendEmailComponent = require('./components/send-email');
+const createVideoPublishingComponent = require('./components/video-publishing');
 
 const createConfig = ({ env }) => {
     const knexClient = createKnexClient({ connectionString: env.databaseUrl });
@@ -65,8 +66,15 @@ const createConfig = ({ env }) => {
         systemSenderEmailAddress: env.systemSenderEmailAddress,
         transport,
     });
+    const videoPublishingComponent = createVideoPublishingComponent({
+        messageStore,
+    });
 
-    const components = [identityComponent, sendEmailComponent];
+    const components = [
+        identityComponent,
+        sendEmailComponent,
+        videoPublishingComponent,
+    ];
 
     return {
         knexClient,
