@@ -107,10 +107,6 @@ const createQueries = ({ db, messageStoreDb }) => {
             .then((rows) => rows[0]);
     };
 
-    const deleteMessage = (id) => {
-        return messageStoreDb.query('DELETE FROM messages WHERE id = $1', [id]);
-    };
-
     const video = (id) => {
         return db
             .then((client) => client('creators_portal_videos').where({ id }))
@@ -203,6 +199,18 @@ const createQueries = ({ db, messageStoreDb }) => {
         return db.then((client) => client(view).delete());
     };
 
+    const deleteMessage = (id) => {
+        return messageStoreDb.query('DELETE FROM messages WHERE id = $1', [id]);
+    };
+
+    const deleteAllMessages = (ids) => {
+        return Bluebird.each(ids, (id) => {
+            return messageStoreDb.query('DELETE FROM messages WHERE id = $1', [
+                id,
+            ]);
+        });
+    };
+
     return {
         usersIndex,
         user,
@@ -214,7 +222,6 @@ const createQueries = ({ db, messageStoreDb }) => {
         userMessages,
         streamName,
         message,
-        deleteMessage,
         video,
         streams,
         subscriberPositions,
@@ -222,6 +229,8 @@ const createQueries = ({ db, messageStoreDb }) => {
         categoryName,
         views,
         clearView,
+        deleteMessage,
+        deleteAllMessages,
     };
 };
 

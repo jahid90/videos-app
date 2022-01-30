@@ -1,3 +1,5 @@
+const url = require('url');
+
 const renderPaginatedMessages = require('./render-paginated-messages');
 
 const createHandlers = ({ queries }) => {
@@ -32,8 +34,6 @@ const createHandlers = ({ queries }) => {
     };
 
     const handleMessagesIndex = (req, res) => {
-        const userId = req.params.userId;
-
         return queries
             .messages()
             .then((messages) =>
@@ -105,14 +105,6 @@ const createHandlers = ({ queries }) => {
             .then((message) =>
                 res.render('admin/templates/message', { message })
             );
-    };
-
-    const handleDeleteMessage = (req, res) => {
-        const messageId = req.params.id;
-
-        return queries
-            .deleteMessage(messageId)
-            .then(() => res.redirect('/admin'));
     };
 
     const handleShowVideo = (req, res) => {
@@ -189,8 +181,38 @@ const createHandlers = ({ queries }) => {
 
     const handleClearView = (req, res) => {
         const view = req.params.name;
+        const referrer = req.get('referrer');
+        const parsed = new URL(referrer);
 
-        return queries.clearView(view).then(() => res.redirect('/admin/views'));
+        return queries
+            .clearView(view)
+            .then(() =>
+                res.redirect(`${parsed.pathname}${parsed.search}${parsed.hash}`)
+            );
+    };
+
+    const handleDeleteMessage = (req, res) => {
+        const messageId = req.params.id;
+        const referrer = req.get('referrer');
+        const parsed = new URL(referrer);
+
+        return queries
+            .deleteMessage(messageId)
+            .then(() =>
+                res.redirect(`${parsed.pathname}${parsed.search}${parsed.hash}`)
+            );
+    };
+
+    const handleDeleteAllMessages = (req, res) => {
+        const ids = JSON.parse(req.body.messages);
+        const referrer = req.get('referrer');
+        const parsed = new URL(referrer);
+
+        return queries
+            .deleteAllMessages(ids)
+            .then(
+                res.redirect(`${parsed.pathname}${parsed.search}${parsed.hash}`)
+            );
     };
 
     return {
@@ -201,7 +223,6 @@ const createHandlers = ({ queries }) => {
         handleUserMessagesIndex,
         handleShowStream,
         handleShowMessage,
-        handleDeleteMessage,
         handleShowVideo,
         handleStreamsIndex,
         handleSubscriberPositions,
@@ -210,6 +231,8 @@ const createHandlers = ({ queries }) => {
         handleMessagesOfType,
         handleViewsIndex,
         handleClearView,
+        handleDeleteMessage,
+        handleDeleteAllMessages,
     };
 };
 

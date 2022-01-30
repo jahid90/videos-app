@@ -2,6 +2,7 @@ const express = require('express');
 
 const createQueries = require('./queries');
 const createHandlers = require('./handlers');
+const bodyParser = require('body-parser');
 
 const createAdminApplication = ({ db, messageStoreDb }) => {
     const queries = createQueries({ db, messageStoreDb });
@@ -17,6 +18,12 @@ const createAdminApplication = ({ db, messageStoreDb }) => {
     router.route('/messages/:id').get(handlers.handleShowMessage);
     router.route('/messages').get(handlers.handleMessagesIndex);
     router.route('/messages/:id').delete(handlers.handleDeleteMessage);
+    router
+        .route('/messages')
+        .delete(
+            bodyParser.urlencoded({ extended: false }),
+            handlers.handleDeleteAllMessages
+        );
 
     router
         .route('/correlated-messages/:traceId')

@@ -40,6 +40,7 @@ const renderPaginatedMessages = (req, res, messages, viewName, title) => {
     res.render(viewName, {
         title,
         messages: filtered,
+        messageIds: messages.map((it) => it.id),
         currentPage,
         perPage: MESSSAGES_PER_PAGE,
         pages: condensedPages,

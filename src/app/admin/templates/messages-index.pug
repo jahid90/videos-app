@@ -6,6 +6,11 @@ block content
   if messages.length === 0
     p There are no messages.
   else
+    .float-right
+      form.form-inline(action=`/admin/messages?_method=DELETE` method='POST')
+        input(name='messages' type='hidden' value=messageIds)
+        button.btn.btn-primary(type='submit') Delete All
+
     nav(aria-label='messages pagination')
       ul.pagination
         li.page-item(class=(currentPage === 1) ? 'disabled' : '')
