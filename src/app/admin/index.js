@@ -1,12 +1,14 @@
 const express = require('express');
 
 const createQueries = require('./queries');
+const createActions = require('./actions');
 const createHandlers = require('./handlers');
 const bodyParser = require('body-parser');
 
-const createAdminApplication = ({ db, messageStoreDb }) => {
+const createAdminApplication = ({ db, messageStoreDb, messageStore }) => {
     const queries = createQueries({ db, messageStoreDb });
-    const handlers = createHandlers({ queries });
+    const actions = createActions({ db, messageStore, messageStoreDb });
+    const handlers = createHandlers({ actions, queries });
 
     const router = express.Router();
 
@@ -24,6 +26,7 @@ const createAdminApplication = ({ db, messageStoreDb }) => {
             bodyParser.urlencoded({ extended: false }),
             handlers.handleDeleteAllMessages
         );
+    router.route('/messages/:id').post(handlers.handleResendMessage);
 
     router
         .route('/correlated-messages/:traceId')

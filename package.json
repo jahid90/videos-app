@@ -1,5 +1,6 @@
 {
     "scripts": {
+        "start": "node bin/start-server.js",
         "start-dev-server": "nodemon bin/start-server.js --color"
     },
     "dependencies": {

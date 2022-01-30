@@ -32,7 +32,7 @@ block content
     table.table.table-hover
       thead
         tr
-          th(scope='col') action
+          th(scope='col' colspan='2') action
           th(scope='col') id
           th(scope='col') globalPosition
           th(scope='col') traceId
@@ -46,6 +46,9 @@ block content
             td
               form.form-inline(action=`/admin/messages/${message.id}?_method=DELETE` method='POST')
                 button.btn.btn-secondary(type='submit') delete
+            td
+              form.form-inline(action=`/admin/messages/${message.id}` method='POST')
+                button.btn.btn-secondary(type='submit') resend
             td
               a(href=`/admin/messages/${message.id}`)= message.id
             td= message.globalPosition

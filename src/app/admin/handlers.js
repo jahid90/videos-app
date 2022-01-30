@@ -2,7 +2,7 @@ const url = require('url');
 
 const renderPaginatedMessages = require('./render-paginated-messages');
 
-const createHandlers = ({ queries }) => {
+const createHandlers = ({ actions, queries }) => {
     const handleUsersIndex = (req, res) => {
         return queries
             .usersIndex()
@@ -210,7 +210,19 @@ const createHandlers = ({ queries }) => {
 
         return queries
             .deleteAllMessages(ids)
-            .then(
+            .then(() =>
+                res.redirect(`${parsed.pathname}${parsed.search}${parsed.hash}`)
+            );
+    };
+
+    const handleResendMessage = (req, res) => {
+        const messageId = req.params.id;
+        const referrer = req.get('referrer');
+        const parsed = new URL(referrer);
+
+        return actions
+            .resendMessage(messageId)
+            .then(() =>
                 res.redirect(`${parsed.pathname}${parsed.search}${parsed.hash}`)
             );
     };
@@ -233,6 +245,7 @@ const createHandlers = ({ queries }) => {
         handleClearView,
         handleDeleteMessage,
         handleDeleteAllMessages,
+        handleResendMessage,
     };
 };
 

@@ -4,7 +4,7 @@ const streamToEntityId = (stream) => {
     return stream.split(/-(.+)/)[1];
 };
 
-const createHandlers = ({ messageStore, queries }) => {
+const createHandlers = ({ queries }) => {
     return {
         VideoPublished: (event) =>
             queries.createVideo(
@@ -12,32 +12,32 @@ const createHandlers = ({ messageStore, queries }) => {
                 event.data.ownerId,
                 event.data.sourceUri,
                 event.data.transcodedUri,
-                event.position
+                event.globalPosition
             ),
 
         VideoNamed: (event) =>
             queries.updateVideoName(
                 streamToEntityId(event.streamName),
-                event.position,
+                event.globalPosition,
                 event.data.name
             ),
 
         VideoTranscodingFailed: (event) =>
             queries.updateVideoStatus(
                 streamToEntityId(event.streamName),
-                event.position,
+                event.globalPosition,
                 videoStatuses.failed
             ),
         VideoDescribed: (event) =>
             queries.updateVideoDescription(
                 streamToEntityId(event.streamName),
-                event.position,
+                event.globalPosition,
                 event.data.description
             ),
         VideoViewed: (event) =>
             queries.updateVideoViews(
                 streamToEntityId(event.streamName),
-                event.position
+                event.globalPosition
             ),
     };
 };
@@ -112,7 +112,7 @@ const createQueries = ({ db }) => {
 
 const build = ({ db, messageStore }) => {
     const queries = createQueries({ db });
-    const handlers = createHandlers({ messageStore, queries });
+    const handlers = createHandlers({ queries });
     const subscription = messageStore.createSubscription({
         streamName: 'videoPublishing',
         handlers,

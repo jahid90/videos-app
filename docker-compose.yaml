@@ -1,0 +1,42 @@
+version: '3'
+
+networks:
+  traefik:
+    name: traefik
+    driver: bridge
+  backend:
+    name: backend
+    driver: bridge
+
+services:
+  videos:
+    image: registry.jahiduls.mint/videos-app:local
+    build: .
+    container_name: videos-app
+    restart: unless-stopped
+    networks:
+      - traefik
+      - backend
+    environment:
+      - NODE_ENV=production
+      - APP_NAME=Videos App
+      - PORT=80
+      - COOKIE_SECRET=116fa7eaf3f6e7c40eedd92c
+      - EMAIL_DIRECTORY=/tmp/emails
+      - SYSTEM_SENDER_EMAIL_ADDRESS=noreply@videos.jahiduls.io
+      - DATABASE_CONNECTION_STRING=postgres://practical_microservices:password@postgres.jahiduls.io:5432/practical_microservices
+      - MESSAGE_STORE_CONNECTION_STRING=postgres://practical_microservices:password@messagedb.jahiduls.io:54320/message_store
+
+    expose:
+      - 80
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.videos.entrypoints=websecure
+      - traefik.http.routers.videos.rule=Host(`videos.jahiduls.mint`)
+      - traefik.http.routers.videos.tls=true
+      - traefik.http.routers.videos.middlewares=https-redirect
+      - traefik.http.routers.videos-http.entrypoints=web
+      - traefik.http.routers.videos-http.rule=Host(`videos.jahiduls.mint`)
+      - traefik.http.routers.videos.service=videos
+      - traefik.http.services.videos.loadbalancer.server.port=80

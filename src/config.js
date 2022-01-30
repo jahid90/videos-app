@@ -50,6 +50,7 @@ const createConfig = ({ env }) => {
     const adminApp = createAdminApp({
         db: knexClient,
         messageStoreDb: postgresClient,
+        messageStore,
     });
     const manageUsersApp = createManageUsersApp({
         db: knexClient,
