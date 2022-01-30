@@ -156,6 +156,14 @@ const createHandlers = ({ queries }) => {
             );
     };
 
+    const handleDeleteMessage = (req, res) => {
+        const messageId = req.params.id;
+
+        return queries
+            .deleteMessage(messageId)
+            .then(() => res.redirect('/admin'));
+    };
+
     const handleShowVideo = (req, res) => {
         const videoId = req.params.id;
 
@@ -214,6 +222,7 @@ const createHandlers = ({ queries }) => {
         handleUserMessagesIndex,
         handleShowStream,
         handleShowMessage,
+        handleDeleteMessage,
         handleShowVideo,
         handleStreamsIndex,
         handleSubscriberPositions,
@@ -328,6 +337,10 @@ const createQueries = ({ db, messageStoreDb }) => {
             .then((rows) => rows[0]);
     };
 
+    const deleteMessage = (id) => {
+        return messageStoreDb.query('DELETE FROM messages WHERE id = $1', [id]);
+    };
+
     const video = (id) => {
         return db
             .then((client) => client('creators_portal_videos').where({ id }))
@@ -386,6 +399,7 @@ const createQueries = ({ db, messageStoreDb }) => {
         userMessages,
         streamName,
         message,
+        deleteMessage,
         video,
         streams,
         subscriberPositions,
@@ -407,6 +421,7 @@ const createAdminApplication = ({ db, messageStoreDb }) => {
 
     router.route('/messages/:id').get(handlers.handleShowMessage);
     router.route('/messages').get(handlers.handleMessagesIndex);
+    router.route('/messages/:id').delete(handlers.handleDeleteMessage);
 
     router
         .route('/correlated-messages/:traceId')

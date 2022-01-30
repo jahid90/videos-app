@@ -2,6 +2,7 @@ const path = require('path');
 
 const cookieSession = require('cookie-session');
 const express = require('express');
+const methodOverride = require('method-override');
 
 const attachLocals = require('./attach-locals');
 const lastResortErrorHandler = require('./last-resort-error-handler');
@@ -15,6 +16,7 @@ const mountMiddleware = (app, env) => {
     });
     app.use(cookieSessionMiddleware);
 
+    app.use(methodOverride('_method'));
     app.use(lastResortErrorHandler);
     app.use(primeRequestContext);
     app.use(attachLocals);

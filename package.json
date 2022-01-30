@@ -12,6 +12,7 @@
         "email-templates": "^8.0.8",
         "express": "^4.17.2",
         "knex": "^1.0.1",
+        "method-override": "^3.0.0",
         "nodemailer": "^6.7.2",
         "nodemailer-pickup-transport": "^0.1.1",
         "pg": "^8.7.1",

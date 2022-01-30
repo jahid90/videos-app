@@ -27,16 +27,20 @@ block content
     table.table.table-hover
       thead
         tr
-          th(scope="col") id
-          th(scope="col") globalPosition
-          th(scope="col") traceId
-          th(scope="col") userId
-          th(scope="col") stream name
-          th(scope="col") type
-          th(scope="col") time
+          th(scope='col') action
+          th(scope='col') id
+          th(scope='col') globalPosition
+          th(scope='col') traceId
+          th(scope='col') userId
+          th(scope='col') stream name
+          th(scope='col') type
+          th(scope='col') time)
       tbody
         each message in messages
           tr
+            td
+              form.form-inline(action=`/admin/messages/${message.id}?_method=DELETE` method='POST')
+                button.btn.btn-secondary(type='submit') delete
             td
               a(href=`/admin/messages/${message.id}`)= message.id
             td= message.globalPosition
