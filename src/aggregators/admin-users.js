@@ -1,7 +1,7 @@
 const createIdentityHandlers = ({ queries }) => {
     return {
-        Registered: (event) =>
-            queries
+        Registered: (event) => {
+            return queries
                 .ensureUser(event.data.userId)
                 .then(() =>
                     queries.setEmail(
@@ -9,17 +9,36 @@ const createIdentityHandlers = ({ queries }) => {
                         event.data.email,
                         event.globalPosition
                     )
-                ),
-
-        RegistrationEmailSent: (event) =>
-            queries
+                );
+        },
+        RegistrationEmailSent: (event) => {
+            return queries
                 .ensureUser(event.data.userId)
                 .then(() =>
                     queries.markRegistrationEmailSent(
                         event.data.userId,
                         event.globalPosition
                     )
-                ),
+                );
+        },
+        AdminPrivilegeAdded: (event) => {
+            return queries.ensureUser(event.data.userId).then(() => {
+                queries.markUserAsAdmin(
+                    event.data.userId,
+                    event.globalPosition
+                );
+            });
+        },
+        AdminPrivilegeRemoved: (event) => {
+            return queries
+                .ensureUser(event.data.userId)
+                .then(() =>
+                    queries.unmarkUserAsAdmin(
+                        event.data.userId,
+                        event.globalPosition
+                    )
+                );
+        },
     };
 };
 
@@ -41,9 +60,9 @@ const createQueries = ({ db }) => {
     const ensureUser = (id) => {
         const rawQuery = `
             INSERT INTO
-                admin_users (id)
+                admin_users (id, is_admin)
             VALUES
-                (:id)
+                (:id, false)
             ON CONFLICT DO NOTHING
         `;
 
@@ -98,7 +117,39 @@ const createQueries = ({ db }) => {
                     '<',
                     eventGlobalPosition
                 )
-                .where({ id: id })
+                .where({ id })
+        );
+    };
+
+    const markUserAsAdmin = (id, eventGlobalPosition) => {
+        return db.then((client) =>
+            client('admin_users')
+                .update({
+                    is_admin: true,
+                    last_identity_event_global_position: eventGlobalPosition,
+                })
+                .where({ id })
+                .where(
+                    'last_identity_event_global_position',
+                    '<',
+                    eventGlobalPosition
+                )
+        );
+    };
+
+    const unmarkUserAsAdmin = (id, eventGlobalPosition) => {
+        return db.then((client) =>
+            client('admin_users')
+                .update({
+                    is_admin: false,
+                    last_identity_event_global_position: eventGlobalPosition,
+                })
+                .where({ id })
+                .where(
+                    'last_identity_event_global_position',
+                    '<',
+                    eventGlobalPosition
+                )
         );
     };
 
@@ -107,6 +158,8 @@ const createQueries = ({ db }) => {
         incrementLogin,
         markRegistrationEmailSent,
         setEmail,
+        markUserAsAdmin,
+        unmarkUserAsAdmin,
     };
 };
 

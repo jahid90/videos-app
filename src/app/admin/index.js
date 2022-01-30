@@ -28,7 +28,7 @@ const createHandlers = ({ queries }) => {
         return queries
             .usersIndex()
             .then((users) =>
-                res.render('admin/templates/users-index', { users: users })
+                res.render('admin/templates/users-index', { users })
             );
     };
 

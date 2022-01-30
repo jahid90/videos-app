@@ -13,8 +13,22 @@ const createQueries = ({ db }) => {
         );
     };
 
+    const addAdminPrivilege = (id) => {
+        return db.then((client) =>
+            client('user_credentials').update({ role: 'admin' }).where({ id })
+        );
+    };
+
+    const removeAdminPrivilege = (id) => {
+        return db.then((client) =>
+            client('user_credentials').update({ role: null }).where({ id })
+        );
+    };
+
     return {
         createUserCredential,
+        addAdminPrivilege,
+        removeAdminPrivilege,
     };
 };
 
@@ -26,6 +40,12 @@ const createHandlers = ({ queries }) => {
                 event.data.email,
                 event.data.passwordHash
             );
+        },
+        AdminPrivilegeAdded: (event) => {
+            return queries.addAdminPrivilege(event.data.userId);
+        },
+        AdminPrivilegeRemoved: (event) => {
+            return queries.removeAdminPrivilege(event.data.userId);
         },
     };
 };

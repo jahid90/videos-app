@@ -9,15 +9,26 @@ block content
     table.table.table-hover
       thead
         tr
-          th(scope="col") id
-          th(scope="col") email
-          th(scope="col") login count
-          th(scope="col") registration email sent
+          th(scope='col') id
+          th(scope='col') email
+          th(scope='col') login count
+          th(scope='col') registration email sent
+          th(scope='col' colspan='2') is admin
       tbody
         each user in users
           tr
-            td(scope="col")
+            td(scope='col')
               a(href=`/admin/users/${user.id}`)= user.id
-            td(scope="col")= user.email
-            td(scope="col")= user.loginCount
-            td(scope="col")= user.registrationEmailSent ? 'yes' : 'no'
+            td(scope='col')= user.email
+            td(scope='col')= user.loginCount
+            td(scope='col')= user.registrationEmailSent ? 'yes' : 'no'
+            td(scope='col')= user.isAdmin ? 'yes' : 'no'
+            td.float-right(scope='col')
+              if user.isAdmin
+                form.form-inline(action='/users/remove-admin-privilege' method='POST')
+                  input(name='email' type='hidden' value=user.email)
+                  button.btn.btn-secondary(type='submit') Remove Privilege
+              else
+                form.form-inline(action='/users/add-admin-privilege' method='POST')
+                  input(name='email' type='hidden' value=user.email)
+                  button.btn.btn-secondary(type='submit') Add Privilege

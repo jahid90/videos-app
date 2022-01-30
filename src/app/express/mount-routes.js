@@ -11,7 +11,13 @@ const mountRoutes = (app, config) => {
         mustBeLoggedIn,
         config.creatorsPortalApp.router
     );
-    app.use('/admin', mustBeAdminUser, config.adminApp.router);
+    app.use('/admin', mustBeLoggedIn, mustBeAdminUser, config.adminApp.router);
+    app.use(
+        '/users',
+        mustBeLoggedIn,
+        mustBeAdminUser,
+        config.manageUsersApp.router
+    );
 };
 
 module.exports = mountRoutes;

@@ -7,6 +7,7 @@ const AlreadySentRegistrationEmailError = require('./already-sent-registration-e
 const loadIdentity = require('./load-identity');
 const ensureNotRegistered = require('./ensure-not-registered');
 const writeRegisteredEvent = require('./write-registered-event');
+const ensureNotAlreadyLocked = require('./ensure-not-already-locked');
 const writeAccountLockedEvent = require('./write-account-locked-event');
 const ensureRegistrationEmailNotSent = require('./ensure-registration-email-not-sent');
 const renderRegistrationEmail = require('./render-registration-email');
@@ -56,6 +57,7 @@ const createIdentityCommandHandlers = ({ messageStore }) => {
 
             return Bluebird.resolve(context)
                 .then(loadIdentity)
+                .then(ensureNotAlreadyLocked)
                 .then(writeAccountLockedEvent)
                 .catch(AlreadyLockedError, () => {});
         },
