@@ -1,4 +1,5 @@
 const mustBeLoggedIn = require('./must-be-logged-in');
+const mustBeAdminUser = require('./must-be-admin-user');
 
 const mountRoutes = (app, config) => {
     app.use('/', config.homeApp.router);
@@ -10,7 +11,7 @@ const mountRoutes = (app, config) => {
         mustBeLoggedIn,
         config.creatorsPortalApp.router
     );
-    app.use('/admin', config.adminApp.router);
+    app.use('/admin', mustBeAdminUser, config.adminApp.router);
 };
 
 module.exports = mountRoutes;
