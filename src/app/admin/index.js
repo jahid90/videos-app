@@ -3,7 +3,7 @@ const express = require('express');
 
 const MESSSAGES_PER_PAGE = 10;
 
-const renderMessages = (req, res, messages, viewName, title) => {
+const renderPaginatedMessages = (req, res, messages, viewName, title) => {
     const pageFromReq = (req.query.page && parseInt(req.query.page, 10)) || 1;
     const pages = Math.ceil(messages.length / MESSSAGES_PER_PAGE);
     const currentPage =
@@ -60,7 +60,7 @@ const createHandlers = ({ queries }) => {
         return queries
             .messages()
             .then((messages) =>
-                renderMessages(
+                renderPaginatedMessages(
                     req,
                     res,
                     messages,
@@ -75,7 +75,7 @@ const createHandlers = ({ queries }) => {
         return queries
             .correlatedMessages(traceId)
             .then((messages) =>
-                renderMessages(
+                renderPaginatedMessages(
                     req,
                     res,
                     messages,
@@ -94,7 +94,7 @@ const createHandlers = ({ queries }) => {
         return queries
             .userMessages(userId)
             .then((messages) =>
-                renderMessages(
+                renderPaginatedMessages(
                     req,
                     res,
                     messages,
@@ -110,7 +110,7 @@ const createHandlers = ({ queries }) => {
         return queries
             .streamName(streamName)
             .then((messages) =>
-                renderMessages(
+                renderPaginatedMessages(
                     req,
                     res,
                     messages,
@@ -170,7 +170,7 @@ const createHandlers = ({ queries }) => {
         return queries
             .categoryName(categoryName)
             .then((messages) =>
-                renderMessages(
+                renderPaginatedMessages(
                     req,
                     res,
                     messages,
@@ -196,7 +196,7 @@ const createHandlers = ({ queries }) => {
     };
 };
 
-const createQueries = ({ db, messageStore }) => {
+const createQueries = ({ db, messageStoreDb }) => {
     const usersIndex = () => {
         return db
             .then((client) => client('admin_users').orderBy('email', 'ASC'))
@@ -211,7 +211,7 @@ const createQueries = ({ db, messageStore }) => {
     };
 
     const userLoginEvents = (userId) => {
-        return messageStore
+        return messageStoreDb
             .query(
                 `
                 SELECT
@@ -230,7 +230,7 @@ const createQueries = ({ db, messageStore }) => {
     };
 
     const userViewingEvents = (userId) => {
-        return messageStore
+        return messageStoreDb
             .query(
                 `
                 SELECT
@@ -251,14 +251,14 @@ const createQueries = ({ db, messageStore }) => {
     };
 
     const messages = () => {
-        return messageStore
+        return messageStoreDb
             .query('SELECT * FROM messages ORDER BY global_position ASC')
             .then((res) => res.rows)
             .then(camelCaseKeys);
     };
 
     const correlatedMessages = (traceId) => {
-        return messageStore
+        return messageStoreDb
             .query(`SELECT * FROM messages WHERE metadata->>'traceId' = $1`, [
                 traceId,
             ])
@@ -267,7 +267,7 @@ const createQueries = ({ db, messageStore }) => {
     };
 
     const userMessages = (userId) => {
-        return messageStore
+        return messageStoreDb
             .query(`SELECT * from messages WHERE metadata->>'userId' = $1`, [
                 userId,
             ])
@@ -276,7 +276,7 @@ const createQueries = ({ db, messageStore }) => {
     };
 
     const streamName = (streamName) => {
-        return messageStore
+        return messageStoreDb
             .query(
                 `
                 SELECT
@@ -295,7 +295,7 @@ const createQueries = ({ db, messageStore }) => {
     };
 
     const message = (id) => {
-        return messageStore
+        return messageStoreDb
             .query('SELECT * FROM messages WHERE id = $1', [id])
             .then((res) => res.rows)
             .then(camelCaseKeys)
@@ -332,7 +332,7 @@ const createQueries = ({ db, messageStore }) => {
     };
 
     const categoryName = (categoryName) => {
-        return messageStore
+        return messageStoreDb
             .query(
                 `
                 SELECT
@@ -368,8 +368,8 @@ const createQueries = ({ db, messageStore }) => {
     };
 };
 
-const createAdminApplication = ({ db, messageStore }) => {
-    const queries = createQueries({ db, messageStore });
+const createAdminApplication = ({ db, messageStoreDb }) => {
+    const queries = createQueries({ db, messageStoreDb });
     const handlers = createHandlers({ queries });
 
     const router = express.Router();

@@ -48,7 +48,7 @@ const createConfig = ({ env }) => {
     });
     const adminApp = createAdminApp({
         db: knexClient,
-        messageStore,
+        messageStoreDb: postgresClient,
     });
 
     const homePageAggregator = createHomePageAggregator({
