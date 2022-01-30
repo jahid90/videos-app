@@ -1,3 +1,4 @@
+const Bluebird = require('bluebird');
 const camelCaseKeys = require('camelcase-keys');
 
 const createQueries = ({ db, messageStoreDb }) => {
@@ -177,6 +178,31 @@ const createQueries = ({ db, messageStoreDb }) => {
             .then(camelCaseKeys);
     };
 
+    const views = () => {
+        const views = [
+            { name: 'admin_categories' },
+            { name: 'admin_streams' },
+            { name: 'admin_subscriber_positions' },
+            { name: 'admin_users' },
+            { name: 'creators_portal_videos' },
+            { name: 'pages' },
+            { name: 'user_credentials' },
+            { name: 'video_operations' },
+        ];
+
+        return Bluebird.each(views, (view) => {
+            return db
+                .then((client) => client(view.name).count('* as count'))
+                .then((total) => {
+                    view.count = total[0].count;
+                });
+        });
+    };
+
+    const clearView = (view) => {
+        return db.then((client) => client(view).delete());
+    };
+
     return {
         usersIndex,
         user,
@@ -194,6 +220,8 @@ const createQueries = ({ db, messageStoreDb }) => {
         subscriberPositions,
         categories,
         categoryName,
+        views,
+        clearView,
     };
 };
 

@@ -1,0 +1,22 @@
+extends ./admin-layout
+
+block content
+  h1 Views
+
+  if views.length === 0
+    p There are no views.
+  else
+    table.table.table-hover
+      thead
+        tr
+          th(scope='col') action
+          th(scope='col') view
+          th(scope='col') rows
+      tbody
+        each view in views
+          tr
+            td
+              form.form-inline(action=`/admin/views/${view.name}` method='POST')
+                button.btn.btn-secondary(type='submit') clear
+            td(scope='col')= view.name
+            td(scope='col')= view.count

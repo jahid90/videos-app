@@ -181,6 +181,18 @@ const createHandlers = ({ queries }) => {
             );
     };
 
+    const handleViewsIndex = (req, res) => {
+        return queries.views().then((views) => {
+            return res.render('admin/templates/views-index', { views });
+        });
+    };
+
+    const handleClearView = (req, res) => {
+        const view = req.params.name;
+
+        return queries.clearView(view).then(() => res.redirect('/admin/views'));
+    };
+
     return {
         handleUsersIndex,
         handleShowUser,
@@ -196,6 +208,8 @@ const createHandlers = ({ queries }) => {
         handleCategoriesIndex,
         handleShowCategory,
         handleMessagesOfType,
+        handleViewsIndex,
+        handleClearView,
     };
 };
 

@@ -39,6 +39,9 @@ const createAdminApplication = ({ db, messageStoreDb }) => {
 
     router.route('/type-messages/:type').get(handlers.handleMessagesOfType);
 
+    router.route('/views').get(handlers.handleViewsIndex);
+    router.route('/views/:name').post(handlers.handleClearView);
+
     return {
         handlers,
         queries,
