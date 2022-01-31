@@ -180,6 +180,7 @@ const createQueries = ({ db, messageStoreDb }) => {
             { name: 'admin_streams' },
             { name: 'admin_subscriber_positions' },
             { name: 'admin_users' },
+            { name: 'admin_identities' },
             { name: 'creators_portal_videos' },
             { name: 'pages' },
             { name: 'user_credentials' },
