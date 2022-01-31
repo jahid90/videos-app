@@ -235,6 +235,22 @@ const createHandlers = ({ actions, queries }) => {
         });
     };
 
+    const handleIdentityMessagesIndex = (req, res) => {
+        const identityId = req.params.id;
+
+        return queries
+            .identityMessages(identityId)
+            .then((messages) =>
+                renderPaginatedMessages(
+                    req,
+                    res,
+                    messages,
+                    'admin/templates/messages-index',
+                    `Identity Messages: ${identityId}`
+                )
+            );
+    };
+
     return {
         handleUsersIndex,
         handleShowUser,
@@ -255,6 +271,7 @@ const createHandlers = ({ actions, queries }) => {
         handleDeleteAllMessages,
         handleResendMessage,
         handleIdentitiesIndex,
+        handleIdentityMessagesIndex,
     };
 };
 

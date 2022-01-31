@@ -217,6 +217,25 @@ const createQueries = ({ db, messageStoreDb }) => {
             .then(camelCaseKeys);
     };
 
+    const identityMessages = (identityId) => {
+        return messageStoreDb
+            .query(
+                `
+                SELECT
+                    *
+                FROM
+                    messages
+                WHERE
+                    stream_name LIKE $1
+                ORDER BY
+                    global_position
+            `,
+                ['%' + identityId]
+            )
+            .then((res) => res.rows)
+            .then(camelCaseKeys);
+    };
+
     return {
         usersIndex,
         user,
@@ -238,6 +257,7 @@ const createQueries = ({ db, messageStoreDb }) => {
         deleteMessage,
         deleteAllMessages,
         identities,
+        identityMessages,
     };
 };
 
