@@ -28,7 +28,7 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
 
         const updateReadPosition = (position, messageId) => {
             if (currentPosition >= position) {
-                log.warn(
+                console.warn(
                     `updating position backwards - was :${currentPosition}, now is: ${position} for [${subscriberPositionStreamName}]`
                 );
             }
@@ -73,11 +73,6 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
         };
 
         const getNextBatchOfMessages = () => {
-            // console.debug(
-            //     `fetching messages batch: [${currentPosition + 1}, ${
-            //         currentPosition + 1 + messagesPerTick
-            //     }] for [${subscriberPositionStreamName}]`
-            // );
             return read(streamName, currentPosition + 1, messagesPerTick).then(
                 filterOnOriginMatch
             );

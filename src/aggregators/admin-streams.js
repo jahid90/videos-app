@@ -1,3 +1,5 @@
+const env = require('../env');
+
 const createHandlers = ({ queries }) => {
     return {
         $any: (event) => {
@@ -36,7 +38,7 @@ const createQueries = ({ db }) => {
                 client.raw(rawQuery, { streamName, id, globalPosition })
             )
             .then((changed) => {
-                if (!changed) {
+                if (env.enableDebug && !changed) {
                     console.debug(
                         `[AdminStreamsAgg-upsertStream-${id}] skipping ${globalPosition}`
                     );

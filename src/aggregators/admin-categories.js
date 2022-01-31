@@ -1,3 +1,5 @@
+const env = require('../env');
+
 const category = (streamName) => {
     // Double equals to catch null and undefined
     if (streamName == null) {
@@ -45,7 +47,7 @@ const createQueries = ({ db }) => {
                 client.raw(rawQuery, { categoryName, id, globalPosition })
             )
             .then((changed) => {
-                if (!changed) {
+                if (env.enableDebug && !changed) {
                     console.debug(
                         `[AdminCategoriesAgg-upsertCategory-${id}] skipping ${globalPosition}`
                     );

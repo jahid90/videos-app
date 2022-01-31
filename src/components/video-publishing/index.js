@@ -1,5 +1,6 @@
 const Bluebird = require('bluebird');
 
+const env = require('../../env');
 const AlreadyPublishedError = require('./already-published-error');
 const CommandAlreadyProcessedError = require('./command-already-processed-error');
 const ValidationError = require('./validation-error');
@@ -31,9 +32,10 @@ const createHandlers = ({ messageStore }) => {
                 .then(transcodeVideo)
                 .then(writeVideoPublishedEvent)
                 .catch(AlreadyPublishedError, () => {
-                    console.debug(
-                        `[${command.streamName}] skipping command: ${command.globalPosition}`
-                    );
+                    env.enableDebug &&
+                        console.debug(
+                            `[${command.streamName}] skipping command: ${command.globalPosition}`
+                        );
                 })
                 .catch((err) => writeVideoPublishingFailedEvent(context, err));
         },
@@ -49,9 +51,10 @@ const createHandlers = ({ messageStore }) => {
                 .then(ensureNameIsValid)
                 .then(writeVideoNamedEvent)
                 .catch(CommandAlreadyProcessedError, () => {
-                    console.debug(
-                        `[${command.streamName}] skipping command: ${command.globalPosition}`
-                    );
+                    env.enableDebug &&
+                        console.debug(
+                            `[${command.streamName}] skipping command: ${command.globalPosition}`
+                        );
                 })
                 .catch(ValidationError, (err) =>
                     writeVideoNameRejectedEvent(context, err)
@@ -69,9 +72,10 @@ const createHandlers = ({ messageStore }) => {
                 .then(ensureDescriptionIsValid)
                 .then(writeVideoDescribedEvent)
                 .catch(CommandAlreadyProcessedError, () => {
-                    console.debug(
-                        `[${command.streamName}] skipping command: ${command.globalPosition}`
-                    );
+                    env.enableDebug &&
+                        console.debug(
+                            `[${command.streamName}] skipping command: ${command.globalPosition}`
+                        );
                 })
                 .catch(ValidationError, (err) =>
                     writeVideoDescriptionRejectedEvent(context, err)

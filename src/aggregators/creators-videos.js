@@ -1,3 +1,5 @@
+const env = require('../env');
+
 const videoStatuses = require('./video-statuses');
 
 const streamToEntityId = (stream) => {
@@ -75,10 +77,12 @@ const createQueries = ({ db }) => {
                 client('creators_portal_videos')
                     .where({ id })
                     .then((rows) => rows[0])
-                    .then((video) =>
-                        console.debug(
-                            `[VideosAgg-attemptingVideoNameUpdate-${video.id}] current position is ${video.position}`
-                        )
+                    .then(
+                        (video) =>
+                            env.enableDebug &&
+                            console.debug(
+                                `[VideosAgg-attemptingVideoNameUpdate-${video.id}] current position is ${video.position}`
+                            )
                     );
 
                 return client;
@@ -90,7 +94,7 @@ const createQueries = ({ db }) => {
                     .where('position', '<', position)
             )
             .then((changed) => {
-                if (!changed) {
+                if (env.enableDebug && !changed) {
                     console.debug(
                         `[VideosAgg-updateVideoName-${id}] skipping ${position}`
                     );
@@ -104,10 +108,12 @@ const createQueries = ({ db }) => {
                 client('creators_portal_videos')
                     .where({ id })
                     .then((rows) => rows[0])
-                    .then((video) =>
-                        console.debug(
-                            `[VideosAgg-attemptingVideoDescriptionUpdate-${video.id}] current position is ${video.position}`
-                        )
+                    .then(
+                        (video) =>
+                            env.enableDebug &&
+                            console.debug(
+                                `[VideosAgg-attemptingVideoDescriptionUpdate-${video.id}] current position is ${video.position}`
+                            )
                     );
 
                 return client;
@@ -119,7 +125,7 @@ const createQueries = ({ db }) => {
                     .where('position', '<', position)
             )
             .then((changed) => {
-                if (!changed) {
+                if (env.enableDebug && !changed) {
                     console.debug(
                         `[VideosAgg-updateVideoDescription-${id}] skipping ${position}`
                     );
@@ -142,7 +148,7 @@ const createQueries = ({ db }) => {
         return db
             .then((client) => client.raw(rawQuery, { id, position }))
             .then((changed) => {
-                if (!changed) {
+                if (env.enableDebug && !changed) {
                     console.debug(
                         `[VideosAgg-updateVideoViews-${id}] skipping ${position}`
                     );
@@ -162,19 +168,13 @@ const build = ({ db, messageStore }) => {
     const queries = createQueries({ db });
     const handlers = createHandlers({ queries });
     const subscription = messageStore.createSubscription({
-        streamName: 'videoPublishing',
+        streamName: ['videoPublishing', 'viewing'],
         handlers,
         subscriberId: 'aggregators:creators-videos',
-    });
-    const videoViewingSubscription = messageStore.createSubscription({
-        streamName: 'viewing',
-        handlers,
-        subscriberId: 'aggregators:video-viewing',
     });
 
     const start = () => {
         subscription.start();
-        videoViewingSubscription.start();
     };
 
     return {

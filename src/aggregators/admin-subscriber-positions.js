@@ -1,3 +1,5 @@
+const env = require('../env');
+
 const streamToSubscriberId = (stream) => {
     return stream.split(/-(.+)/)[1];
 };
@@ -53,7 +55,7 @@ const createQueries = ({ db }) => {
                 })
             )
             .then((changed) => {
-                if (!changed) {
+                if (env.enableDebug && !changed) {
                     console.debug(
                         `[AdminSubsPositionAgg-upsertPosition-${id}] skipping ${lastMessageGlobalPosition}`
                     );

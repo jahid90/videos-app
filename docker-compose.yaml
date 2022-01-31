@@ -21,6 +21,7 @@ services:
       - NODE_ENV=production
       - APP_NAME=Videos App
       - PORT=80
+      - ENABLE_DEBUG=false
       - COOKIE_SECRET=116fa7eaf3f6e7c40eedd92c
       - EMAIL_DIRECTORY=/tmp/emails
       - SYSTEM_SENDER_EMAIL_ADDRESS=noreply@videos.jahiduls.io

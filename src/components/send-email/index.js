@@ -1,6 +1,7 @@
 const Bluebird = require('bluebird');
 const { contentType } = require('express/lib/response');
 
+const env = require('../../env');
 const AlreadySentError = require('./already-sent-error');
 const SendError = require('./send-error');
 
@@ -31,9 +32,10 @@ const createHandlers = ({
                 .then(sendEmail)
                 .then(writeSentEvent)
                 .catch(AlreadySentError, () => {
-                    console.debug(
-                        `[${command.streamName}] skipping command: ${command.globalPosition}`
-                    );
+                    env.enableDebug &&
+                        console.debug(
+                            `[${command.streamName}] skipping command: ${command.globalPosition}`
+                        );
                 })
                 .catch(SendError, (err) => writeFailedEvent(context, err));
         },

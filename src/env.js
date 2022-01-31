@@ -13,6 +13,7 @@ const requireFromEnv = (key) => {
 
 module.exports = {
     appName: requireFromEnv('APP_NAME'),
+    enableDebug: requireFromEnv('ENABLE_DEBUG') === 'true',
     databaseUrl: requireFromEnv('DATABASE_CONNECTION_STRING'),
     messageStoreConnectionString: requireFromEnv(
         'MESSAGE_STORE_CONNECTION_STRING'

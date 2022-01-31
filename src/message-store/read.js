@@ -1,3 +1,5 @@
+const Bluebird = require('bluebird');
+
 const deserializeMessage = require('./deserialize-message');
 
 const getLastMessageSql = `
@@ -5,24 +7,38 @@ const getLastMessageSql = `
         *
     FROM
         get_last_stream_message($1)
-    ORDER BY
-        global_position
 `;
 const getCategoryMessagesSql = `
     SELECT
         *
     FROM
         get_category_messages($1, $2, $3)
-    ORDER BY
-        global_position
 `;
 const getStreamMessagesSql = `
     SELECT
         *
     FROM
         get_stream_messages($1, $2, $3)
+`;
+const getMultipleCategoryMessagesSql = `
+    SELECT
+        id::varchar,
+        stream_name::varchar,
+        type::varchar,
+        position::bigint,
+        global_position::bigint,
+        data::varchar,
+        metadata::varchar,
+        time::timestamp
+    FROM
+        messages
+    WHERE
+        category(stream_name) = ANY($1::varchar[])
+    AND
+        global_position >= $2
     ORDER BY
         global_position
+    LIMIT $3
 `;
 const getAllMessagesSql = `
     SELECT
@@ -37,7 +53,7 @@ const getAllMessagesSql = `
     FROM
         messages
     WHERE
-        global_position > $1
+        global_position >= $1
     ORDER BY
         global_position
     LIMIT $2
@@ -64,7 +80,18 @@ const createRead = ({ db }) => {
         let query = null;
         let values = [];
 
-        if (streamName === '$all') {
+        if (Array.isArray(streamName)) {
+            streamName.forEach((category) => {
+                if (category.includes('-')) {
+                    throw new Error(
+                        `Only categories allowed for multi-subscriptions. Got: ${category}`
+                    );
+                }
+            });
+
+            query = getMultipleCategoryMessagesSql;
+            values = [streamName, fromPosition, maxMessages];
+        } else if (streamName === '$all') {
             query = getAllMessagesSql;
             values = [fromPosition, maxMessages];
         } else if (streamName.includes('-')) {
@@ -77,7 +104,11 @@ const createRead = ({ db }) => {
 
         return db
             .query(query, values)
-            .then((res) => res.rows.map(deserializeMessage));
+            .then((res) => res.rows.map(deserializeMessage))
+            .catch((err) => {
+                console.error(err);
+                return Bluebird.resolve([]);
+            });
     };
 
     const fetch = (streamName, projection) => {

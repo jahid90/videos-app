@@ -1,5 +1,6 @@
 const Bluebird = require('bluebird');
 
+const env = require('../../env');
 const AlreadyRegisteredError = require('./already-registered-error');
 const AlreadyLockedError = require('./already-locked-error');
 const AlreadySentRegistrationEmailError = require('./already-sent-registration-email-error');
@@ -29,9 +30,10 @@ const createIdentityEventHandlers = ({ messageStore }) => {
                 .then(renderRegistrationEmail)
                 .then(writeSendCommand)
                 .catch(AlreadySentRegistrationEmailError, () => {
-                    console.debug(
-                        `[${event.streamName}] skipping event: ${event.globalPosition}`
-                    );
+                    env.enableDebug &&
+                        console.debug(
+                            `[${event.streamName}] skipping event: ${event.globalPosition}`
+                        );
                 });
         },
     };
@@ -51,9 +53,10 @@ const createIdentityCommandHandlers = ({ messageStore }) => {
                 .then(ensureNotRegistered)
                 .then(writeRegisteredEvent)
                 .catch(AlreadyRegisteredError, () => {
-                    console.debug(
-                        `[${command.streamName}] skipping command: ${command.globalPosition}`
-                    );
+                    env.enableDebug &&
+                        console.debug(
+                            `[${command.streamName}] skipping command: ${command.globalPosition}`
+                        );
                 });
         },
         LockAccount: (command) => {
@@ -68,9 +71,10 @@ const createIdentityCommandHandlers = ({ messageStore }) => {
                 .then(ensureNotAlreadyLocked)
                 .then(writeAccountLockedEvent)
                 .catch(AlreadyLockedError, () => {
-                    console.debug(
-                        `[${command.streamName}] skipping command: ${command.globalPosition}`
-                    );
+                    env.enableDebug &&
+                        console.debug(
+                            `[${command.streamName}] skipping command: ${command.globalPosition}`
+                        );
                 });
         },
     };
@@ -97,9 +101,10 @@ const createSendEmailEventHandlers = ({ messageStore }) => {
                 .then(ensureRegistrationEmailNotSent)
                 .then(writeRegistrationEmailSentEvent)
                 .catch(AlreadySentRegistrationEmailError, () => {
-                    console.debug(
-                        `[${event.streamName}] skipping event: ${event.globalPosition}`
-                    );
+                    env.enableDebug &&
+                        console.debug(
+                            `[${event.streamName}] skipping event: ${event.globalPosition}`
+                        );
                 });
         },
     };

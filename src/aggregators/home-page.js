@@ -1,3 +1,5 @@
+const env = require('../env');
+
 const createHandlers = ({ queries }) => {
     return {
         VideoViewed: (event) =>
@@ -28,7 +30,7 @@ const createQueries = ({ db }) => {
         return db
             .then((client) => client.raw(queryString, { globalPosition }))
             .then((changed) => {
-                if (!changed) {
+                if (env.enableDebug && !changed) {
                     console.debug(
                         `[HomePageAgg-incrementVideosWatched-${id}] skipping ${globalPosition}`
                     );

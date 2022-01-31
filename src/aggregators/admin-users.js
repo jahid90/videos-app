@@ -1,4 +1,6 @@
-const createIdentityHandlers = ({ queries }) => {
+const env = require('../env');
+
+const createHandlers = ({ queries }) => {
     return {
         Registered: (event) => {
             return queries
@@ -39,11 +41,6 @@ const createIdentityHandlers = ({ queries }) => {
                     )
                 );
         },
-    };
-};
-
-const createAuthenticationHandlers = ({ queries }) => {
-    return {
         UserLoggedIn: (event) =>
             queries
                 .ensureUser(event.data.userId)
@@ -89,7 +86,7 @@ const createQueries = ({ db }) => {
                 })
             )
             .then((changed) => {
-                if (!changed) {
+                if (env.enableDebug && !changed) {
                     console.debug(
                         `[AdminUsersAgg-incrementLogin-${id}] skipping ${eventGlobalPosition}`
                     );
@@ -114,7 +111,7 @@ const createQueries = ({ db }) => {
                     .where({ id: id })
             )
             .then((changed) => {
-                if (!changed) {
+                if (env.enableDebug && !changed) {
                     console.debug(
                         `[AdminUsersAgg-registrationEmailSent-${id}] skipping ${eventGlobalPosition}`
                     );
@@ -139,7 +136,7 @@ const createQueries = ({ db }) => {
                     .where({ id })
             )
             .then((changed) => {
-                if (!changed) {
+                if (env.enableDebug && !changed) {
                     console.debug(
                         `[AdminUsersAgg-setEmail-${id}] skipping ${eventGlobalPosition}`
                     );
@@ -164,7 +161,7 @@ const createQueries = ({ db }) => {
                     )
             )
             .then((changed) => {
-                if (!changed) {
+                if (env.enableDebug && !changed) {
                     console.debug(
                         `[AdminUsersAgg-adminPrivilegeAdded-${id}] skipping ${eventGlobalPosition}`
                     );
@@ -189,7 +186,7 @@ const createQueries = ({ db }) => {
                     )
             )
             .then((changed) => {
-                if (!changed) {
+                if (env.enableDebug && !changed) {
                     console.debug(
                         `[AdminUsersAgg-adminPrivilegeRemoved-${id}] skipping ${eventGlobalPosition}`
                     );
@@ -209,28 +206,19 @@ const createQueries = ({ db }) => {
 
 const build = ({ db, messageStore }) => {
     const queries = createQueries({ db });
-    const identityHandlers = createIdentityHandlers({ queries });
-    const identitySubscription = messageStore.createSubscription({
-        streamName: 'identity',
-        handlers: identityHandlers,
-        subscriberId: 'aggregators:admin-identity',
-    });
-
-    const authenticationHandlers = createAuthenticationHandlers({ queries });
-    const authenticationSubscription = messageStore.createSubscription({
-        streamName: 'authentication',
-        handlers: authenticationHandlers,
-        subscriberId: 'aggregators:admin-authentication',
+    const handlers = createHandlers({ queries });
+    const subscription = messageStore.createSubscription({
+        streamName: ['identity', 'authentication'],
+        handlers,
+        subscriberId: 'aggregators:admin-users',
     });
 
     const start = () => {
-        identitySubscription.start();
-        authenticationSubscription.start();
+        subscription.start();
     };
 
     return {
-        authenticationHandlers,
-        identityHandlers,
+        handlers,
         queries,
         start,
     };
