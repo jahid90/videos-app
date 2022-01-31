@@ -11,29 +11,35 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
         subscriberId,
         positionUpdateInterval = 100,
         originStreamName = null,
-        tickIntervalMs = 100,
+        tickIntervalMs = 10 * 1000,
     }) => {
-        const subscriberStreamName = `subscriberPosition-${subscriberId}`;
+        const subscriberPositionStreamName = `subscriberPosition-${subscriberId}`;
 
         let currentPosition = 0;
         let messagesSinceLastPositionWrite = 0;
         let keepGoing = true;
 
         const loadPosition = () => {
-            return readLastMessage(subscriberStreamName).then(
+            return readLastMessage(subscriberPositionStreamName).then(
                 (message) =>
                     (currentPosition = message ? message.data.position : 0)
             );
         };
 
         const updateReadPosition = (position, messageId) => {
+            if (currentPosition >= position) {
+                log.warn(
+                    `updating position backwards - was :${currentPosition}, now is: ${position} for [${subscriberPositionStreamName}]`
+                );
+            }
+
             currentPosition = position;
             messagesSinceLastPositionWrite += 1;
 
-            if (messagesSinceLastPositionWrite === positionUpdateInterval) {
+            if (messagesSinceLastPositionWrite >= positionUpdateInterval) {
                 messagesSinceLastPositionWrite = 0;
 
-                return writePosition(position, messageId);
+                return writePosition(currentPosition, messageId);
             }
 
             return Bluebird.resolve(true);
@@ -49,7 +55,7 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
                 },
             };
 
-            return write(subscriberStreamName, positionEvent);
+            return write(subscriberPositionStreamName, positionEvent);
         };
 
         const filterOnOriginMatch = (messages) => {
@@ -67,6 +73,11 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
         };
 
         const getNextBatchOfMessages = () => {
+            // console.debug(
+            //     `fetching messages batch: [${currentPosition + 1}, ${
+            //         currentPosition + 1 + messagesPerTick
+            //     }] for [${subscriberPositionStreamName}]`
+            // );
             return read(streamName, currentPosition + 1, messagesPerTick).then(
                 filterOnOriginMatch
             );

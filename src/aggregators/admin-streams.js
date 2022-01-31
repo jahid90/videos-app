@@ -31,9 +31,17 @@ const createQueries = ({ db }) => {
                     admin_streams.last_message_global_position < :globalPosition
         `;
 
-        return db.then((client) =>
-            client.raw(rawQuery, { streamName, id, globalPosition })
-        );
+        return db
+            .then((client) =>
+                client.raw(rawQuery, { streamName, id, globalPosition })
+            )
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[AdminStreamsAgg-upsertStream-${id}] skipping ${globalPosition}`
+                    );
+                }
+            });
     };
 
     return { upsertStream };

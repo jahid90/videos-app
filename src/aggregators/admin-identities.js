@@ -40,9 +40,17 @@ const createQueries = ({ db }) => {
                     admin_identities.last_message_global_position < :globalPosition
         `;
 
-        return db.then((client) =>
-            client.raw(rawQuery, { name, id, globalPosition })
-        );
+        return db
+            .then((client) =>
+                client.raw(rawQuery, { name, id, globalPosition })
+            )
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[AdminIdentitiesAgg-upsertIdentity-${id}] skipping ${globalPosition}`
+                    );
+                }
+            });
     };
 
     return { upsertIdentity };

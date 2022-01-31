@@ -25,7 +25,15 @@ const createQueries = ({ db }) => {
                 (page_data->>'lastViewProcessed')::int < :globalPosition
         `;
 
-        return db.then((client) => client.raw(queryString, { globalPosition }));
+        return db
+            .then((client) => client.raw(queryString, { globalPosition }))
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[HomePageAgg-incrementVideosWatched-${id}] skipping ${globalPosition}`
+                    );
+                }
+            });
     };
 
     const ensureHomePage = () => {

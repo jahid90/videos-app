@@ -30,7 +30,11 @@ const createHandlers = ({ messageStore }) => {
                 .then(ensurePublishingNotAttempted)
                 .then(transcodeVideo)
                 .then(writeVideoPublishedEvent)
-                .catch(AlreadyPublishedError, () => {})
+                .catch(AlreadyPublishedError, () => {
+                    console.debug(
+                        `[${command.streamName}] skipping command: ${command.globalPosition}`
+                    );
+                })
                 .catch((err) => writeVideoPublishingFailedEvent(context, err));
         },
         NameVideo: (command) => {
@@ -44,7 +48,11 @@ const createHandlers = ({ messageStore }) => {
                 .then(ensureCommandHasNotBeenProcessed)
                 .then(ensureNameIsValid)
                 .then(writeVideoNamedEvent)
-                .catch(CommandAlreadyProcessedError, () => {})
+                .catch(CommandAlreadyProcessedError, () => {
+                    console.debug(
+                        `[${command.streamName}] skipping command: ${command.globalPosition}`
+                    );
+                })
                 .catch(ValidationError, (err) =>
                     writeVideoNameRejectedEvent(context, err)
                 );
@@ -60,7 +68,11 @@ const createHandlers = ({ messageStore }) => {
                 .then(ensureCommandHasNotBeenProcessed)
                 .then(ensureDescriptionIsValid)
                 .then(writeVideoDescribedEvent)
-                .catch(CommandAlreadyProcessedError, () => {})
+                .catch(CommandAlreadyProcessedError, () => {
+                    console.debug(
+                        `[${command.streamName}] skipping command: ${command.globalPosition}`
+                    );
+                })
                 .catch(ValidationError, (err) =>
                     writeVideoDescriptionRejectedEvent(context, err)
                 );

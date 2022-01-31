@@ -28,7 +28,11 @@ const createIdentityEventHandlers = ({ messageStore }) => {
                 .then(ensureRegistrationEmailNotSent)
                 .then(renderRegistrationEmail)
                 .then(writeSendCommand)
-                .catch(AlreadySentRegistrationEmailError, () => {});
+                .catch(AlreadySentRegistrationEmailError, () => {
+                    console.debug(
+                        `[${event.streamName}] skipping event: ${event.globalPosition}`
+                    );
+                });
         },
     };
 };
@@ -46,7 +50,11 @@ const createIdentityCommandHandlers = ({ messageStore }) => {
                 .then(loadIdentity)
                 .then(ensureNotRegistered)
                 .then(writeRegisteredEvent)
-                .catch(AlreadyRegisteredError, () => {});
+                .catch(AlreadyRegisteredError, () => {
+                    console.debug(
+                        `[${command.streamName}] skipping command: ${command.globalPosition}`
+                    );
+                });
         },
         LockAccount: (command) => {
             const context = {
@@ -59,7 +67,11 @@ const createIdentityCommandHandlers = ({ messageStore }) => {
                 .then(loadIdentity)
                 .then(ensureNotAlreadyLocked)
                 .then(writeAccountLockedEvent)
-                .catch(AlreadyLockedError, () => {});
+                .catch(AlreadyLockedError, () => {
+                    console.debug(
+                        `[${command.streamName}] skipping command: ${command.globalPosition}`
+                    );
+                });
         },
     };
 };
@@ -84,7 +96,11 @@ const createSendEmailEventHandlers = ({ messageStore }) => {
                 .then(loadIdentity)
                 .then(ensureRegistrationEmailNotSent)
                 .then(writeRegistrationEmailSentEvent)
-                .catch(AlreadySentRegistrationEmailError, () => {});
+                .catch(AlreadySentRegistrationEmailError, () => {
+                    console.debug(
+                        `[${event.streamName}] skipping event: ${event.globalPosition}`
+                    );
+                });
         },
     };
 };

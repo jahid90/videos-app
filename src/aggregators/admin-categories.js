@@ -40,9 +40,17 @@ const createQueries = ({ db }) => {
                     admin_categories.last_message_global_position < :globalPosition
         `;
 
-        return db.then((client) =>
-            client.raw(rawQuery, { categoryName, id, globalPosition })
-        );
+        return db
+            .then((client) =>
+                client.raw(rawQuery, { categoryName, id, globalPosition })
+            )
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[AdminCategoriesAgg-upsertCategory-${id}] skipping ${globalPosition}`
+                    );
+                }
+            });
     };
 
     return { upsertCategory };

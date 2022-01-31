@@ -30,7 +30,11 @@ const createHandlers = ({
                 .then(ensureEmailHasNotBeenSent)
                 .then(sendEmail)
                 .then(writeSentEvent)
-                .catch(AlreadySentError, () => {})
+                .catch(AlreadySentError, () => {
+                    console.debug(
+                        `[${command.streamName}] skipping command: ${command.globalPosition}`
+                    );
+                })
                 .catch(SendError, (err) => writeFailedEvent(context, err));
         },
     };

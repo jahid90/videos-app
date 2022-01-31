@@ -43,14 +43,22 @@ const createQueries = ({ db }) => {
                     admin_subscriber_positions.last_message_global_position < :lastMessageGlobalPosition
         `;
 
-        return db.then((client) =>
-            client.raw(rawQuery, {
-                subscriberId,
-                position,
-                lastMessageGlobalPosition,
-                lastMessageId,
-            })
-        );
+        return db
+            .then((client) =>
+                client.raw(rawQuery, {
+                    subscriberId,
+                    position,
+                    lastMessageGlobalPosition,
+                    lastMessageId,
+                })
+            )
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[AdminSubsPositionAgg-upsertPosition-${id}] skipping ${lastMessageGlobalPosition}`
+                    );
+                }
+            });
     };
 
     return { upsertPosition };

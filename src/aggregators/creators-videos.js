@@ -70,21 +70,61 @@ const createQueries = ({ db }) => {
     };
 
     const updateVideoName = (id, position, name) => {
-        return db.then((client) =>
-            client('creators_portal_videos')
-                .update({ name, position })
-                .where({ id })
-                .where('position', '<', position)
-        );
+        return db
+            .then((client) => {
+                client('creators_portal_videos')
+                    .where({ id })
+                    .then((rows) => rows[0])
+                    .then((video) =>
+                        console.debug(
+                            `[VideosAgg-attemptingVideoNameUpdate-${video.id}] current position is ${video.position}`
+                        )
+                    );
+
+                return client;
+            })
+            .then((client) =>
+                client('creators_portal_videos')
+                    .update({ name, position })
+                    .where({ id })
+                    .where('position', '<', position)
+            )
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[VideosAgg-updateVideoName-${id}] skipping ${position}`
+                    );
+                }
+            });
     };
 
     const updateVideoDescription = (id, position, description) => {
-        return db.then((client) =>
-            client('creators_portal_videos')
-                .update({ description, position })
-                .where({ id })
-                .where('position', '<', position)
-        );
+        return db
+            .then((client) => {
+                client('creators_portal_videos')
+                    .where({ id })
+                    .then((rows) => rows[0])
+                    .then((video) =>
+                        console.debug(
+                            `[VideosAgg-attemptingVideoDescriptionUpdate-${video.id}] current position is ${video.position}`
+                        )
+                    );
+
+                return client;
+            })
+            .then((client) =>
+                client('creators_portal_videos')
+                    .update({ description, position })
+                    .where({ id })
+                    .where('position', '<', position)
+            )
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[VideosAgg-updateVideoDescription-${id}] skipping ${position}`
+                    );
+                }
+            });
     };
 
     const updateVideoViews = (id, position) => {
@@ -99,7 +139,15 @@ const createQueries = ({ db }) => {
                 position < :position
         `;
 
-        return db.then((client) => client.raw(rawQuery, { id, position }));
+        return db
+            .then((client) => client.raw(rawQuery, { id, position }))
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[VideosAgg-updateVideoViews-${id}] skipping ${position}`
+                    );
+                }
+            });
     };
 
     return {

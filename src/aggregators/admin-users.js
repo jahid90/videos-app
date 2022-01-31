@@ -81,76 +81,120 @@ const createQueries = ({ db }) => {
                 last_authentication_event_global_position < :eventGlobalPosition
         `;
 
-        return db.then((client) =>
-            client.raw(rawQuery, {
-                id: id,
-                eventGlobalPosition: eventGlobalPosition,
-            })
-        );
+        return db
+            .then((client) =>
+                client.raw(rawQuery, {
+                    id: id,
+                    eventGlobalPosition: eventGlobalPosition,
+                })
+            )
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[AdminUsersAgg-incrementLogin-${id}] skipping ${eventGlobalPosition}`
+                    );
+                }
+            });
     };
 
     const markRegistrationEmailSent = (id, eventGlobalPosition) => {
-        return db.then((client) =>
-            client('admin_users')
-                .update({
-                    registration_email_sent: true,
-                    last_identity_event_global_position: eventGlobalPosition,
-                })
-                .where(
-                    'last_identity_event_global_position',
-                    '<',
-                    eventGlobalPosition
-                )
-                .where({ id: id })
-        );
+        return db
+            .then((client) =>
+                client('admin_users')
+                    .update({
+                        registration_email_sent: true,
+                        last_identity_event_global_position:
+                            eventGlobalPosition,
+                    })
+                    .where(
+                        'last_identity_event_global_position',
+                        '<',
+                        eventGlobalPosition
+                    )
+                    .where({ id: id })
+            )
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[AdminUsersAgg-registrationEmailSent-${id}] skipping ${eventGlobalPosition}`
+                    );
+                }
+            });
     };
 
     const setEmail = (id, email, eventGlobalPosition) => {
-        return db.then((client) =>
-            client('admin_users')
-                .update({
-                    email: email,
-                    last_identity_event_global_position: eventGlobalPosition,
-                })
-                .where(
-                    'last_identity_event_global_position',
-                    '<',
-                    eventGlobalPosition
-                )
-                .where({ id })
-        );
+        return db
+            .then((client) =>
+                client('admin_users')
+                    .update({
+                        email: email,
+                        last_identity_event_global_position:
+                            eventGlobalPosition,
+                    })
+                    .where(
+                        'last_identity_event_global_position',
+                        '<',
+                        eventGlobalPosition
+                    )
+                    .where({ id })
+            )
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[AdminUsersAgg-setEmail-${id}] skipping ${eventGlobalPosition}`
+                    );
+                }
+            });
     };
 
     const markUserAsAdmin = (id, eventGlobalPosition) => {
-        return db.then((client) =>
-            client('admin_users')
-                .update({
-                    is_admin: true,
-                    last_identity_event_global_position: eventGlobalPosition,
-                })
-                .where({ id })
-                .where(
-                    'last_identity_event_global_position',
-                    '<',
-                    eventGlobalPosition
-                )
-        );
+        return db
+            .then((client) =>
+                client('admin_users')
+                    .update({
+                        is_admin: true,
+                        last_identity_event_global_position:
+                            eventGlobalPosition,
+                    })
+                    .where({ id })
+                    .where(
+                        'last_identity_event_global_position',
+                        '<',
+                        eventGlobalPosition
+                    )
+            )
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[AdminUsersAgg-adminPrivilegeAdded-${id}] skipping ${eventGlobalPosition}`
+                    );
+                }
+            });
     };
 
     const unmarkUserAsAdmin = (id, eventGlobalPosition) => {
-        return db.then((client) =>
-            client('admin_users')
-                .update({
-                    is_admin: false,
-                    last_identity_event_global_position: eventGlobalPosition,
-                })
-                .where({ id })
-                .where(
-                    'last_identity_event_global_position',
-                    '<',
-                    eventGlobalPosition
-                )
-        );
+        return db
+            .then((client) =>
+                client('admin_users')
+                    .update({
+                        is_admin: false,
+                        last_identity_event_global_position:
+                            eventGlobalPosition,
+                    })
+                    .where({ id })
+                    .where(
+                        'last_identity_event_global_position',
+                        '<',
+                        eventGlobalPosition
+                    )
+            )
+            .then((changed) => {
+                if (!changed) {
+                    console.debug(
+                        `[AdminUsersAgg-adminPrivilegeRemoved-${id}] skipping ${eventGlobalPosition}`
+                    );
+                }
+            });
     };
 
     return {
