@@ -1,0 +1,21 @@
+extends ./admin-layout
+
+block content
+  h1 Videos
+
+  if videos.length === 0
+    p There are no videos. Upload some!
+  else
+    table.table.table-hover
+      thead
+        tr
+          th(scope='col') name
+          th(scope='col') description
+          th(scope='col') views
+      tbody
+        each video in videos
+          tr
+            td(scope='col')
+              a(href=`/admin/videos/${video.id}`)= video.name
+            td(scope='col')= video.description
+            td(scope='col')= video.views

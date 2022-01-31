@@ -109,6 +109,12 @@ const createQueries = ({ db, messageStoreDb }) => {
             .then((rows) => rows[0]);
     };
 
+    const videos = () => {
+        return db
+            .then((client) => client('creators_portal_videos'))
+            .then(camelCaseKeys);
+    };
+
     const video = (id) => {
         return db
             .then((client) => client('creators_portal_videos').where({ id }))
@@ -234,6 +240,7 @@ const createQueries = ({ db, messageStoreDb }) => {
         userMessages,
         streamName,
         message,
+        videos,
         video,
         streams,
         subscriberPositions,

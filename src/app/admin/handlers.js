@@ -132,6 +132,14 @@ const createHandlers = ({ actions, queries }) => {
             );
     };
 
+    const handleVideosIndex = (req, res) => {
+        return queries
+            .videos()
+            .then((videos) =>
+                res.render('admin/templates/videos-index', { videos })
+            );
+    };
+
     const handleShowVideo = (req, res) => {
         const videoId = req.params.id;
 
@@ -284,6 +292,7 @@ const createHandlers = ({ actions, queries }) => {
         handleUserMessagesIndex,
         handleShowStream,
         handleShowMessage,
+        handleVideosIndex,
         handleShowVideo,
         handleStreamsIndex,
         handleSubscriberPositions,
