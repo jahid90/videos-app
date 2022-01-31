@@ -1,6 +1,6 @@
 const env = require('../env');
 
-const identity = (streamName) => {
+const entity = (streamName) => {
     // Double equals to catch null and undefined
     if (streamName == null) {
         return '';
@@ -12,8 +12,8 @@ const identity = (streamName) => {
 const createHandlers = ({ queries }) => {
     return {
         $any: (event) => {
-            return queries.upsertIdentity(
-                identity(event.streamName),
+            return queries.upsertEntity(
+                entity(event.streamName),
                 event.id,
                 event.globalPosition
             );
@@ -22,7 +22,7 @@ const createHandlers = ({ queries }) => {
 };
 
 const createQueries = ({ db }) => {
-    const upsertIdentity = (name, id, globalPosition) => {
+    const upsertEntity = (name, id, globalPosition) => {
         const rawQuery = `
             INSERT INTO
                 admin_identities (
@@ -55,7 +55,7 @@ const createQueries = ({ db }) => {
             });
     };
 
-    return { upsertIdentity };
+    return { upsertEntity };
 };
 
 const build = ({ db, messageStore }) => {
@@ -64,7 +64,7 @@ const build = ({ db, messageStore }) => {
     const subscription = messageStore.createSubscription({
         streamName: '$all',
         handlers: handlers,
-        subscriberId: 'aggregators:admin-identities',
+        subscriberId: 'aggregators:admin-entities',
     });
 
     const start = () => {

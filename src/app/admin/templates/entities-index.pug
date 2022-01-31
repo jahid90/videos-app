@@ -3,7 +3,7 @@ extends ./admin-layout
 block content
   h1 Entities
 
-  if identities.length === 0
+  if entities.length === 0
     p There are no entities. Create some messages!
   else
     table.table.table-hover
@@ -13,10 +13,10 @@ block content
           th(scope='col') Message Count
           th(scope='col') Last Message Global ID
       tbody
-        each identity in identities
+        each entity in entities
           tr
             td(scope='col')
-              a(href=`/admin/identities/${identity.id}`)= identity.id
-            td(scope='col')= identity.messageCount
+              a(href=`/admin/entities/${entity.id}`)= entity.id
+            td(scope='col')= entity.messageCount
             td(scope='col')
-              a(href=`/admin/messages/${identity.lastMessageId}`)= identity.lastMessageGlobalPosition
+              a(href=`/admin/messages/${entity.lastMessageId}`)= entity.lastMessageGlobalPosition

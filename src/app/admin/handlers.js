@@ -264,26 +264,26 @@ const createHandlers = ({ actions, queries }) => {
             );
     };
 
-    const handleIdentitiesIndex = (req, res) => {
-        return queries.identities().then((identities) => {
-            return res.render('admin/templates/identities-index', {
-                identities,
+    const handleEntitiesIndex = (req, res) => {
+        return queries.entities().then((entities) => {
+            return res.render('admin/templates/entities-index', {
+                entities,
             });
         });
     };
 
-    const handleIdentityMessagesIndex = (req, res) => {
-        const identityId = req.params.id;
+    const handleEntityMessagesIndex = (req, res) => {
+        const entityId = req.params.id;
 
         return queries
-            .identityMessages(identityId)
+            .entityMessages(entityId)
             .then((messages) =>
                 renderPaginatedMessages(
                     req,
                     res,
                     messages,
                     'admin/templates/messages-index',
-                    `Identity Messages: ${identityId}`
+                    `Entity Messages: ${entityId}`
                 )
             );
     };
@@ -308,8 +308,8 @@ const createHandlers = ({ actions, queries }) => {
         handleDeleteMessage,
         handleDeleteAllMessages,
         handleResendMessage,
-        handleIdentitiesIndex,
-        handleIdentityMessagesIndex,
+        handleEntitiesIndex,
+        handleEntityMessagesIndex,
     };
 };
 

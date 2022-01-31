@@ -20,7 +20,7 @@ const createAdminUsersAggregator = require('./aggregators/admin-users');
 const createAdminStreamsAggregator = require('./aggregators/admin-streams');
 const createAdminCategoriesAggregator = require('./aggregators/admin-categories');
 const createAdminSubscriberPositionsAggregator = require('./aggregators/admin-subscriber-positions');
-const createAdminIdentitiesAggregator = require('./aggregators/admin-identities');
+const createAdminEntitiesAggregator = require('./aggregators/admin-entities');
 
 const createIdentityComponent = require('./components/identity');
 const createSendEmailComponent = require('./components/send-email');
@@ -91,7 +91,7 @@ const createConfig = ({ env }) => {
             db: knexClient,
             messageStore,
         });
-    const adminIdentitiesAggregator = createAdminIdentitiesAggregator({
+    const adminEntitiesAggregator = createAdminEntitiesAggregator({
         db: knexClient,
         messageStore,
     });
@@ -105,7 +105,7 @@ const createConfig = ({ env }) => {
         adminStreamsAggregator,
         adminCategoriesAggregator,
         adminSubscriberPositionsAggregator,
-        adminIdentitiesAggregator,
+        adminEntitiesAggregator,
     ];
 
     const identityComponent = createIdentityComponent({ messageStore });

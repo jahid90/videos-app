@@ -225,13 +225,13 @@ const createQueries = ({ db, messageStoreDb }) => {
         });
     };
 
-    const identities = () => {
+    const entities = () => {
         return db
             .then((client) => client('admin_identities').orderBy('id', 'ASC'))
             .then(camelCaseKeys);
     };
 
-    const identityMessages = (identityId) => {
+    const entityMessages = (identityId) => {
         return messageStoreDb
             .query(
                 `
@@ -269,8 +269,8 @@ const createQueries = ({ db, messageStoreDb }) => {
         categories,
         categoryName,
         views,
-        identities,
-        identityMessages,
+        entities,
+        entityMessages,
     };
 };
 

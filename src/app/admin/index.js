@@ -53,8 +53,8 @@ const createAdminApplication = ({ db, messageStoreDb, messageStore }) => {
     router.route('/views').get(handlers.handleViewsIndex);
     router.route('/views/:name').post(handlers.handleClearView);
 
-    router.route('/identities').get(handlers.handleIdentitiesIndex);
-    router.route('/identities/:id').get(handlers.handleIdentityMessagesIndex);
+    router.route('/entities').get(handlers.handleEntitiesIndex);
+    router.route('/entities/:id').get(handlers.handleEntityMessagesIndex);
 
     return {
         handlers,
