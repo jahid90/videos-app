@@ -4,6 +4,19 @@ block content
   h1 User - #{user.email}
 
   div
+    h2 Login Activity
+
+    if loginEvents.length === 0
+      p.card-text No login activity
+    else
+      table.table
+        tbody
+          for loginEvent in loginEvents
+            tr
+              td
+                a(href=`/admin/messages/${loginEvent.id}`)= loginEvent.type
+              td= loginEvent.time
+  div
     h2 Viewing Activity
 
     if viewingEvents.length === 0
@@ -18,13 +31,16 @@ block content
               td= viewingEvent.time
 
   div
-    h2 Login Activity
-    if loginEvents.length === 0
-      p.card-text No login activity
+    h2 Creator Activity
+
+    if creatorEvents.length === 0
+      p.card-text No creator activity
     else
       table.table
         tbody
-          for loginEvent in loginEvents
+          for creatorEvent in creatorEvents
             tr
-              td= loginEvent.type
-              td= loginEvent.time
+              td
+                a(href=`/admin/messages/${creatorEvent.id}`)= creatorEvent.type
+              td= creatorEvent.data.videoId
+              td= creatorEvent.time
