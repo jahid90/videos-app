@@ -9,9 +9,9 @@ block content
     table.table.table-hover
       thead
         tr
-          th(scope='col') id
-          th(scope='col') message count
-          th(scope='col') last message id
+          th(scope='col') ID
+          th(scope='col') Message Count
+          th(scope='col') Last Message Global ID
       tbody
         each identity in identities
           tr
@@ -19,4 +19,4 @@ block content
               a(href=`/admin/identities/${identity.id}`)= identity.id
             td(scope='col')= identity.messageCount
             td(scope='col')
-              a(href=`/admin/messages/${identity.lastMessageId}`)= identity.lastMessageId
+              a(href=`/admin/messages/${identity.lastMessageId}`)= identity.lastMessageGlobalPosition

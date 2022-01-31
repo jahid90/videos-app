@@ -18,7 +18,10 @@ const createActions = ({ db, messageStore, messageStoreDb }) => {
                 const messageCopy = {
                     id: uuid(),
                     type: message.type,
-                    metadata: message.metadata || {},
+                    metadata: {
+                        ...message.metadata,
+                        originMessageId: message.id,
+                    },
                     data: message.data || {},
                 };
 
