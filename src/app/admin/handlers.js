@@ -227,6 +227,14 @@ const createHandlers = ({ actions, queries }) => {
             );
     };
 
+    const handleIdentitiesIndex = (req, res) => {
+        return queries.identities().then((identities) => {
+            return res.render('admin/templates/identities-index', {
+                identities,
+            });
+        });
+    };
+
     return {
         handleUsersIndex,
         handleShowUser,
@@ -246,6 +254,7 @@ const createHandlers = ({ actions, queries }) => {
         handleDeleteMessage,
         handleDeleteAllMessages,
         handleResendMessage,
+        handleIdentitiesIndex,
     };
 };
 

@@ -211,6 +211,12 @@ const createQueries = ({ db, messageStoreDb }) => {
         });
     };
 
+    const identities = () => {
+        return db
+            .then((client) => client('admin_identities'))
+            .then(camelCaseKeys);
+    };
+
     return {
         usersIndex,
         user,
@@ -231,6 +237,7 @@ const createQueries = ({ db, messageStoreDb }) => {
         clearView,
         deleteMessage,
         deleteAllMessages,
+        identities,
     };
 };
 

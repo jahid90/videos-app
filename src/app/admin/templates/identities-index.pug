@@ -1,0 +1,22 @@
+extends ./admin-layout
+
+block content
+  h1 Identities
+
+  if identities.length === 0
+    p There are no identities. Create some messages!
+  else
+    table.table.table-hover
+      thead
+        tr
+          th(scope='col') id
+          th(scope='col') message count
+          th(scope='col') last message id
+      tbody
+        each identity in identities
+          tr
+            td(scope='col')
+              a(href=`/admin/identities/${identity.id}`)= identity.id
+            td(scope='col')= identity.messageCount
+            td(scope='col')
+              a(href=`/admin/messages/${identity.lastMessageId}`)= identity.lastMessageId
