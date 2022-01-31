@@ -64,18 +64,20 @@ const createQueries = ({ db, messageStoreDb }) => {
 
     const correlatedMessages = (traceId) => {
         return messageStoreDb
-            .query(`SELECT * FROM messages WHERE metadata->>'traceId' = $1`, [
-                traceId,
-            ])
+            .query(
+                `SELECT * FROM messages WHERE metadata->>'traceId' = $1 ORDER BY global_position ASC`,
+                [traceId]
+            )
             .then((res) => res.rows)
             .then(camelCaseKeys);
     };
 
     const userMessages = (userId) => {
         return messageStoreDb
-            .query(`SELECT * from messages WHERE metadata->>'userId' = $1`, [
-                userId,
-            ])
+            .query(
+                `SELECT * from messages WHERE metadata->>'userId' = $1 ORDER BY global_position ASC`,
+                [userId]
+            )
             .then((res) => res.rows)
             .then(camelCaseKeys);
     };
@@ -177,10 +179,10 @@ const createQueries = ({ db, messageStoreDb }) => {
     const views = () => {
         const views = [
             { name: 'admin_categories' },
+            { name: 'admin_identities' },
             { name: 'admin_streams' },
             { name: 'admin_subscriber_positions' },
             { name: 'admin_users' },
-            { name: 'admin_identities' },
             { name: 'creators_portal_videos' },
             { name: 'pages' },
             { name: 'user_credentials' },
@@ -196,25 +198,9 @@ const createQueries = ({ db, messageStoreDb }) => {
         });
     };
 
-    const clearView = (view) => {
-        return db.then((client) => client(view).delete());
-    };
-
-    const deleteMessage = (id) => {
-        return messageStoreDb.query('DELETE FROM messages WHERE id = $1', [id]);
-    };
-
-    const deleteAllMessages = (ids) => {
-        return Bluebird.each(ids, (id) => {
-            return messageStoreDb.query('DELETE FROM messages WHERE id = $1', [
-                id,
-            ]);
-        });
-    };
-
     const identities = () => {
         return db
-            .then((client) => client('admin_identities'))
+            .then((client) => client('admin_identities').orderBy('id', 'ASC'))
             .then(camelCaseKeys);
     };
 
@@ -254,9 +240,6 @@ const createQueries = ({ db, messageStoreDb }) => {
         categories,
         categoryName,
         views,
-        clearView,
-        deleteMessage,
-        deleteAllMessages,
         identities,
         identityMessages,
     };

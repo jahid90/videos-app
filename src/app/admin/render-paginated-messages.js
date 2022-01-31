@@ -1,5 +1,23 @@
 const MESSSAGES_PER_PAGE = 10;
 
+const category = (streamName) => {
+    // Double equals to catch null and undefined
+    if (streamName == null) {
+        return '';
+    }
+
+    return streamName.split('-')[0];
+};
+
+const identityId = (streamName) => {
+    // Double equals to catch null and undefined
+    if (streamName == null) {
+        return '';
+    }
+
+    return streamName.split(/-(.+)/)[1];
+};
+
 const trim = (list) => {
     const result = [];
 
@@ -30,10 +48,15 @@ const renderPaginatedMessages = (req, res, messages, viewName, title) => {
     const currentPage =
         pageFromReq < 1 ? 1 : pageFromReq > pages ? pages : pageFromReq;
     const startIndex = (currentPage - 1) * MESSSAGES_PER_PAGE;
-    const filtered = messages.slice(
-        startIndex,
-        startIndex + MESSSAGES_PER_PAGE
-    );
+    const filtered = messages
+        .slice(startIndex, startIndex + MESSSAGES_PER_PAGE)
+        .map((message) => {
+            return {
+                ...message,
+                category: category(message.streamName),
+                identityId: identityId(message.streamName),
+            };
+        });
 
     const condensedPages = trim(condense(pages, currentPage));
 

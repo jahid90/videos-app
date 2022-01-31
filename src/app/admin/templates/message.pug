@@ -12,7 +12,7 @@ block content
           th(scope="row") id
           td= message.id
         tr
-          th(scope="row") globalPosition
+          th(scope="row") global position
           td= message.globalPosition
         tr
           th(scope="row") traceId
@@ -26,6 +26,14 @@ block content
           th(scope="row") stream name
           td
             a(href=`/admin/streams/${message.streamName}`)= message.streamName
+        tr
+          th(scope="row") category name
+          td
+            a(href=`/admin/categories/${message.category}`)= message.category
+        tr
+          th(scope="row") identity id
+          td
+            a(href=`/admin/identities/${message.identityId}`)= message.identityId
         tr
           th(scope="row") type
           td= message.type

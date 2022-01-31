@@ -38,6 +38,8 @@ block content
           th(scope='col') traceId
           th(scope='col') userId
           th(scope='col') stream name
+          th(scope='col') category
+          th(scope='col') identity id
           th(scope='col') type
           th(scope='col') time)
       tbody
@@ -58,6 +60,10 @@ block content
               a(href=`/admin/user-messages/${message.metadata && message.metadata.userId}`)= message.metadata && message.metadata.userId
             td
               a(href=`/admin/streams/${message.streamName}`)= message.streamName
+            td
+              a(href=`/admin/categories/${message.category}`)= message.category
+            td
+              a(href=`/admin/identities/${message.identityId}`)= message.identityId
             td
               a(href=`/admin/type-messages/${message.type}`)= message.type
             td= message.time

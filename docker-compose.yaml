@@ -25,7 +25,7 @@ services:
       - EMAIL_DIRECTORY=/tmp/emails
       - SYSTEM_SENDER_EMAIL_ADDRESS=noreply@videos.jahiduls.io
       - DATABASE_CONNECTION_STRING=postgres://practical_microservices:password@postgres.jahiduls.io:5432/practical_microservices
-      - MESSAGE_STORE_CONNECTION_STRING=postgres://practical_microservices:password@messagedb.jahiduls.io:54320/message_store
+      - MESSAGE_STORE_CONNECTION_STRING=postgres://message_store:password@messagedb.jahiduls.io:54320/message_store
 
     expose:
       - 80

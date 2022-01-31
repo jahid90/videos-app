@@ -2,6 +2,24 @@ const url = require('url');
 
 const renderPaginatedMessages = require('./render-paginated-messages');
 
+const category = (streamName) => {
+    // Double equals to catch null and undefined
+    if (streamName == null) {
+        return '';
+    }
+
+    return streamName.split('-')[0];
+};
+
+const identityId = (streamName) => {
+    // Double equals to catch null and undefined
+    if (streamName == null) {
+        return '';
+    }
+
+    return streamName.split(/-(.+)/)[1];
+};
+
 const createHandlers = ({ actions, queries }) => {
     const handleUsersIndex = (req, res) => {
         return queries
@@ -102,6 +120,13 @@ const createHandlers = ({ actions, queries }) => {
 
         return queries
             .message(messageId)
+            .then((message) => {
+                return {
+                    ...message,
+                    category: category(message.streamName),
+                    identityId: identityId(message.streamName),
+                };
+            })
             .then((message) =>
                 res.render('admin/templates/message', { message })
             );
@@ -184,7 +209,7 @@ const createHandlers = ({ actions, queries }) => {
         const referrer = req.get('referrer');
         const parsed = new URL(referrer);
 
-        return queries
+        return actions
             .clearView(view)
             .then(() =>
                 res.redirect(`${parsed.pathname}${parsed.search}${parsed.hash}`)
@@ -196,7 +221,7 @@ const createHandlers = ({ actions, queries }) => {
         const referrer = req.get('referrer');
         const parsed = new URL(referrer);
 
-        return queries
+        return actions
             .deleteMessage(messageId)
             .then(() =>
                 res.redirect(`${parsed.pathname}${parsed.search}${parsed.hash}`)
@@ -208,7 +233,7 @@ const createHandlers = ({ actions, queries }) => {
         const referrer = req.get('referrer');
         const parsed = new URL(referrer);
 
-        return queries
+        return actions
             .deleteAllMessages(ids)
             .then(() =>
                 res.redirect(`${parsed.pathname}${parsed.search}${parsed.hash}`)

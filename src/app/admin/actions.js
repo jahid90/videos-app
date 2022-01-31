@@ -1,3 +1,4 @@
+const Bluebird = require('bluebird');
 const camelcaseKeys = require('camelcase-keys');
 const { v4: uuid } = require('uuid');
 
@@ -25,8 +26,27 @@ const createActions = ({ db, messageStore, messageStoreDb }) => {
             });
     };
 
+    const clearView = (view) => {
+        return db.then((client) => client(view).delete());
+    };
+
+    const deleteMessage = (id) => {
+        return messageStoreDb.query('DELETE FROM messages WHERE id = $1', [id]);
+    };
+
+    const deleteAllMessages = (ids) => {
+        return Bluebird.each(ids, (id) => {
+            return messageStoreDb.query('DELETE FROM messages WHERE id = $1', [
+                id,
+            ]);
+        });
+    };
+
     return {
         resendMessage,
+        clearView,
+        deleteMessage,
+        deleteAllMessages,
     };
 };
 
