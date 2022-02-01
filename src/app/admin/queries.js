@@ -206,6 +206,7 @@ const createQueries = ({ db, messageStoreDb }) => {
     const views = () => {
         const views = [
             { name: 'admin_categories' },
+            { name: 'admin_event_types' },
             { name: 'admin_identities' },
             { name: 'admin_streams' },
             { name: 'admin_subscriber_positions' },
@@ -250,6 +251,16 @@ const createQueries = ({ db, messageStoreDb }) => {
             .then(camelCaseKeys);
     };
 
+    const eventTypes = () => {
+        return db
+            .then((client) =>
+                client('admin_event_types')
+                    .orderBy('type', 'ASC')
+                    .orderBy('stream_name', 'ASC')
+            )
+            .then(camelCaseKeys);
+    };
+
     return {
         usersIndex,
         user,
@@ -271,6 +282,7 @@ const createQueries = ({ db, messageStoreDb }) => {
         views,
         entities,
         entityMessages,
+        eventTypes,
     };
 };
 

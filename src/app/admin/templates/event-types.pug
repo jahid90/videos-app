@@ -1,0 +1,25 @@
+extends ./admin-layout
+
+block content
+  h1 Event Types
+
+  if eventTypes.length === 0
+    p There are no event types.  Generate some events!
+  else
+    table.table.table-hover
+      thead
+        tr
+          th(scope='col') Event Type
+          th(scope='col') Category
+          th(scope='col') Message Count
+          th(scope='col') Last Message Global Position
+      tbody
+        each eventType in eventTypes
+          tr
+            td
+              a(href=`/admin/type-messages/${eventType.type}`)= eventType.type
+            td
+              a(href=`/admin/categories/${eventType.streamName}`)= eventType.streamName
+            td= eventType.messageCount
+            td
+              a(href=`/admin/messages/${eventType.lastMessageId}`)= eventType.lastMessageGlobalPosition

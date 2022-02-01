@@ -59,6 +59,8 @@ const createAdminApplication = ({ db, messageStoreDb, messageStore }) => {
     router.route('/entities').get(handlers.handleEntitiesIndex);
     router.route('/entities/:id').get(handlers.handleEntityMessagesIndex);
 
+    router.route('/events').get(handlers.handleShowEventTypes);
+
     return {
         handlers,
         queries,

@@ -310,6 +310,14 @@ const createHandlers = ({ actions, queries }) => {
             );
     };
 
+    const handleShowEventTypes = (req, res) => {
+        return queries
+            .eventTypes()
+            .then((eventTypes) =>
+                res.render('admin/templates/event-types', { eventTypes })
+            );
+    };
+
     return {
         handleUsersIndex,
         handleShowUser,
@@ -333,6 +341,7 @@ const createHandlers = ({ actions, queries }) => {
         handleResendMessage,
         handleEntitiesIndex,
         handleEntityMessagesIndex,
+        handleShowEventTypes,
     };
 };
 
