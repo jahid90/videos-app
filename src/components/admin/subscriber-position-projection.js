@@ -1,17 +1,17 @@
 const subscriberPositionProjection = {
     $init: () => {
         return {
-            readEventIds: [],
-            resetEventIds: [],
+            sequence: 0,
         };
     },
     Read: (projection, event) => {
-        projection.readEventIds.push(event.metadata.traceId);
+        projection.sequence = event.globalPosition;
 
         return projection;
     },
     PositionReset: (projection, event) => {
-        projection.resetEventIds.push(event.metadata.traceId);
+        projection.sequence = event.globalPosition;
+
         return projection;
     },
 };

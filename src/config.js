@@ -130,7 +130,7 @@ const createConfig = ({ env }) => {
         identityComponent,
         sendEmailComponent,
         videoPublishingComponent,
-        // adminComponent, // TODO: Debug Idempotency Issue
+        adminComponent,
     ];
 
     return {
