@@ -9,11 +9,15 @@ block content
     table.table.table-hover
       thead
         tr
-          th(scope="col") Subscriber Id
-          th(scope="col") Global Position
+          th(scope='col') Actions
+          th(scope='col') Subscriber Id
+          th(scope='col') Global Position
       tbody
         each position in positions
           tr
+            td
+              form.form-inline(action=`/admin/subscriber-positions/reset/${position.id}` method='POST')
+                button.btn.btn-secondary(type='submit') Reset
             td= position.id
             td
               a(href=`/admin/messages/${position.lastMessageId}`)= position.position

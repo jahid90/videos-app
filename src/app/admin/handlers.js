@@ -1,3 +1,4 @@
+const Bluebird = require('bluebird');
 const url = require('url');
 
 const renderPaginatedMessages = require('./render-paginated-messages');
@@ -170,6 +171,27 @@ const createHandlers = ({ actions, queries }) => {
         );
     };
 
+    const handleSubscriberPositionReset = (req, res) => {
+        const referrer = req.get('referrer');
+        const parsed = new URL(referrer);
+
+        const context = {
+            traceId: req.context.traceId,
+            userId: req.context.userId,
+            subscriberId: req.params.id,
+        };
+
+        return Bluebird.resolve(context).then((context) => {
+            return actions
+                .resetSubscriberPosition(context)
+                .then(() =>
+                    res.redirect(
+                        `${parsed.pathname}${parsed.search}${parsed.hash}`
+                    )
+                );
+        });
+    };
+
     const handleCategoriesIndex = (req, res) => {
         return queries
             .categories()
@@ -300,6 +322,7 @@ const createHandlers = ({ actions, queries }) => {
         handleShowVideo,
         handleStreamsIndex,
         handleSubscriberPositions,
+        handleSubscriberPositionReset,
         handleCategoriesIndex,
         handleShowCategory,
         handleMessagesOfType,

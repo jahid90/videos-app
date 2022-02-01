@@ -14,6 +14,7 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
         tickIntervalMs = 10 * 1000,
     }) => {
         const subscriberPositionStreamName = `subscriberPosition-${subscriberId}`;
+        // const subscriberPositionCommandStreamName = `subscriberPosition:command-${subscriberId}`;
 
         let currentPosition = 0;
         let messagesSinceLastPositionWrite = 0;
@@ -52,6 +53,10 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
                 data: {
                     position,
                     lastMessageId: messageId,
+                },
+                metadata: {
+                    traceId: uuid(),
+                    subscriberId,
                 },
             };
 

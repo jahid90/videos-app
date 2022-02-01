@@ -25,6 +25,7 @@ const createAdminEntitiesAggregator = require('./aggregators/admin-entities');
 const createIdentityComponent = require('./components/identity');
 const createSendEmailComponent = require('./components/send-email');
 const createVideoPublishingComponent = require('./components/video-publishing');
+const createAdminComponent = require('./components/admin');
 
 const createConfig = ({ env }) => {
     const knexClient = createKnexClient({ connectionString: env.databaseUrl });
@@ -117,11 +118,13 @@ const createConfig = ({ env }) => {
     const videoPublishingComponent = createVideoPublishingComponent({
         messageStore,
     });
+    const adminComponent = createAdminComponent({ messageStore });
 
     const components = [
         identityComponent,
         sendEmailComponent,
         videoPublishingComponent,
+        // adminComponent, // TODO: Debug Idempotency Issue
     ];
 
     return {

@@ -16,6 +16,16 @@ const createHandlers = ({ queries }) => {
                 event.data.lastMessageId
             );
         },
+        PositionReset: (event) => {
+            const subscriberId = streamToSubscriberId(event.streamName);
+
+            return queries.upsertPosition(
+                subscriberId,
+                event.data.position,
+                event.globalPosition,
+                event.data.lastMessageId
+            );
+        },
     };
 };
 

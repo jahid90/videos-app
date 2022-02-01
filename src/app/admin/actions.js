@@ -45,11 +45,31 @@ const createActions = ({ db, messageStore, messageStoreDb }) => {
         });
     };
 
+    const resetSubscriberPosition = (context) => {
+        const { traceId, userId, subscriberId } = context;
+        const streamName = `subscriberPosition:command-${subscriberId}`;
+
+        const resetCommand = {
+            id: uuid(),
+            type: 'ResetPosition',
+            metadata: {
+                traceId,
+                userId,
+            },
+            data: {
+                subscriberId,
+            },
+        };
+
+        return messageStore.write(streamName, resetCommand);
+    };
+
     return {
         resendMessage,
         clearView,
         deleteMessage,
         deleteAllMessages,
+        resetSubscriberPosition,
     };
 };
 

@@ -1,5 +1,6 @@
 const Bluebird = require('bluebird');
 
+const env = require('../env');
 const deserializeMessage = require('./deserialize-message');
 
 const getLastMessageSql = `

@@ -41,6 +41,9 @@ const createAdminApplication = ({ db, messageStoreDb, messageStore }) => {
     router
         .route('/subscriber-positions')
         .get(handlers.handleSubscriberPositions);
+    router
+        .route('/subscriber-positions/reset/:id')
+        .post(handlers.handleSubscriberPositionReset);
 
     router.route('/videos').get(handlers.handleVideosIndex);
     router.route('/videos/:id').get(handlers.handleShowVideo);
