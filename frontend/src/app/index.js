@@ -6,7 +6,6 @@ const config = createConfig({ env });
 const app = createExpressApp({ config, env });
 
 const start = () => {
-    console.log('Starting the server');
     app.listen(env.port, signalAppStart);
 };
 
