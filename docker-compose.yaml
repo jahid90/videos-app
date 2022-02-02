@@ -9,25 +9,22 @@ networks:
     driver: bridge
 
 services:
-  videos:
+
+  videos-app:
     image: registry.jahiduls.mint/videos-app:local
-    build: .
+    build: ./frontend
     container_name: videos-app
     restart: unless-stopped
     networks:
       - traefik
-      - backend
     environment:
       - NODE_ENV=production
       - APP_NAME=Videos App
       - PORT=80
       - ENABLE_DEBUG=false
       - COOKIE_SECRET=116fa7eaf3f6e7c40eedd92c
-      - EMAIL_DIRECTORY=/tmp/emails
-      - SYSTEM_SENDER_EMAIL_ADDRESS=noreply@videos.jahiduls.io
       - DATABASE_CONNECTION_STRING=postgres://practical_microservices:password@postgres.jahiduls.io:5432/practical_microservices
       - MESSAGE_STORE_CONNECTION_STRING=postgres://message_store:password@messagedb.jahiduls.io:54320/message_store
-
     expose:
       - 80
     labels:
@@ -41,3 +38,31 @@ services:
       - traefik.http.routers.videos-http.rule=Host(`videos.jahiduls.mint`)
       - traefik.http.routers.videos.service=videos
       - traefik.http.services.videos.loadbalancer.server.port=80
+
+  videos-aggregators:
+    image: registry.jahiduls.mint/videos-aggregators:local
+    build: ./backend/aggregators
+    container_name: videos-aggregators
+    restart: unless-stopped
+    networks:
+      - backend
+    environment:
+      - NODE_ENV=production
+      - ENABLE_DEBUG=false
+      - DATABASE_CONNECTION_STRING=postgres://practical_microservices:password@postgres.jahiduls.io:5432/practical_microservices
+      - MESSAGE_STORE_CONNECTION_STRING=postgres://message_store:password@messagedb.jahiduls.io:54320/message_store
+
+  videos-components:
+    image: registry.jahiduls.mint/videos-components:local
+    build: ./backend/components
+    container_name: videos-components
+    restart: unless-stopped
+    networks:
+      - backend
+    environment:
+      - NODE_ENV=production
+      - ENABLE_DEBUG=false
+      - EMAIL_DIRECTORY=/tmp/emails
+      - SYSTEM_SENDER_EMAIL_ADDRESS=noreply@videos.jahiduls.io
+      - DATABASE_CONNECTION_STRING=postgres://practical_microservices:password@postgres.jahiduls.io:5432/practical_microservices
+      - MESSAGE_STORE_CONNECTION_STRING=postgres://message_store:password@messagedb.jahiduls.io:54320/message_store

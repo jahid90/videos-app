@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@jahid90/message-store': link:../../libs/message-store
+  '@jahid90/message-store': link:libs/message-store
   bluebird: ^3.7.2
   dotenv: ^15.0.0
   knex: ^1.0.2
@@ -10,7 +10,7 @@ specifiers:
   uuid: ^8.3.2
 
 dependencies:
-  '@jahid90/message-store': link:../../libs/message-store
+  '@jahid90/message-store': link:libs/message-store
   bluebird: 3.7.2
   knex: 1.0.2_pg@8.7.1
   pg: 8.7.1

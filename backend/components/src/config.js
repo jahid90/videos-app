@@ -10,7 +10,6 @@ const createVideoPublishingComponent = require('./video-publishing');
 const createAdminComponent = require('./admin');
 
 const createConfig = ({ env }) => {
-    const knexClient = createKnexClient({ connectionString: env.databaseUrl });
     const postgresClient = createPostgresClient({
         connectionString: env.messageStoreConnectionString,
     });
@@ -36,7 +35,6 @@ const createConfig = ({ env }) => {
     ];
 
     return {
-        knexClient,
         messageStore,
         components,
     };

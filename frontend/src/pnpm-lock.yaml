@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@jahid90/message-store': link:../../libs/message-store
+  '@jahid90/message-store': link:../libs/message-store
   bcrypt: ^5.0.1
   bluebird: ^3.7.2
   body-parser: ^1.19.1
@@ -15,9 +15,10 @@ specifiers:
   pg: ^8.7.1
   pug: ^3.0.2
   uuid: ^8.3.2
+  validate.js: ^0.13.1
 
 dependencies:
-  '@jahid90/message-store': link:../../libs/message-store
+  '@jahid90/message-store': link:../libs/message-store
   bcrypt: 5.0.1
   bluebird: 3.7.2
   body-parser: 1.19.1
@@ -29,6 +30,7 @@ dependencies:
   pg: 8.7.1
   pug: 3.0.2
   uuid: 8.3.2
+  validate.js: 0.13.1
 
 devDependencies:
   dotenv: 14.3.2
@@ -1847,6 +1849,10 @@ packages:
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
+    dev: false
+
+  /validate.js/0.13.1:
+    resolution: {integrity: sha512-PnFM3xiZ+kYmLyTiMgTYmU7ZHkjBZz2/+F0DaALc/uUtVzdCt1wAosvYJ5hFQi/hz8O4zb52FQhHZRC+uVkJ+g==}
     dev: false
 
   /vary/1.1.2:

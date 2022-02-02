@@ -12,13 +12,11 @@ const requireFromEnv = (key) => {
 };
 
 module.exports = {
-    appName: requireFromEnv('APP_NAME'),
     enableDebug: requireFromEnv('ENABLE_DEBUG') === 'true',
     databaseUrl: requireFromEnv('DATABASE_CONNECTION_STRING'),
     messageStoreConnectionString: requireFromEnv(
         'MESSAGE_STORE_CONNECTION_STRING'
     ),
     env: requireFromEnv('NODE_ENV'),
-    port: parseInt(requireFromEnv('PORT'), 10),
     version: packageJson.version,
 };
