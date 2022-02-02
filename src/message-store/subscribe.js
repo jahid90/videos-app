@@ -11,7 +11,7 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
         subscriberId,
         positionUpdateInterval = 100,
         originStreamName = null,
-        tickIntervalMs = 10 * 1000,
+        tickIntervalMs = 10 * 1000, // 10 secs
     }) => {
         const subscriberPositionStreamName = `subscriberPosition-${subscriberId}`;
         const subscriberPositionCommandStreamName = `subscriberPosition:command-${subscriberId}`;

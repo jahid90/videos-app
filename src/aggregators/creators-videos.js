@@ -73,20 +73,6 @@ const createQueries = ({ db }) => {
 
     const updateVideoName = (id, position, name) => {
         return db
-            .then((client) => {
-                client('creators_portal_videos')
-                    .where({ id })
-                    .then((rows) => rows[0])
-                    .then(
-                        (video) =>
-                            env.enableDebug &&
-                            console.debug(
-                                `[VideosAgg-attemptingVideoNameUpdate-${video.id}] current position is ${video.position}`
-                            )
-                    );
-
-                return client;
-            })
             .then((client) =>
                 client('creators_portal_videos')
                     .update({ name, position })
@@ -104,20 +90,6 @@ const createQueries = ({ db }) => {
 
     const updateVideoDescription = (id, position, description) => {
         return db
-            .then((client) => {
-                client('creators_portal_videos')
-                    .where({ id })
-                    .then((rows) => rows[0])
-                    .then(
-                        (video) =>
-                            env.enableDebug &&
-                            console.debug(
-                                `[VideosAgg-attemptingVideoDescriptionUpdate-${video.id}] current position is ${video.position}`
-                            )
-                    );
-
-                return client;
-            })
             .then((client) =>
                 client('creators_portal_videos')
                     .update({ description, position })

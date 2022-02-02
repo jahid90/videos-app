@@ -22,7 +22,7 @@ const createHandlers = ({ queries }) => {
 };
 
 const createQueries = ({ db }) => {
-    const upsertEntity = (name, id, globalPosition) => {
+    const upsertEntity = (entityId, messageId, globalPosition) => {
         const rawQuery = `
             INSERT INTO
                 admin_identities (
@@ -32,11 +32,11 @@ const createQueries = ({ db }) => {
                     last_message_global_position
                 )
             VALUES
-                (:name, 1, :id, :globalPosition)
+                (:entityId, 1, :messageId, :globalPosition)
             ON CONFLICT (id) DO UPDATE
                 SET
                     message_count = admin_identities.message_count + 1,
-                    last_message_id = :id,
+                    last_message_id = :messageId,
                     last_message_global_position = :globalPosition
                 WHERE
                     admin_identities.last_message_global_position < :globalPosition
@@ -44,7 +44,7 @@ const createQueries = ({ db }) => {
 
         return db
             .then((client) =>
-                client.raw(rawQuery, { name, id, globalPosition })
+                client.raw(rawQuery, { entityId, messageId, globalPosition })
             )
             .then((changed) => {
                 if (env.enableDebug && !changed) {
