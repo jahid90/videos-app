@@ -1,0 +1,23 @@
+{
+    "name": "@jahid/videos-aggregators",
+    "version": "1.0.0",
+    "description": "Aggregators for the videos app",
+    "main": "index.js",
+    "scripts": {
+        "start-dev-server": "NODE_ENV=development nodemon bin/start-server -color",
+        "start": "NODE_ENV=production node bin/start-server"
+    },
+    "author": "Jahid",
+    "license": "ISC",
+    "devDependencies": {
+        "dotenv": "^15.0.0",
+        "nodemon": "^2.0.15"
+    },
+    "dependencies": {
+        "@jahid90/message-store": "link:../../libs/message-store",
+        "bluebird": "^3.7.2",
+        "knex": "^1.0.2",
+        "pg": "^8.7.1",
+        "uuid": "^8.3.2"
+    }
+}
