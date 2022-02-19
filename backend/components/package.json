@@ -10,8 +10,8 @@
     "author": "Jahid",
     "license": "ISC",
     "devDependencies": {
-        "dotenv": "^15.0.0",
-        "nodemon": "^2.0.15"
+        "dotenv": "15.0.1",
+        "nodemon": "2.0.15"
     },
     "dependencies": {
         "@jahid90/lib-message-store": "https://gitpkg.now.sh/jahid90/libs/message-store?main",
