@@ -14,7 +14,7 @@
         "nodemon": "^2.0.15"
     },
     "dependencies": {
-        "@jahid90/message-store": "link:libs/message-store",
+        "@jahid90/lib-message-store": "https://gitpkg.now.sh/jahid90/libs/message-store?main",
         "bluebird": "^3.7.2",
         "knex": "^1.0.2",
         "pg": "^8.7.1",

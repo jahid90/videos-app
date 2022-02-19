@@ -1,11 +1,12 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@jahid90/message-store': link:libs/message-store
+  '@jahid90/lib-message-store': https://gitpkg.now.sh/jahid90/libs/message-store?main
   bluebird: ^3.7.2
   dotenv: ^15.0.0
   email-templates: ^8.0.8
   knex: ^1.0.2
+  message-store: link:github.com:jahid90/libs/message-store
   nodemailer: ^6.7.2
   nodemailer-pickup-transport: ^0.1.1
   nodemon: ^2.0.15
@@ -14,10 +15,11 @@ specifiers:
   validate.js: ^0.13.1
 
 dependencies:
-  '@jahid90/message-store': link:libs/message-store
+  '@jahid90/lib-message-store': '@gitpkg.now.sh/jahid90/libs/message-store?main'
   bluebird: 3.7.2
   email-templates: 8.0.8
   knex: 1.0.2_pg@8.7.1
+  message-store: link:github.com:jahid90/libs/message-store
   nodemailer: 6.7.2
   nodemailer-pickup-transport: 0.1.1
   pg: 8.7.1
@@ -1917,3 +1919,12 @@ packages:
   /yallist/4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
     dev: true
+
+  '@gitpkg.now.sh/jahid90/libs/message-store?main':
+    resolution: {tarball: https://gitpkg.now.sh/jahid90/libs/message-store?main}
+    name: '@jahid90/lib-message-store'
+    version: 1.0.0
+    dependencies:
+      bluebird: 3.7.2
+      uuid: 8.3.2
+    dev: false

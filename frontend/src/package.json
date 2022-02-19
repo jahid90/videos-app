@@ -11,7 +11,7 @@
         "nodemon": "^2.0.15"
     },
     "dependencies": {
-        "@jahid90/message-store": "link:../libs/message-store",
+        "@jahid90/lib-message-store": "https://gitpkg.now.sh/jahid90/libs/message-store?main",
         "bcrypt": "^5.0.1",
         "bluebird": "^3.7.2",
         "body-parser": "^1.19.1",

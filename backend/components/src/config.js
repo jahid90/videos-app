@@ -1,7 +1,6 @@
 const createPickupTransport = require('nodemailer-pickup-transport');
-const createMessageStore = require('@jahid90/message-store');
+const createMessageStore = require('@jahid90/lib-message-store');
 
-const createKnexClient = require('./knex-client');
 const createPostgresClient = require('./postgres-client');
 
 const createIdentityComponent = require('./identity');

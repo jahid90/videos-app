@@ -1,6 +1,6 @@
 const createKnexClient = require('./knex-client');
 const createPostgresClient = require('./postgres-client');
-const createMessageStore = require('@jahid90/message-store');
+const createMessageStore = require('@jahid90/lib-message-store');
 
 const createHomeApp = require('./home');
 const createRecordViewingsApp = require('./record-viewings');
