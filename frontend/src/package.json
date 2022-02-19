@@ -7,8 +7,8 @@
         "start": "NODE_ENV=production node bin/start-server"
     },
     "devDependencies": {
-        "dotenv": "^14.3.2",
-        "nodemon": "^2.0.15"
+        "dotenv": "14.3.2",
+        "nodemon": "2.0.15"
     },
     "dependencies": {
         "@jahid90/lib-message-store": "https://gitpkg.now.sh/jahid90/libs/message-store?main",

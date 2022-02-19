@@ -7,12 +7,11 @@ specifiers:
   body-parser: ^1.19.1
   camelcase-keys: ^7.0.1
   cookie-session: ^2.0.0
-  dotenv: ^14.3.2
+  dotenv: 14.3.2
   express: ^4.17.2
   knex: ^1.0.1
-  message-store: link:github.com:jahid90/libs/message-store
   method-override: ^3.0.0
-  nodemon: ^2.0.15
+  nodemon: 2.0.15
   pg: ^8.7.1
   pug: ^3.0.2
   uuid: ^8.3.2
@@ -27,7 +26,6 @@ dependencies:
   cookie-session: 2.0.0
   express: 4.17.2
   knex: 1.0.1_pg@8.7.1
-  message-store: link:github.com:jahid90/libs/message-store
   method-override: 3.0.0
   pg: 8.7.1
   pug: 3.0.2

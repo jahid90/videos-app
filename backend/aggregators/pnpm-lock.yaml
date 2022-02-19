@@ -3,10 +3,9 @@ lockfileVersion: 5.3
 specifiers:
   '@jahid90/lib-message-store': https://gitpkg.now.sh/jahid90/libs/message-store?main
   bluebird: ^3.7.2
-  dotenv: ^15.0.0
+  dotenv: 15.0.1
   knex: ^1.0.2
-  message-store: link:github.com:jahid90/libs/message-store
-  nodemon: ^2.0.15
+  nodemon: 2.0.15
   pg: ^8.7.1
   uuid: ^8.3.2
 
@@ -14,12 +13,11 @@ dependencies:
   '@jahid90/lib-message-store': '@gitpkg.now.sh/jahid90/libs/message-store?main'
   bluebird: 3.7.2
   knex: 1.0.2_pg@8.7.1
-  message-store: link:github.com:jahid90/libs/message-store
   pg: 8.7.1
   uuid: 8.3.2
 
 devDependencies:
-  dotenv: 15.0.0
+  dotenv: 15.0.1
   nodemon: 2.0.15
 
 packages:
@@ -250,8 +248,8 @@ packages:
       is-obj: 2.0.0
     dev: true
 
-  /dotenv/15.0.0:
-    resolution: {integrity: sha512-/l1sXXm79ry34KwwS0y4oVZjB468iw/6u9g1W26dtexKcIJAnVL2pMF+hxQwzZ7LutxOwEgtym9eIxvX33CMKg==}
+  /dotenv/15.0.1:
+    resolution: {integrity: sha512-4OnbwRfzR+xQThp7uq1xpUS9fmgZ//njexOtPjPSbK3yHGrSHSJnaJRsXderSSm2elfvVj+Y5awDC0I8Oy8rkA==}
     engines: {node: '>=12'}
     dev: true
 
