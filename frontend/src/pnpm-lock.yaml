@@ -11,7 +11,7 @@ specifiers:
   express: ^4.17.2
   knex: ^1.0.1
   method-override: ^3.0.0
-  nodemon: 2.0.15
+  nodemon: 2.0.16
   pg: ^8.7.1
   pug: ^3.0.2
   uuid: ^8.3.2
@@ -34,7 +34,7 @@ dependencies:
 
 devDependencies:
   dotenv: 16.0.0
-  nodemon: 2.0.15
+  nodemon: 2.0.16
 
 packages:
 
@@ -1160,8 +1160,8 @@ packages:
       whatwg-url: 5.0.0
     dev: false
 
-  /nodemon/2.0.15:
-    resolution: {integrity: sha512-gdHMNx47Gw7b3kWxJV64NI+Q5nfl0y5DgDbiVtShiwa7Z0IZ07Ll4RLFo6AjrhzMtoEZn5PDE3/c2AbVsiCkpA==}
+  /nodemon/2.0.16:
+    resolution: {integrity: sha512-zsrcaOfTWRuUzBn3P44RDliLlp263Z/76FPoHFr3cFFkOz0lTPAcIw8dCzfdVIx/t3AtDYCZRCDkoCojJqaG3w==}
     engines: {node: '>=8.10.0'}
     hasBin: true
     requiresBuild: true
