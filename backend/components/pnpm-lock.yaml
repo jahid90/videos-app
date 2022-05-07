@@ -4,7 +4,7 @@ specifiers:
   '@jahid90/lib-message-store': https://gitpkg.now.sh/jahid90/libs/message-store?main
   bluebird: ^3.7.2
   dotenv: 16.0.0
-  email-templates: ^8.0.8
+  email-templates: ^9.0.0
   knex: ^1.0.2
   nodemailer: ^6.7.2
   nodemailer-pickup-transport: ^0.1.1
@@ -16,7 +16,7 @@ specifiers:
 dependencies:
   '@jahid90/lib-message-store': '@gitpkg.now.sh/jahid90/libs/message-store?main'
   bluebird: 3.7.2
-  email-templates: 8.0.8
+  email-templates: 9.0.0
   knex: 1.0.2_pg@8.7.1
   nodemailer: 6.7.2
   nodemailer-pickup-transport: 0.1.1
@@ -66,24 +66,55 @@ packages:
       underscore.deep: 0.5.1_underscore@1.13.2
     dev: false
 
-  /@ladjs/i18n/7.2.5:
-    resolution: {integrity: sha512-st58bPpHyhT7jNPtuzbAPhISdt2OKaDG7ksVIooSTgLxZLR6uZfpp1KFasq2baD9/ZWlZ8EFqOSZRbtYkPWvIw==}
+  /@ladjs/i18n/7.2.6:
+    resolution: {integrity: sha512-rgCYbDz18ADMjQox09J0G45L8LankQgt7QJqiaPh7dAps/hY/7NB8lotVh8TvFt26jJXPvCErAEsGe2clp/YOg==}
     engines: {node: '>=8.3.0'}
     dependencies:
       '@hapi/boom': 9.1.4
       '@ladjs/country-language': 0.2.1
-      boolean: 3.1.4
-      debug: 4.3.3
-      i18n: 0.13.4
+      boolean: 3.2.0
+      debug: 4.3.4
+      i18n: 0.14.2
       i18n-locales: 0.0.5
       lodash: 4.17.21
       multimatch: 5.0.0
       punycode: 2.1.1
       qs: 6.10.3
       titleize: 2.1.0
-      tlds: 1.228.0
+      tlds: 1.230.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@messageformat/core/3.0.1:
+    resolution: {integrity: sha512-yxj2+0e46hcZqJfNf0ZYbC2q6WlcGoh4g11mCyRtTueR0AD8F9z4JMYAS1aOiFG8Vl1LZg/h5hZHKmWTAyZq8g==}
+    dependencies:
+      '@messageformat/date-skeleton': 1.0.0
+      '@messageformat/number-skeleton': 1.0.0
+      '@messageformat/parser': 5.0.0
+      '@messageformat/runtime': 3.0.1
+      make-plural: 7.0.0
+      safe-identifier: 0.4.2
+    dev: false
+
+  /@messageformat/date-skeleton/1.0.0:
+    resolution: {integrity: sha512-vvj5Sd3VyXUHGbYpiFsPsSQ8pkdUM9vrR/NUbyP6ga3UqJH4p9eCwzfwaCAZatZMYMTyiKG/8QbUyGKHeTZ5kw==}
+    dev: false
+
+  /@messageformat/number-skeleton/1.0.0:
+    resolution: {integrity: sha512-Pe1HX/VG0q7tclM/ri85I4FKYd7Uc3gluSZbRaK1+jcXdT9Biw2hLAKyMsiz2tM6zLiK1xX+K0NMDO4RIstQig==}
+    dev: false
+
+  /@messageformat/parser/5.0.0:
+    resolution: {integrity: sha512-WiDKhi8F0zQaFU8cXgqq69eYFarCnTVxKcvhAONufKf0oUxbqLMW6JX6rV4Hqh+BEQWGyKKKHY4g1XA6bCLylA==}
+    dependencies:
+      moo: 0.5.1
+    dev: false
+
+  /@messageformat/runtime/3.0.1:
+    resolution: {integrity: sha512-6RU5ol2lDtO8bD9Yxe6CZkl0DArdv0qkuoZC+ZwowU+cdRlVE1157wjCmlA5Rsf1Xc/brACnsZa5PZpEDfTFFg==}
+    dependencies:
+      make-plural: 7.0.0
     dev: false
 
   /@selderee/plugin-htmlparser2/0.6.0:
@@ -196,8 +227,8 @@ packages:
     resolution: {integrity: sha1-aN/1++YMUes3cl6p4+0xDcwed24=}
     dev: false
 
-  /boolean/3.1.4:
-    resolution: {integrity: sha512-3hx0kwU3uzG6ReQ3pnaFQPSktpBw6RHN3/ivDKEuU8g1XSfafowyvDnadjv1xp8IZqhtSukxlwv9bF6FhX8m0w==}
+  /boolean/3.2.0:
+    resolution: {integrity: sha512-d0II/GO9uf9lfUHH2BQsjxzRJZBdsjgsBiW4BvhWk/3qoKwQFjIDVN19PfX8F2D/r9PCMTtLWjYVCFrpeYUzsw==}
     dev: false
 
   /boxen/5.1.2:
@@ -343,8 +374,8 @@ packages:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
     dev: false
 
-  /commander/5.1.0:
-    resolution: {integrity: sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==}
+  /commander/6.2.1:
+    resolution: {integrity: sha512-U7VdrJFnJgo4xjrHpTzu0yrHPGImdsmD95ZlgYSEajAn2JKzDhDTPG9kBTefmObL2w/ngeZnilk+OV9CG3d7UA==}
     engines: {node: '>= 6'}
     dev: false
 
@@ -414,6 +445,18 @@ packages:
 
   /debug/4.3.3:
     resolution: {integrity: sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.2
+    dev: false
+
+  /debug/4.3.4:
+    resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -503,16 +546,16 @@ packages:
     resolution: {integrity: sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=}
     dev: true
 
-  /email-templates/8.0.8:
-    resolution: {integrity: sha512-VUIMOYQ/1YmTRTImeLwCT143lnI/l9Y/fczV5w/zcxN3B/FgUbqkwqQK9f4WNT5zL5296cR3x968hTDXvo514w==}
-    engines: {node: '>=8.3.0'}
+  /email-templates/9.0.0:
+    resolution: {integrity: sha512-ap0p38jAq8FMy86Jp2b3hyCFDUA9utWfOuyKPWhrknmHrrT3n94viGcQIAsaQtUZGaJP/0dJ9w//XqvaZV/yYQ==}
+    engines: {node: '>=10.0.0'}
     dependencies:
-      '@ladjs/i18n': 7.2.5
+      '@ladjs/i18n': 7.2.6
       consolidate: 0.16.0
-      debug: 4.3.3
+      debug: 4.3.4
       get-paths: 0.0.7
-      html-to-text: 6.0.0
-      juice: 7.0.0
+      html-to-text: 8.1.0
+      juice: 8.0.0
       lodash: 4.17.21
       nodemailer: 6.7.2
       preview-email: 3.0.5
@@ -557,6 +600,13 @@ packages:
   /esm/3.2.25:
     resolution: {integrity: sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==}
     engines: {node: '>=6'}
+    dev: false
+
+  /fast-printf/1.6.9:
+    resolution: {integrity: sha512-FChq8hbz65WMj4rstcQsFB0O7Cy++nmbNfLYnD9cYv2cRn8EG6k/MGn9kO/tjO66t09DLDugj3yL+V2o6Qftrg==}
+    engines: {node: '>=10.0'}
+    dependencies:
+      boolean: 3.2.0
     dev: false
 
   /fill-range/7.0.1:
@@ -685,20 +735,21 @@ packages:
     hasBin: true
     dev: false
 
-  /html-to-text/6.0.0:
-    resolution: {integrity: sha512-r0KNC5aqCAItsjlgtirW6RW25c92Ee3ybQj8z//4Sl4suE3HIPqM4deGpYCUJULLjtVPEP1+Ma+1ZeX1iMsCiA==}
-    engines: {node: '>=8.10.0'}
-    hasBin: true
-    dependencies:
-      deepmerge: 4.2.2
-      he: 1.2.0
-      htmlparser2: 4.1.0
-      lodash: 4.17.21
-      minimist: 1.2.5
-    dev: false
-
   /html-to-text/8.0.0:
     resolution: {integrity: sha512-fEtul1OerF2aMEV+Wpy+Ue20tug134jOY1GIudtdqZi7D0uTudB2tVJBKfVhTL03dtqeJoF8gk8EPX9SyMEvLg==}
+    engines: {node: '>=10.23.2'}
+    hasBin: true
+    dependencies:
+      '@selderee/plugin-htmlparser2': 0.6.0
+      deepmerge: 4.2.2
+      he: 1.2.0
+      htmlparser2: 6.1.0
+      minimist: 1.2.5
+      selderee: 0.6.0
+    dev: false
+
+  /html-to-text/8.1.0:
+    resolution: {integrity: sha512-Z9iYAqYK2c18GswSbnxJSeMs7lyJgwR2oIkDOyOHGBbYsPsG4HvT379jj3Lcbfko8A5ceyyMHAfkmp/BiXA9/Q==}
     engines: {node: '>=10.23.2'}
     hasBin: true
     dependencies:
@@ -738,16 +789,16 @@ packages:
       '@ladjs/country-language': 0.2.1
     dev: false
 
-  /i18n/0.13.4:
-    resolution: {integrity: sha512-GZnXWeA15jTi9gc1jfgrJcSrNYDg7qbJXSYMuibqPYb1ThORmGCeM+gL6LrDagYRHh87/q/D0jRSOhAfv6wAow==}
-    engines: {node: '>=0.10.0'}
+  /i18n/0.14.2:
+    resolution: {integrity: sha512-f/6Ns2skl6KrpumZsE0A4TaxiEoJRi3Ovko0O+NuD92Ot2sLICpw6Iy+04ph/4tfF7koAWVYElBJ4oftpyhhxw==}
+    engines: {node: '>=10'}
     dependencies:
-      debug: 4.3.3
+      '@messageformat/core': 3.0.1
+      debug: 4.3.4
+      fast-printf: 1.6.9
       make-plural: 7.0.0
       math-interval-parser: 2.0.1
-      messageformat: 2.3.0
       mustache: 4.2.0
-      sprintf-js: 1.1.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -914,13 +965,13 @@ packages:
       promise: 7.3.1
     dev: false
 
-  /juice/7.0.0:
-    resolution: {integrity: sha512-AjKQX31KKN+uJs+zaf+GW8mBO/f/0NqSh2moTMyvwBY+4/lXIYTU8D8I2h6BAV3Xnz6GGsbalUyFqbYMe+Vh+Q==}
+  /juice/8.0.0:
+    resolution: {integrity: sha512-LRCfXBOqI1wt+zYR/5xwDnf+ZyiJiDt44DGZaBSAVwZWyWv3BliaiGTLS6KCvadv3uw6XGiPPFcTfY7CdF7Z/Q==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     dependencies:
       cheerio: 1.0.0-rc.10
-      commander: 5.1.0
+      commander: 6.2.1
       mensch: 0.3.4
       slick: 1.12.2
       web-resource-inliner: 5.0.0
@@ -1060,13 +1111,6 @@ packages:
       semver: 6.3.0
     dev: true
 
-  /make-plural/4.3.0:
-    resolution: {integrity: sha512-xTYd4JVHpSCW+aqDof6w/MebaMVNTVYBZhbB/vi513xXdiPT92JMVCo0Jq8W2UZnzYRFeVbQiQ+I25l13JuKvA==}
-    hasBin: true
-    optionalDependencies:
-      minimist: 1.2.5
-    dev: false
-
   /make-plural/7.0.0:
     resolution: {integrity: sha512-OTuzMnuhrc7G3LJU5upkhKy7EIAq/dRqANqTUh0B8au7jM5mXq9kVdla3sn3g2GCRIxgooCDQtSJ3s1fAjasbQ==}
     dev: false
@@ -1078,23 +1122,6 @@ packages:
 
   /mensch/0.3.4:
     resolution: {integrity: sha512-IAeFvcOnV9V0Yk+bFhYR07O3yNina9ANIN5MoXBKYJ/RLYPurd2d0yw14MDhpr9/momp0WofT1bPUh3hkzdi/g==}
-    dev: false
-
-  /messageformat-formatters/2.0.1:
-    resolution: {integrity: sha512-E/lQRXhtHwGuiQjI7qxkLp8AHbMD5r2217XNe/SREbBlSawe0lOqsFb7rflZJmlQFSULNLIqlcjjsCPlB3m3Mg==}
-    dev: false
-
-  /messageformat-parser/4.1.3:
-    resolution: {integrity: sha512-2fU3XDCanRqeOCkn7R5zW5VQHWf+T3hH65SzuqRvjatBK7r4uyFa5mEX+k6F9Bd04LVM5G4/BHBTUJsOdW7uyg==}
-    dev: false
-
-  /messageformat/2.3.0:
-    resolution: {integrity: sha512-uTzvsv0lTeQxYI2y1NPa1lItL5VRI8Gb93Y2K2ue5gBPyrbJxfDi/EYWxh2PKv5yO42AJeeqblS9MJSh/IEk4w==}
-    deprecated: Package renamed as '@messageformat/core', see messageformat.github.io for more details. 'messageformat' will eventually provide a polyfill for Intl.MessageFormat, once it's been defined by Unicode & ECMA.
-    dependencies:
-      make-plural: 4.3.0
-      messageformat-formatters: 2.0.1
-      messageformat-parser: 4.1.3
     dev: false
 
   /mime/2.6.0:
@@ -1382,7 +1409,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       dayjs: 1.10.7
-      debug: 4.3.3
+      debug: 4.3.4
       mailparser: 3.4.0
       nodemailer: 6.7.2
       open: 7.4.2
@@ -1594,6 +1621,10 @@ packages:
     engines: {node: '>=0.12'}
     dev: false
 
+  /safe-identifier/0.4.2:
+    resolution: {integrity: sha512-6pNbSMW6OhAi9j+N8V+U715yBQsaWJ7eyEUaOrawX+isg5ZxhUlV1NipNtgaKHmFGiABwt+ZF04Ii+3Xjkg+8w==}
+    dev: false
+
   /safer-buffer/2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: false
@@ -1648,10 +1679,6 @@ packages:
   /split2/4.1.0:
     resolution: {integrity: sha512-VBiJxFkxiXRlUIeyMQi8s4hgvKCSjtknJv/LVYbrgALPwf5zSKmEwV9Lst25AkvMDnvxODugjdl6KZgwKM1WYQ==}
     engines: {node: '>= 10.x'}
-    dev: false
-
-  /sprintf-js/1.1.2:
-    resolution: {integrity: sha512-VE0SOVEHCk7Qc8ulkWw3ntAzXuqf7S2lvwQaDLRnUeIEaKNQJzV6BwmLKhOqT61aGhfUMrXeaBk+oDGCzvhcug==}
     dev: false
 
   /string-width/4.2.3:
@@ -1714,8 +1741,8 @@ packages:
     hasBin: true
     dev: false
 
-  /tlds/1.228.0:
-    resolution: {integrity: sha512-Q0TU9zh5hDs2CpRFNM7SOW3K7OSgUgJC/cMrq9t44ei4tu+G3KV8BZyIJuYVvryJHH96mKgc9WXdhgKVvGD7jg==}
+  /tlds/1.230.0:
+    resolution: {integrity: sha512-QFuY6JBWZt2bZXlapjqsojul5dv9xfo7Uc8wTUlctJOuF+BS/ICni2f4x7MFiT7muUVmcKC1LvGnU4GWhYO0PQ==}
     hasBin: true
     dev: false
 
