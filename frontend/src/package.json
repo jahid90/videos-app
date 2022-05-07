@@ -8,7 +8,7 @@
     },
     "devDependencies": {
         "dotenv": "16.0.0",
-        "nodemon": "2.0.15"
+        "nodemon": "2.0.16"
     },
     "dependencies": {
         "@jahid90/lib-message-store": "https://gitpkg.now.sh/jahid90/libs/message-store?main",
