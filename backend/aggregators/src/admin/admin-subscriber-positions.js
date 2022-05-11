@@ -4,12 +4,12 @@ const streamToSubscriberId = (stream) => {
     return stream.split(/-(.+)/)[1];
 };
 
-const createHandlers = ({ queries }) => {
+const createHandlers = ({ actions }) => {
     return {
         Read: (event) => {
             const subscriberId = streamToSubscriberId(event.streamName);
 
-            return queries.upsertPosition(
+            return actions.upsertPosition(
                 subscriberId,
                 event.data.position,
                 event.globalPosition,
@@ -19,7 +19,7 @@ const createHandlers = ({ queries }) => {
         PositionReset: (event) => {
             const subscriberId = streamToSubscriberId(event.streamName);
 
-            return queries.upsertPosition(
+            return actions.upsertPosition(
                 subscriberId,
                 event.data.position,
                 event.globalPosition,
@@ -29,7 +29,7 @@ const createHandlers = ({ queries }) => {
     };
 };
 
-const createQueries = ({ db }) => {
+const createActions = ({ db }) => {
     const upsertPosition = (
         subscriberId,
         position,
@@ -77,8 +77,8 @@ const createQueries = ({ db }) => {
 };
 
 const build = ({ db, messageStore }) => {
-    const queries = createQueries({ db });
-    const handlers = createHandlers({ queries });
+    const actions = createActions({ db });
+    const handlers = createHandlers({ actions });
     const subscription = messageStore.createSubscription({
         streamName: 'subscriberPosition',
         handlers: handlers,
@@ -90,8 +90,6 @@ const build = ({ db, messageStore }) => {
     };
 
     return {
-        handlers,
-        queries,
         start,
     };
 };

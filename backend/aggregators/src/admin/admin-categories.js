@@ -9,10 +9,10 @@ const category = (streamName) => {
     return streamName.split('-')[0];
 };
 
-const createHandlers = ({ queries }) => {
+const createHandlers = ({ actions }) => {
     return {
         $any: (event) => {
-            return queries.upsertCategory(
+            return actions.upsertCategory(
                 category(event.streamName),
                 event.id,
                 event.globalPosition
@@ -21,7 +21,7 @@ const createHandlers = ({ queries }) => {
     };
 };
 
-const createQueries = ({ db }) => {
+const createActions = ({ db }) => {
     const upsertCategory = (categoryName, id, globalPosition) => {
         const rawQuery = `
             INSERT INTO
@@ -59,8 +59,8 @@ const createQueries = ({ db }) => {
 };
 
 const build = ({ db, messageStore }) => {
-    const queries = createQueries({ db });
-    const handlers = createHandlers({ queries });
+    const actions = createActions({ db });
+    const handlers = createHandlers({ actions });
     const subscription = messageStore.createSubscription({
         streamName: '$all',
         handlers: handlers,
@@ -72,8 +72,6 @@ const build = ({ db, messageStore }) => {
     };
 
     return {
-        handlers,
-        queries,
         start,
     };
 };

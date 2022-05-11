@@ -6,10 +6,10 @@ const streamToEntityId = (stream) => {
     return stream.split(/-(.+)/)[1];
 };
 
-const createHandlers = ({ queries }) => {
+const createHandlers = ({ actions }) => {
     return {
         VideoPublished: (event) =>
-            queries.createVideo(
+            actions.createVideo(
                 event.data.videoId,
                 event.data.ownerId,
                 event.data.sourceUri,
@@ -18,33 +18,33 @@ const createHandlers = ({ queries }) => {
             ),
 
         VideoNamed: (event) =>
-            queries.updateVideoName(
+            actions.updateVideoName(
                 streamToEntityId(event.streamName),
                 event.globalPosition,
                 event.data.name
             ),
 
         VideoTranscodingFailed: (event) =>
-            queries.updateVideoStatus(
+            actions.updateVideoStatus(
                 streamToEntityId(event.streamName),
                 event.globalPosition,
                 videoStatuses.failed
             ),
         VideoDescribed: (event) =>
-            queries.updateVideoDescription(
+            actions.updateVideoDescription(
                 streamToEntityId(event.streamName),
                 event.globalPosition,
                 event.data.description
             ),
         VideoViewed: (event) =>
-            queries.updateVideoViews(
+            actions.updateVideoViews(
                 streamToEntityId(event.streamName),
                 event.globalPosition
             ),
     };
 };
 
-const createQueries = ({ db }) => {
+const createActions = ({ db }) => {
     const createVideo = (id, ownerId, sourceUri, transcodedUri, position) => {
         const video = {
             id,
@@ -137,8 +137,8 @@ const createQueries = ({ db }) => {
 };
 
 const build = ({ db, messageStore }) => {
-    const queries = createQueries({ db });
-    const handlers = createHandlers({ queries });
+    const actions = createActions({ db });
+    const handlers = createHandlers({ actions });
     const subscription = messageStore.createSubscription({
         streamName: ['videoPublishing', 'viewing'],
         handlers,
@@ -150,8 +150,6 @@ const build = ({ db, messageStore }) => {
     };
 
     return {
-        handlers,
-        queries,
         start,
     };
 };

@@ -1,4 +1,4 @@
-const createQueries = ({ db }) => {
+const createActions = ({ db }) => {
     const createUserCredential = (id, email, passwordHash) => {
         const rawQuery = `
             INSERT INTO
@@ -32,27 +32,27 @@ const createQueries = ({ db }) => {
     };
 };
 
-const createHandlers = ({ queries }) => {
+const createHandlers = ({ actions }) => {
     return {
         Registered: (event) => {
-            return queries.createUserCredential(
+            return actions.createUserCredential(
                 event.data.userId,
                 event.data.email,
                 event.data.passwordHash
             );
         },
         AdminPrivilegeAdded: (event) => {
-            return queries.addAdminPrivilege(event.data.userId);
+            return actions.addAdminPrivilege(event.data.userId);
         },
         AdminPrivilegeRemoved: (event) => {
-            return queries.removeAdminPrivilege(event.data.userId);
+            return actions.removeAdminPrivilege(event.data.userId);
         },
     };
 };
 
 const build = ({ db, messageStore }) => {
-    const queries = createQueries({ db });
-    const handlers = createHandlers({ queries });
+    const actions = createActions({ db });
+    const handlers = createHandlers({ actions });
     const subscription = messageStore.createSubscription({
         streamName: 'identity',
         handlers,
@@ -64,8 +64,6 @@ const build = ({ db, messageStore }) => {
     };
 
     return {
-        handlers,
-        queries,
         start,
     };
 };

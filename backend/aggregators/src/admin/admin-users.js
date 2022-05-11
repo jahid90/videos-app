@@ -1,12 +1,12 @@
 const env = require('../env');
 
-const createHandlers = ({ queries }) => {
+const createHandlers = ({ actions }) => {
     return {
         Registered: (event) => {
-            return queries
+            return actions
                 .ensureUser(event.data.userId)
                 .then(() =>
-                    queries.setEmail(
+                    actions.setEmail(
                         event.data.userId,
                         event.data.email,
                         event.globalPosition
@@ -14,38 +14,38 @@ const createHandlers = ({ queries }) => {
                 );
         },
         RegistrationEmailSent: (event) => {
-            return queries
+            return actions
                 .ensureUser(event.data.userId)
                 .then(() =>
-                    queries.markRegistrationEmailSent(
+                    actions.markRegistrationEmailSent(
                         event.data.userId,
                         event.globalPosition
                     )
                 );
         },
         AdminPrivilegeAdded: (event) => {
-            return queries.ensureUser(event.data.userId).then(() => {
-                return queries.markUserAsAdmin(
+            return actions.ensureUser(event.data.userId).then(() => {
+                return actions.markUserAsAdmin(
                     event.data.userId,
                     event.globalPosition
                 );
             });
         },
         AdminPrivilegeRemoved: (event) => {
-            return queries
+            return actions
                 .ensureUser(event.data.userId)
                 .then(() =>
-                    queries.unmarkUserAsAdmin(
+                    actions.unmarkUserAsAdmin(
                         event.data.userId,
                         event.globalPosition
                     )
                 );
         },
         UserLoggedIn: (event) =>
-            queries
+            actions
                 .ensureUser(event.data.userId)
                 .then(() =>
-                    queries.incrementLogin(
+                    actions.incrementLogin(
                         event.data.userId,
                         event.globalPosition
                     )
@@ -53,7 +53,7 @@ const createHandlers = ({ queries }) => {
     };
 };
 
-const createQueries = ({ db }) => {
+const createActions = ({ db }) => {
     const ensureUser = (id) => {
         const rawQuery = `
             INSERT INTO
@@ -205,8 +205,8 @@ const createQueries = ({ db }) => {
 };
 
 const build = ({ db, messageStore }) => {
-    const queries = createQueries({ db });
-    const handlers = createHandlers({ queries });
+    const actions = createActions({ db });
+    const handlers = createHandlers({ actions });
     const subscription = messageStore.createSubscription({
         streamName: ['identity', 'authentication'],
         handlers,
@@ -218,8 +218,6 @@ const build = ({ db, messageStore }) => {
     };
 
     return {
-        handlers,
-        queries,
         start,
     };
 };

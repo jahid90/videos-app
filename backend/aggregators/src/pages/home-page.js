@@ -1,13 +1,13 @@
 const env = require('../env');
 
-const createHandlers = ({ queries }) => {
+const createHandlers = ({ actions }) => {
     return {
         VideoViewed: (event) =>
-            queries.incrementVideosWatched(event.globalPosition),
+            actions.incrementVideosWatched(event.globalPosition),
     };
 };
 
-const createQueries = ({ db }) => {
+const createActions = ({ db }) => {
     const incrementVideosWatched = (globalPosition) => {
         const queryString = `
             UPDATE
@@ -64,8 +64,8 @@ const createQueries = ({ db }) => {
 };
 
 const build = ({ db, messageStore }) => {
-    const queries = createQueries({ db });
-    const handlers = createHandlers({ queries });
+    const actions = createActions({ db });
+    const handlers = createHandlers({ actions });
 
     const subscription = messageStore.createSubscription({
         streamName: 'viewing',
@@ -74,7 +74,7 @@ const build = ({ db, messageStore }) => {
     });
 
     const init = () => {
-        return queries.ensureHomePage();
+        return actions.ensureHomePage();
     };
 
     const start = () => {
@@ -82,9 +82,6 @@ const build = ({ db, messageStore }) => {
     };
 
     return {
-        queries,
-        handlers,
-        init,
         start,
     };
 };

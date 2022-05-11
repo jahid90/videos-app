@@ -1,4 +1,4 @@
-const createQueries = ({ db }) => {
+const createActions = ({ db }) => {
     const writeResult = (traceId, videoId, wasSuccessful, failureReason) => {
         const operation = {
             traceId,
@@ -32,14 +32,14 @@ const streamToEntityId = (stream) => {
     return stream.split(/-(.+)/)[1];
 };
 
-const createHandlers = ({ queries }) => {
+const createHandlers = ({ actions }) => {
     return {
         VideoNamed: (event) => {
             const videoId = streamToEntityId(event.streamName);
             const wasSuccessful = true;
             const failureReason = null;
 
-            return queries.writeResult(
+            return actions.writeResult(
                 event.metadata.traceId,
                 videoId,
                 wasSuccessful,
@@ -51,7 +51,7 @@ const createHandlers = ({ queries }) => {
             const wasSuccessful = false;
             const failureReason = event.data.reason;
 
-            return queries.writeResult(
+            return actions.writeResult(
                 event.metadata.traceId,
                 videoId,
                 wasSuccessful,
@@ -63,7 +63,7 @@ const createHandlers = ({ queries }) => {
             const wasSuccessful = true;
             const failureReason = null;
 
-            return queries.writeResult(
+            return actions.writeResult(
                 event.metadata.traceId,
                 videoId,
                 wasSuccessful,
@@ -75,7 +75,7 @@ const createHandlers = ({ queries }) => {
             const wasSuccessful = false;
             const failureReason = event.data.reason;
 
-            return queries.writeResult(
+            return actions.writeResult(
                 event.metadata.traceId,
                 videoId,
                 wasSuccessful,
@@ -86,8 +86,8 @@ const createHandlers = ({ queries }) => {
 };
 
 const build = ({ db, messageStore }) => {
-    const queries = createQueries({ db });
-    const handlers = createHandlers({ queries });
+    const actions = createActions({ db });
+    const handlers = createHandlers({ actions });
     const subscription = messageStore.createSubscription({
         streamName: 'videoPublishing',
         handlers,
@@ -99,8 +99,6 @@ const build = ({ db, messageStore }) => {
     };
 
     return {
-        queries,
-        handlers,
         start,
     };
 };
