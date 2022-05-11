@@ -7,7 +7,7 @@
         "start": "NODE_ENV=production node bin/start-server"
     },
     "devDependencies": {
-        "dotenv": "16.0.0",
+        "dotenv": "16.0.1",
         "nodemon": "2.0.16"
     },
     "dependencies": {
