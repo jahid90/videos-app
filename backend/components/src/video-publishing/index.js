@@ -97,7 +97,6 @@ const build = ({ messageStore }) => {
     };
 
     return {
-        handlers,
         start,
     };
 };

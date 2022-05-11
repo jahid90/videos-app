@@ -8,6 +8,5 @@ const start = () => {
 };
 
 module.exports = {
-    config,
     start,
 };

@@ -59,7 +59,6 @@ const build = ({ messageStore, systemSenderEmailAddress, transport }) => {
     };
 
     return {
-        handlers,
         start,
     };
 };

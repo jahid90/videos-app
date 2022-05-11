@@ -144,9 +144,6 @@ const build = ({ messageStore }) => {
     };
 
     return {
-        identityCommandHandlers,
-        identityEventHandlers,
-        sendEmailEventHandlers,
         start,
     };
 };
