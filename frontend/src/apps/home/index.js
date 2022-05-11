@@ -62,11 +62,7 @@ const createHome = ({ db }) => {
     const router = express.Router();
     router.route('/').get(handlers.home);
 
-    return {
-        handlers,
-        queries,
-        router,
-    };
+    return router;
 };
 
 module.exports = createHome;

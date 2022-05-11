@@ -1,18 +1,34 @@
-const createConfig = require('./config');
-const createExpressApp = require('./express');
+const express = require('express');
+const supertest = require('supertest');
+
+const createExpressApp = require('../src/express');
+const createPingApp = require('../src/apps/ping');
 
 const testEnv = {
     appName: 'Videos App Test',
-    enableDebug: false,
-    databaseUrl: requireFromEnv('DATABASE_CONNECTION_STRING'),
-    messageStoreConnectionString: requireFromEnv(
-        'MESSAGE_STORE_CONNECTION_STRING'
-    ),
-    env: requireFromEnv('NODE_ENV'),
-    port: parseInt(requireFromEnv('PORT'), 10),
-    cookieSecret: requireFromEnv('COOKIE_SECRET'),
-    version: packageJson.version,
+    env: 'test',
 };
 
-const config = createConfig({ env });
-const app = createExpressApp({ config, env });
+const noOpRouter = express.Router();
+
+const testConfig = {
+    homeApp: noOpRouter,
+    pingApp: createPingApp({ env: testEnv }),
+    recordViewingsApp: noOpRouter,
+    registerUsersApp: noOpRouter,
+    authenticationApp: noOpRouter,
+    creatorsPortalApp: noOpRouter,
+    adminApp: noOpRouter,
+    manageUsersApp: noOpRouter,
+};
+
+const app = createExpressApp({ config: testConfig, env: testEnv });
+
+describe('GET /ping', () => {
+    it('responds to ping requests', async () => {
+        await supertest(app)
+            .get('/ping')
+            .expect(200)
+            .then((res) => expect(res.text).toBe('OK'));
+    });
+});

@@ -101,12 +101,7 @@ const build = ({ db, messageStore }) => {
         .route('/registration-complete')
         .get(handlers.handleRegistrationComplete);
 
-    return {
-        actions,
-        handlers,
-        queries,
-        router,
-    };
+    return router;
 };
 
 module.exports = build;

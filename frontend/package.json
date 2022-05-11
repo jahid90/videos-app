@@ -4,7 +4,9 @@
     "description": "An event sourced videos app",
     "scripts": {
         "start-dev-server": "NODE_ENV=development nodemon bin/start-server --color",
-        "start": "NODE_ENV=production node bin/start-server"
+        "start": "NODE_ENV=production node bin/start-server",
+        "test": "jest",
+        "test:watch": "jest --watch"
     },
     "devDependencies": {
         "dotenv": "16.0.1",

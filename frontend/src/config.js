@@ -3,6 +3,7 @@ const createPostgresClient = require('./postgres-client');
 const createMessageStore = require('@jahid90/lib-message-store');
 
 const createHomeApp = require('./apps/home');
+const createPingApp = require('./apps/ping');
 const createRecordViewingsApp = require('./apps/record-viewings');
 const createRegisterUsersApp = require('./apps/register-users');
 const createAuthenticationApp = require('./apps/authenticate');
@@ -18,6 +19,7 @@ const createConfig = ({ env }) => {
     const messageStore = createMessageStore({ db: postgresClient });
 
     const homeApp = createHomeApp({ db: knexClient });
+    const pingApp = createPingApp({ env });
     const recordViewingsApp = createRecordViewingsApp({ messageStore });
     const registerUsersApp = createRegisterUsersApp({
         db: knexClient,
@@ -43,6 +45,7 @@ const createConfig = ({ env }) => {
 
     return {
         homeApp,
+        pingApp,
         recordViewingsApp,
         registerUsersApp,
         authenticationApp,

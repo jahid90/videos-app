@@ -110,12 +110,7 @@ const build = ({ db, messageStore }) => {
 
     router.route('/log-out').get(handlers.handleLogOut);
 
-    return {
-        actions,
-        handlers,
-        queries,
-        router,
-    };
+    return router;
 };
 
 module.exports = build;

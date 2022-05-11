@@ -107,12 +107,7 @@ const build = ({ db, messageStore }) => {
             handlers.handleAdminPrivilegeRemoval
         );
 
-    return {
-        actions,
-        handlers,
-        queries,
-        router,
-    };
+    return router;
 };
 
 module.exports = build;

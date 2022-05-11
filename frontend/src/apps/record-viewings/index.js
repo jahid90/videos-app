@@ -49,11 +49,7 @@ const createRecordViewings = ({ messageStore }) => {
     const router = express.Router();
     router.route('/:videoId').post(handlers.handleRecordViewing);
 
-    return {
-        actions,
-        handlers,
-        router,
-    };
+    return router;
 };
 
 module.exports = createRecordViewings;

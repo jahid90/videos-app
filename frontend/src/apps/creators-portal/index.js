@@ -224,7 +224,7 @@ const createCreatorsPortal = ({ db, messageStore }) => {
     router.route('/videos/:id').get(handlers.handleShowVideo);
     router.route('/').get(handlers.handleDashboard);
 
-    return { handlers, router };
+    return router;
 };
 
 module.exports = createCreatorsPortal;

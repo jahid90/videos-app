@@ -61,11 +61,7 @@ const createAdminApplication = ({ db, messageStoreDb, messageStore }) => {
 
     router.route('/events').get(handlers.handleShowEventTypes);
 
-    return {
-        handlers,
-        queries,
-        router,
-    };
+    return router;
 };
 
 module.exports = createAdminApplication;
