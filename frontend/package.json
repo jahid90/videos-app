@@ -1,0 +1,36 @@
+{
+    "version": "1.0.0",
+    "name": "@jahid90/videos-app",
+    "description": "An event sourced videos app",
+    "scripts": {
+        "start-dev-server": "NODE_ENV=development nodemon bin/start-server --color",
+        "start": "NODE_ENV=production node bin/start-server"
+    },
+    "devDependencies": {
+        "dotenv": "16.0.1",
+        "jest": "^28.1.0",
+        "nodemon": "2.0.16",
+        "supertest": "^6.2.3"
+    },
+    "dependencies": {
+        "@jahid90/lib-message-store": "https://gitpkg.now.sh/jahid90/libs/message-store?main",
+        "bcrypt": "^5.0.1",
+        "bluebird": "^3.7.2",
+        "body-parser": "^1.19.1",
+        "camelcase-keys": "^7.0.1",
+        "cookie-session": "^2.0.0",
+        "express": "^4.17.2",
+        "knex": "^2.0.0",
+        "method-override": "^3.0.0",
+        "pg": "^8.7.1",
+        "pug": "^3.0.2",
+        "uuid": "^8.3.2",
+        "validate.js": "^0.13.1"
+    },
+    "main": "app/index.js",
+    "bin": {
+        "videos-app": "bin/start-server.js"
+    },
+    "author": "Jahid",
+    "license": "ISC"
+}
