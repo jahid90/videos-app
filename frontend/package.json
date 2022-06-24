@@ -11,7 +11,7 @@
     "devDependencies": {
         "dotenv": "16.0.1",
         "jest": "^28.1.0",
-        "nodemon": "2.0.16",
+        "nodemon": "2.0.18",
         "supertest": "^6.2.3"
     },
     "dependencies": {
