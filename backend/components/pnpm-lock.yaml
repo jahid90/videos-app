@@ -10,7 +10,7 @@ specifiers:
   nodemailer-pickup-transport: ^0.1.1
   nodemon: 2.0.19
   pg: ^8.7.1
-  uuid: ^8.3.2
+  uuid: ^9.0.0
   validate.js: ^0.13.1
 
 dependencies:
@@ -21,7 +21,7 @@ dependencies:
   nodemailer: 6.7.2
   nodemailer-pickup-transport: 0.1.1
   pg: 8.7.1
-  uuid: 8.3.2
+  uuid: 9.0.0
   validate.js: 0.13.1
 
 devDependencies:
@@ -1711,6 +1711,11 @@ packages:
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
+    dev: false
+
+  /uuid/9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
     dev: false
 
