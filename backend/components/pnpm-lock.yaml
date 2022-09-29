@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@jahid90/lib-message-store': https://gitpkg.now.sh/jahid90/libs/message-store?main
   bluebird: ^3.7.2
-  dotenv: 16.0.2
+  dotenv: 16.0.3
   email-templates: ^10.0.0
   knex: ^2.0.0
   nodemailer: ^6.7.2
@@ -25,7 +25,7 @@ dependencies:
   validate.js: 0.13.1
 
 devDependencies:
-  dotenv: 16.0.2
+  dotenv: 16.0.3
   nodemon: 2.0.20
 
 packages:
@@ -614,8 +614,8 @@ packages:
       domhandler: 4.3.0
     dev: false
 
-  /dotenv/16.0.2:
-    resolution: {integrity: sha512-JvpYKUmzQhYoIFgK2MOnF3bciIZoItIIoryihy0rIA+H4Jy0FmgyKYAHCTN98P5ybGSJcIFbh6QKeJdtZd1qhA==}
+  /dotenv/16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
     dev: true
 

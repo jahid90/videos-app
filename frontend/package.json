@@ -9,7 +9,7 @@
         "test:watch": "jest --watch"
     },
     "devDependencies": {
-        "dotenv": "16.0.2",
+        "dotenv": "16.0.3",
         "jest": "29.1.1",
         "nodemon": "2.0.20",
         "supertest": "6.2.4"
