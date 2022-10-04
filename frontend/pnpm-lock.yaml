@@ -15,7 +15,7 @@ specifiers:
   nodemon: 2.0.20
   pg: ^8.7.1
   pug: ^3.0.2
-  supertest: 6.2.4
+  supertest: 6.3.0
   uuid: ^9.0.0
   validate.js: ^0.13.1
 
@@ -38,7 +38,7 @@ devDependencies:
   dotenv: 16.0.3
   jest: 29.1.2
   nodemon: 2.0.20
-  supertest: 6.2.4
+  supertest: 6.3.0
 
 packages:
 
@@ -3315,8 +3315,8 @@ packages:
       - supports-color
     dev: true
 
-  /supertest/6.2.4:
-    resolution: {integrity: sha512-M8xVnCNv+q2T2WXVzxDECvL2695Uv2uUj2O0utxsld/HRyJvOU8W9f1gvsYxSNU4wmIe0/L/ItnpU4iKq0emDA==}
+  /supertest/6.3.0:
+    resolution: {integrity: sha512-QgWju1cNoacP81Rv88NKkQ4oXTzGg0eNZtOoxp1ROpbS4OHY/eK5b8meShuFtdni161o5X0VQvgo7ErVyKK+Ow==}
     engines: {node: '>=6.4.0'}
     dependencies:
       methods: 1.1.2
