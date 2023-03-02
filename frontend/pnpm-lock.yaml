@@ -12,7 +12,7 @@ specifiers:
   jest: 29.4.3
   knex: ^2.0.0
   method-override: ^3.0.0
-  nodemon: 2.0.20
+  nodemon: 2.0.21
   pg: ^8.7.1
   pug: ^3.0.2
   supertest: 6.3.3
@@ -37,7 +37,7 @@ dependencies:
 devDependencies:
   dotenv: 16.0.3
   jest: 29.4.3
-  nodemon: 2.0.20
+  nodemon: 2.0.21
   supertest: 6.3.3
 
 packages:
@@ -2610,8 +2610,8 @@ packages:
     resolution: {integrity: sha512-gbMzqQtTtDz/00jQzZ21PQzdI9PyLYqUSvD0p3naOhX4odFji0ZxYdnVwPTxmSwkmxhcFImpozceidSG+AgoPQ==}
     dev: true
 
-  /nodemon/2.0.20:
-    resolution: {integrity: sha512-Km2mWHKKY5GzRg6i1j5OxOHQtuvVsgskLfigG25yTtbyfRGn/GNvIbRyOf1PSCKJ2aT/58TiuUsuOU5UToVViw==}
+  /nodemon/2.0.21:
+    resolution: {integrity: sha512-djN/n2549DUtY33S7o1djRCd7dEm0kBnj9c7S9XVXqRUbuggN1MZH/Nqa+5RFQr63Fbefq37nFXAE9VU86yL1A==}
     engines: {node: '>=8.10.0'}
     hasBin: true
     dependencies:
