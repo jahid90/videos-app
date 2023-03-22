@@ -8,7 +8,7 @@ specifiers:
   knex: ^2.0.0
   nodemailer: ^6.7.2
   nodemailer-pickup-transport: ^0.1.1
-  nodemon: 2.0.21
+  nodemon: 2.0.22
   pg: ^8.7.1
   uuid: ^9.0.0
   validate.js: ^0.13.1
@@ -26,7 +26,7 @@ dependencies:
 
 devDependencies:
   dotenv: 16.0.3
-  nodemon: 2.0.21
+  nodemon: 2.0.22
 
 packages:
 
@@ -1259,8 +1259,8 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: false
 
-  /nodemon/2.0.21:
-    resolution: {integrity: sha512-djN/n2549DUtY33S7o1djRCd7dEm0kBnj9c7S9XVXqRUbuggN1MZH/Nqa+5RFQr63Fbefq37nFXAE9VU86yL1A==}
+  /nodemon/2.0.22:
+    resolution: {integrity: sha512-B8YqaKMmyuCO7BowF1Z1/mkPqLk6cs/l63Ojtd6otKjMx47Dq1utxfRxcavH1I7VSaL8n5BUaoutadnsX3AAVQ==}
     engines: {node: '>=8.10.0'}
     hasBin: true
     dependencies:
