@@ -4,7 +4,7 @@ specifiers:
   '@jahid90/lib-message-store': https://gitpkg.now.sh/jahid90/libs/message-store?main
   bluebird: ^3.7.2
   dotenv: 16.0.3
-  knex: ^2.0.0
+  knex: ^3.0.0
   nodemon: 2.0.22
   pg: ^8.7.1
   uuid: ^9.0.0
@@ -12,7 +12,7 @@ specifiers:
 dependencies:
   '@jahid90/lib-message-store': '@gitpkg.now.sh/jahid90/libs/message-store?main'
   bluebird: 3.7.2
-  knex: 2.0.0_pg@8.7.1
+  knex: 3.0.0_pg@8.7.1
   pg: 8.7.1
   uuid: 9.0.0
 
@@ -120,8 +120,8 @@ packages:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
     dev: false
 
-  /colorette/2.0.16:
-    resolution: {integrity: sha512-hUewv7oMjCp+wkBv5Rm0v87eJhq4woh5rSR+42YSQJKecCqgIqNkZ6lAlQms/BwHPJA5NKMRlpxPRv0n8HQW6g==}
+  /colorette/2.0.19:
+    resolution: {integrity: sha512-3tlv/dIP7FWvj3BsbHrGLJ6l/oKh1O3TcgBqMn+yyCagOxc23fyzDS6HypQbgxWbkpDnf52p1LuR4eWDQ/K9WQ==}
     dev: false
 
   /combined-stream/1.0.8:
@@ -131,9 +131,9 @@ packages:
       delayed-stream: 1.0.0
     dev: false
 
-  /commander/9.2.0:
-    resolution: {integrity: sha512-e2i4wANQiSXgnrBlIatyHtP1odfUp0BbV5Y5nEGbxtIrStkEOAAzCUirvLBNXHLr7kwLvJl6V+4V3XV9x7Wd9w==}
-    engines: {node: ^12.20.0 || >=14}
+  /commander/10.0.1:
+    resolution: {integrity: sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug==}
+    engines: {node: '>=14'}
     dev: false
 
   /concat-map/0.0.1:
@@ -294,9 +294,9 @@ packages:
     engines: {node: '>=0.12.0'}
     dev: true
 
-  /knex/2.0.0_pg@8.7.1:
-    resolution: {integrity: sha512-LchC8/GLfreMz8d4kCwh/ymXttsoJG8zO1O0AJBjnxdyr2oT/k2ik77hP1PpZkZH9mDQrq6WsQcIu18Pnqppzg==}
-    engines: {node: '>=12'}
+  /knex/3.0.0_pg@8.7.1:
+    resolution: {integrity: sha512-e4MAj+5P6iCbm7Y9f2sgAH8a5lZSfqNtggMp9MOCKnkT0SGAmtVNW1/SHZT5aLi/daXZvNulH2XH4znpsKUJeg==}
+    engines: {node: '>=16'}
     hasBin: true
     peerDependencies:
       better-sqlite3: '*'
@@ -322,8 +322,8 @@ packages:
       tedious:
         optional: true
     dependencies:
-      colorette: 2.0.16
-      commander: 9.2.0
+      colorette: 2.0.19
+      commander: 10.0.1
       debug: 4.3.4
       escalade: 3.1.1
       esm: 3.2.25
@@ -332,7 +332,7 @@ packages:
       interpret: 2.2.0
       lodash: 4.17.21
       pg: 8.7.1
-      pg-connection-string: 2.5.0
+      pg-connection-string: 2.6.1
       rechoir: 0.8.0
       resolve-from: 5.0.0
       tarn: 3.0.2
@@ -410,6 +410,10 @@ packages:
 
   /pg-connection-string/2.5.0:
     resolution: {integrity: sha512-r5o/V/ORTA6TmUnyWZR9nCj1klXCO2CEKNRlVuJptZe85QuhFayC7WeMic7ndayT5IRIR0S0xFxFi2ousartlQ==}
+    dev: false
+
+  /pg-connection-string/2.6.1:
+    resolution: {integrity: sha512-w6ZzNu6oMmIzEAYVw+RLK0+nqHPt8K3ZnknKi+g48Ak2pr3dtljJW3o+D/n2zzCG07Zoe9VOX3aiKpj+BN0pjg==}
     dev: false
 
   /pg-int8/1.0.1:
